@@ -22,7 +22,8 @@ function loadFileList() {
   const listElement = document.getElementById('file-list');
   if (!listElement) return;
 
-  const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}`;
+  // Fetch file list from the Codex API running on the same host
+  const url = '/codex/api';
   fetch(url)
     .then(res => {
       if (!res.ok) {
