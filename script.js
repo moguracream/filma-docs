@@ -1,3 +1,7 @@
+// Configure API host and key in one place
+const API_HOST = 'filma-dev.xcream.net';
+const API_KEY = 'e47aad55d7fb4f152603b91b';
+
 // Optional: enable horizontal scrolling with mouse wheel
 const rows = document.querySelectorAll('.thumbnail-row');
 rows.forEach(row => {
@@ -7,15 +11,18 @@ rows.forEach(row => {
   });
 });
 
-// Fetch file list from the API and display it
-document.addEventListener('DOMContentLoaded', () => {
+// Run page-specific scripts after DOM is ready
+window.addEventListener('DOMContentLoaded', () => {
+  loadFileList();
+  loadVideo();
+});
+
+// Load file list on index.html
+function loadFileList() {
   const listElement = document.getElementById('file-list');
   if (!listElement) return;
 
-  // Customize these values for your environment
-  const apiHost = 'filma-dev.xcream.net';
-  const apiKey = 'e47aad55d7fb4f152603b91b';
-  const url = `https://${apiHost}/filmaapi/storage?api_key=${encodeURIComponent(apiKey)}`;
+  const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}`;
   fetch(url)
     .then(res => {
       if (!res.ok) {
@@ -38,4 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
       listElement.appendChild(li);
       console.error('Error fetching file list:', err);
     });
-});
+}
+
+// Load video by ID on video.html
+function loadVideo() {
+  const video = document.getElementById('video');
+  if (!video) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id') || params.get('video');
+  if (!id) return;
+
+  const src = `https://${API_HOST}/filmaapi/storage/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}`;
+  video.src = src;
+}
