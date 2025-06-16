@@ -21,8 +21,8 @@ function loadFileList() {
       }
       return res.json();
     })
-    .then(files => {
-      files.forEach(file => {
+    .then(storage => {
+      storage.items.forEach(file => {
         const li = document.createElement('li');
         li.className = 'list-group-item';
 
