@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!listElement) return;
 
   // Customize these values for your environment
-  const apiHost = window.FILMA_API_HOST || 'YOUR_API_HOST';
-  const apiKey = 'YOUR_API_KEY';
-  const url = `${apiHost}/filmaapi/storage?api_key=${encodeURIComponent(apiKey)}`;
+  const apiHost = 'filma-dev.xcream.net';
+  const apiKey = 'e47aad55d7fb4f152603b91b';
+  const url = `https://${apiHost}/filmaapi/storage?api_key=${encodeURIComponent(apiKey)}`;
   fetch(url)
     .then(res => {
       if (!res.ok) {
