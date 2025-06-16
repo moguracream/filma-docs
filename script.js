@@ -55,8 +55,8 @@ function loadFileList() {
 
 // Load video by ID on video.html
 function loadVideo() {
-  const video = document.getElementById('video');
-  if (!video) return;
+  const player = document.getElementById('player');
+  if (!player) return;
 
   const metadataContainer = document.getElementById('metadata');
 
@@ -64,26 +64,42 @@ function loadVideo() {
   const id = params.get('id') || params.get('video');
   if (!id) return;
 
-  const src = `https://${API_HOST}/filmaapi/storage/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}`;
-  video.src = src;
-
-  if (metadataContainer) {
-    const metaUrl = `https://${API_HOST}/filmaapi/storage/metadata/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}`;
-    fetch(metaUrl)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
-        }
-        return res.json();
-      })
-      .then(data => {
+  const metaUrl = `https://${API_HOST}/filmaapi/storage/metadata/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}`;
+  fetch(metaUrl)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(data => {
+      if (metadataContainer) {
         metadataContainer.innerHTML = buildMetadataHtml(data);
-      })
-      .catch(err => {
+      }
+
+      const embed = Array.isArray(data.player_data) && data.player_data.length
+        ? data.player_data[0].player_embedding_html
+        : null;
+
+      if (embed) {
+        player.innerHTML = embed;
+      } else {
+        const video = document.createElement('video');
+        video.className = 'w-100';
+        video.height = 360;
+        video.controls = true;
+        video.src = `https://${API_HOST}/filmaapi/storage/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}`;
+        video.textContent = 'Your browser does not support the video tag.';
+        player.appendChild(video);
+      }
+    })
+    .catch(err => {
+      if (metadataContainer) {
         metadataContainer.textContent = `Failed to load metadata: ${err.message}`;
-        console.error('Error fetching file metadata:', err);
-      });
-  }
+      }
+      player.textContent = `Failed to load video: ${err.message}`;
+      console.error('Error fetching file metadata:', err);
+    });
 }
 
 function buildMetadataHtml(data) {
