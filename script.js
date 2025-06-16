@@ -89,7 +89,7 @@ function loadVideo() {
 function buildMetadataHtml(data) {
   const fields = [
     ['ID', data.id],
-    ['Filename', data.filename || data.name],
+    ['Filename', data.name],
     ['Folder', data.folder_name],
     ['Created', data.created_at],
     ['Updated', data.updated_at],
@@ -109,8 +109,11 @@ function buildMetadataHtml(data) {
     html += '<h3 class="h5">Player Data</h3><ul class="list-group">';
     data.player_data.forEach(item => {
       const res = item.resolution_string || '';
+      const dev = item.device_string || ''
+      const bitrate = item.bitrate_human || ''
+      const filesize = item.filesize_megabyte || ''
       const url = item.player_url || '';
-      html += `<li class="list-group-item"><a href="${url}" target="_blank" rel="noopener">${res}</a></li>`;
+      html += `<li class="list-group-item"><a href="${url}" target="_blank" rel="noopener">${res}</a> ${dev} ${bitrate} ${filesize}</li>`;
     });
     html += '</ul>';
   }
