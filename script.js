@@ -3,13 +3,8 @@ const API_HOST = 'filma-dev.xcream.net';
 const API_KEY = 'e47aad55d7fb4f152603b91b';
 
 // Run page-specific scripts after DOM is ready
-window.addEventListener('DOMContentLoaded', () => {
-  loadFileList();
-});
-
 // Load file list on index.html
-function loadFileList() {
-  const listElement = document.getElementById('file-list');
+function loadFileList(listElement) {
   if (!listElement) return;
 
   // Fetch file list from the configured Filma API
@@ -130,6 +125,7 @@ function buildMetadataHtml(data) {
   }
   return html;
 }
+
 function initializeVideoPlayer(id, host, api_key) {
   let elem = document.getElementById('video-' + id);
   if (!elem) return;
