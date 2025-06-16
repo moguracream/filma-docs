@@ -77,21 +77,13 @@ function loadVideo() {
         metadataContainer.innerHTML = buildMetadataHtml(data);
       }
 
-      const embed = Array.isArray(data.player_data) && data.player_data.length
-        ? data.player_data[0].player_embedding_html
-        : null;
-
-      if (embed) {
-        player.innerHTML = embed;
-      } else {
-        const video = document.createElement('video');
-        video.className = 'w-100';
-        video.height = 360;
-        video.controls = true;
-        video.src = `https://${API_HOST}/filmaapi/storage/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}`;
-        video.textContent = 'Your browser does not support the video tag.';
-        player.appendChild(video);
-      }
+      const video = document.createElement('video');
+      video.className = 'w-100';
+      video.height = 360;
+      video.controls = true;
+      video.src = `https://${API_HOST}/filmaapi/storage/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}`;
+      video.textContent = 'Your browser does not support the video tag.';
+      player.appendChild(video);
     })
     .catch(err => {
       if (metadataContainer) {
