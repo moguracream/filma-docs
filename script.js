@@ -34,7 +34,13 @@ function loadFileList() {
       files.forEach(file => {
         const li = document.createElement('li');
         li.className = 'list-group-item';
-        li.textContent = file.filename;
+
+        // Each file name links to the player page
+        const link = document.createElement('a');
+        link.href = `video.html?id=${encodeURIComponent(file.id)}`;
+        link.textContent = file.filename;
+
+        li.appendChild(link);
         listElement.appendChild(li);
       });
     })
