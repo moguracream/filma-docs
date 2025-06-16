@@ -5,7 +5,6 @@ const API_KEY = 'e47aad55d7fb4f152603b91b';
 // Run page-specific scripts after DOM is ready
 window.addEventListener('DOMContentLoaded', () => {
   loadFileList();
-  loadVideo();
 });
 
 // Load file list on index.html
@@ -46,8 +45,8 @@ function loadFileList() {
 }
 
 // Load video by ID on video.html
-function loadVideo() {
-  const player = document.getElementById('player');
+function loadVideo(element) {
+  const player = element
   if (!player) return;
 
   const metadataContainer = document.getElementById('metadata');
@@ -70,14 +69,7 @@ function loadVideo() {
     .then(playerData => {
       if (playerData.embed_code) {
         player.innerHTML = playerData.embed_code;
-      } else if (playerData.url) {
-        const video = document.createElement('video');
-        video.className = 'w-100';
-        video.height = 360;
-        video.controls = true;
-        video.src = playerData.url;
-        video.textContent = 'Your browser does not support the video tag.';
-        player.appendChild(video);
+        initializeVideoPlayer(playerData.mediafile_id, API_HOST, API_KEY);
       } else {
         player.textContent = 'No player information available.';
       }
@@ -138,4 +130,13 @@ function buildMetadataHtml(data) {
   }
   return html;
 }
-
+function initializeVideoPlayer(id, host, api_key) {
+  let elem = document.getElementById('video-' + id);
+  if (!elem) return;
+  if (isSafari()) {
+    elem.dataset.src = `https://${host}/filmaapi/hls/${id}.m3u8?api_key=${api_key}`;
+  } else {
+    elem.dataset.src = `https://${host}/filmaapi/dash/${id}.mpd?api_key=${api_key}`;
+  }
+  init_xcream_player('video-' + id);
+}
