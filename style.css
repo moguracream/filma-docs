@@ -13,6 +13,12 @@ body {
   object-fit: cover;
 }
 
+.thumbnail-row a {
+  width: 160px;
+  text-decoration: none;
+  color: inherit;
+}
+
 /* The video container size can be controlled via inline style */
 .video-container {
   position: relative;
