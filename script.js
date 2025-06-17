@@ -81,12 +81,18 @@ function loadFileListByFolder(container) {
             ? file.screen_shots
             : [];
           const screenshot = screenshots.length
-            ? screenshots[Math.floor(Math.random() * screenshots.length)]
+            ? screenshots[0]
             : `https://via.placeholder.com/160x90.png?text=${idx + 1}`;
           img.src = screenshot;
           img.alt = file.filename;
 
+          const caption = document.createElement('div');
+          caption.className = 'small text-center mt-1';
+          caption.textContent = file.filename;
+
+          link.classList.add('d-block', 'text-decoration-none');
           link.appendChild(img);
+          link.appendChild(caption);
           row.appendChild(link);
         });
 
