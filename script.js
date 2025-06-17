@@ -117,10 +117,11 @@ function loadFileListByFolder(container) {
 
 // video.html で ID から動画を読み込む
 function loadVideo(element) {
-  const player = element
+  const player = element;
   if (!player) return;
 
   const metadataContainer = document.getElementById('metadata');
+  const screenshotContainer = document.getElementById('screenshots');
 
   // URL パラメータから動画 ID を取得
   const params = new URLSearchParams(window.location.search);
@@ -162,6 +163,9 @@ function loadVideo(element) {
     .then(data => {
       if (metadataContainer) {
         metadataContainer.innerHTML = buildMetadataHtml(data);
+      }
+      if (screenshotContainer) {
+        screenshotContainer.innerHTML = buildScreenshotsHtml(data.screen_shots);
       }
     })
     // メタデータ取得失敗時の処理
@@ -207,6 +211,21 @@ function buildMetadataHtml(data) {
     html += '</ul>';
   }
   // 完成した HTML を返す
+  return html;
+}
+
+// スクリーンショット一覧表示用の HTML を生成
+function buildScreenshotsHtml(urls) {
+  if (!Array.isArray(urls) || !urls.length) {
+    return '';
+  }
+
+  let html = '<h2 class="h4 mb-3">Screenshots</h2>';
+  html += '<div class="thumbnail-row d-flex flex-wrap">';
+  urls.forEach(url => {
+    html += `<img src="${url}" alt="Screenshot" class="img-thumbnail me-2 mb-2">`;
+  });
+  html += '</div>';
   return html;
 }
 
