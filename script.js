@@ -81,7 +81,7 @@ function loadFileListByFolder(container) {
             ? file.screen_shots
             : [];
           const screenshot = screenshots.length
-            ? screenshots[0]
+            ? screenshots[Math.floor(Math.random() * screenshots.length)]
             : `https://via.placeholder.com/160x90.png?text=${idx + 1}`;
           img.src = screenshot;
           img.alt = file.filename;
