@@ -39,6 +39,65 @@ function loadFileList(listElement) {
     });
 }
 
+// Load file list and display thumbnails grouped by folder
+function loadFileListByFolder(container) {
+  if (!container) return;
+
+  const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}`;
+  fetch(url)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(storage => {
+      const groups = {};
+      storage.items.forEach(file => {
+        const folder = file.folder_name || 'Uncategorized';
+        if (!groups[folder]) groups[folder] = [];
+        groups[folder].push(file);
+      });
+
+      Object.entries(groups).forEach(([folder, files]) => {
+        const section = document.createElement('div');
+        section.className = 'category mb-5';
+
+        const heading = document.createElement('h2');
+        heading.className = 'h4 mb-3';
+        heading.textContent = folder;
+
+        const row = document.createElement('div');
+        row.className = 'thumbnail-row d-flex overflow-auto';
+
+        files.forEach((file, idx) => {
+          const link = document.createElement('a');
+          link.href = `video.html?id=${encodeURIComponent(file.id)}`;
+          link.className = 'me-2';
+
+          const img = document.createElement('img');
+          img.className = 'img-thumbnail';
+          img.src = `https://via.placeholder.com/160x90.png?text=${idx + 1}`;
+          img.alt = file.filename;
+
+          link.appendChild(img);
+          row.appendChild(link);
+        });
+
+        section.appendChild(heading);
+        section.appendChild(row);
+        container.appendChild(section);
+      });
+    })
+    .catch(err => {
+      const div = document.createElement('div');
+      div.className = 'text-danger';
+      div.textContent = `Failed to load files: ${err.message}`;
+      container.appendChild(div);
+      console.error('Error fetching file list:', err);
+    });
+}
+
 // Load video by ID on video.html
 function loadVideo(element) {
   const player = element
