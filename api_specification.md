@@ -137,6 +137,11 @@ GET /filmaapi/storage/metadata/{id}
   "updated_at": "2024-01-01T10:00:00Z",
   "creator": "山田太郎",
   "updater": "山田太郎",
+  "screen_shots": [
+    "https://example.com/storage/screenshot1.jpg",
+    "https://example.com/storage/screenshot2.jpg",
+    "https://example.com/storage/screenshot3.jpg"
+  ],
   "player_data": [
      {
        "resolution_string": "HD 1280x720",
@@ -430,6 +435,10 @@ const listData = await listResponse.json();
 
 console.log('総件数:', listData.pagination.total_count);
 console.log('ファイル一覧:', listData.items);
+// 各ファイルのスクリーンショットを表示
+listData.items.forEach(file => {
+  console.log(`ファイル ${file.filename} のスクリーンショット:`, file.screen_shots);
+});
 
 // ファイル再生情報取得
 const playerResponse = await fetch('/filmaapi/storage/12345?api_key=your_api_key');
@@ -437,6 +446,15 @@ const playerData = await playerResponse.json();
 
 console.log('再生URL:', playerData.url);
 console.log('埋め込みコード:', playerData.embed_code);
+console.log('スクリーンショット:', playerData.screen_shots);
+
+// ファイルメタデータ取得
+const metadataResponse = await fetch('/filmaapi/storage/metadata/12345?api_key=your_api_key');
+const metadataData = await metadataResponse.json();
+
+console.log('メタデータ:', metadataData);
+console.log('スクリーンショット:', metadataData.screen_shots);
+console.log('プレイヤーデータ:', metadataData.player_data);
 
 // フォルダ一覧取得
 const foldersResponse = await fetch('/filmaapi/storage/folders?api_key=your_api_key');
