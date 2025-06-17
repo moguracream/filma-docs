@@ -166,6 +166,7 @@ function loadVideo(element) {
       }
       if (screenshotContainer) {
         screenshotContainer.innerHTML = buildScreenshotsHtml(data.screen_shots);
+        setupScreenshotViewer(screenshotContainer);
       }
     })
     // メタデータ取得失敗時の処理
@@ -223,10 +224,29 @@ function buildScreenshotsHtml(urls) {
   let html = '<h2 class="h4 mb-3">Screenshots</h2>';
   html += '<div class="thumbnail-row d-flex flex-wrap">';
   urls.forEach(url => {
-    html += `<img src="${url}" alt="Screenshot" class="img-thumbnail me-2 mb-2">`;
+    html += `<img src="${url}" data-full-src="${url}" alt="Screenshot" class="img-thumbnail screenshot-thumb me-2 mb-2">`;
   });
   html += '</div>';
   return html;
+}
+
+// スクリーンショットのクリックでモーダル表示を行う
+function setupScreenshotViewer(container) {
+  container.addEventListener('click', event => {
+    const target = event.target;
+    if (target.tagName === 'IMG') {
+      const src = target.dataset.fullSrc || target.src;
+      const modalImg = document.getElementById('screenshotModalImg');
+      if (modalImg) {
+        modalImg.src = src;
+        const modalElement = document.getElementById('screenshotModal');
+        if (modalElement) {
+          const modal = new bootstrap.Modal(modalElement);
+          modal.show();
+        }
+      }
+    }
+  });
 }
 
 // 埋め込みプレイヤーを初期化

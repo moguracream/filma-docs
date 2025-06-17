@@ -13,6 +13,10 @@ body {
   object-fit: cover;
 }
 
+.screenshot-thumb {
+  cursor: pointer;
+}
+
 .thumbnail-row a {
   width: 160px;
   text-decoration: none;
