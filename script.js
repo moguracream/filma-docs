@@ -1,13 +1,14 @@
-// Configure API host and key in one place
+// Filma API を利用する際のホスト名と API キーをここで設定します
 const API_HOST = 'filma-dev.xcream.net';
 const API_KEY = 'e47aad55d7fb4f152603b91b';
 
-// Run page-specific scripts after DOM is ready
-// Load file list on index.html
+// DOM が読み込まれた後にページごとの処理を実行します
+// index.html ではファイル一覧を読み込みます
+// ファイル一覧を取得してリストに表示する
 function loadFileList(listElement) {
   if (!listElement) return;
 
-  // Fetch file list from the configured Filma API
+  // Filma API からファイル一覧を取得
   const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}`;
   fetch(url)
     .then(res => {
@@ -21,7 +22,7 @@ function loadFileList(listElement) {
         const li = document.createElement('li');
         li.className = 'list-group-item';
 
-        // Each file name links to the player page
+        // ファイル名をクリックすると再生ページへ遷移
         const link = document.createElement('a');
         link.href = `video.html?id=${encodeURIComponent(file.id)}`;
         link.textContent = file.filename;
@@ -30,6 +31,7 @@ function loadFileList(listElement) {
         listElement.appendChild(li);
       });
     })
+    // 取得に失敗した場合はエラーメッセージを表示
     .catch(err => {
       const li = document.createElement('li');
       li.className = 'list-group-item text-danger';
@@ -39,7 +41,7 @@ function loadFileList(listElement) {
     });
 }
 
-// Load file list and display thumbnails grouped by folder
+// フォルダごとにサムネイルをまとめて表示する
 function loadFileListByFolder(container) {
   if (!container) return;
 
@@ -52,6 +54,7 @@ function loadFileListByFolder(container) {
       return res.json();
     })
     .then(storage => {
+      // フォルダ名ごとに動画をグループ化
       const groups = {};
       storage.items.forEach(file => {
         const folder = file.folder_name || 'Uncategorized';
@@ -77,6 +80,7 @@ function loadFileListByFolder(container) {
 
           const img = document.createElement('img');
           img.className = 'img-thumbnail';
+          // サムネイルに使用する画像を選択
           const screenshots = Array.isArray(file.screen_shots)
             ? file.screen_shots
             : [];
@@ -101,6 +105,7 @@ function loadFileListByFolder(container) {
         container.appendChild(section);
       });
     })
+    // 読み込みに失敗した場合はエラー表示
     .catch(err => {
       const div = document.createElement('div');
       div.className = 'text-danger';
@@ -110,13 +115,14 @@ function loadFileListByFolder(container) {
     });
 }
 
-// Load video by ID on video.html
+// video.html で ID から動画を読み込む
 function loadVideo(element) {
   const player = element
   if (!player) return;
 
   const metadataContainer = document.getElementById('metadata');
 
+  // URL パラメータから動画 ID を取得
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id') || params.get('video');
   if (!id) return;
@@ -124,7 +130,7 @@ function loadVideo(element) {
   const playerUrl = `https://${API_HOST}/filmaapi/storage/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}`;
   const metaUrl = `https://${API_HOST}/filmaapi/storage/metadata/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}`;
 
-  // Fetch player embedding info
+  // プレイヤー埋め込み情報を取得
   fetch(playerUrl)
     .then(res => {
       if (!res.ok) {
@@ -145,7 +151,7 @@ function loadVideo(element) {
       console.error('Error fetching player info:', err);
     });
 
-  // Fetch metadata separately
+  // メタデータは別途取得する
   fetch(metaUrl)
     .then(res => {
       if (!res.ok) {
@@ -158,6 +164,7 @@ function loadVideo(element) {
         metadataContainer.innerHTML = buildMetadataHtml(data);
       }
     })
+    // メタデータ取得失敗時の処理
     .catch(err => {
       if (metadataContainer) {
         metadataContainer.textContent = `Failed to load metadata: ${err.message}`;
@@ -166,7 +173,9 @@ function loadVideo(element) {
     });
 }
 
+// メタデータ表示用の HTML を生成
 function buildMetadataHtml(data) {
+  // 画面に表示するメタデータ項目
   const fields = [
     ['ID', data.id],
     ['Filename', data.filename || data.name],
@@ -177,7 +186,9 @@ function buildMetadataHtml(data) {
     ['Updater', data.updater]
   ];
 
+  // HTML を組み立てていく
   let html = '<h2 class="h4 mb-3">File Metadata</h2><ul class="list-group mb-3">';
+  // 取得したメタデータをリスト化
   fields.forEach(([label, value]) => {
     if (value !== undefined && value !== null) {
       html += `<li class="list-group-item"><strong>${label}:</strong> ${value}</li>`;
@@ -187,6 +198,7 @@ function buildMetadataHtml(data) {
 
   if (Array.isArray(data.player_data) && data.player_data.length) {
     html += '<h3 class="h5">Player Data</h3><ul class="list-group">';
+    // 解像度ごとの再生 URL を表示
     data.player_data.forEach(item => {
       const res = item.resolution_string || '';
       const url = item.player_url || '';
@@ -194,15 +206,19 @@ function buildMetadataHtml(data) {
     });
     html += '</ul>';
   }
+  // 完成した HTML を返す
   return html;
 }
 
+// 埋め込みプレイヤーを初期化
 function initializeVideoPlayer(id, host, api_key) {
   let elem = document.getElementById('video-' + id);
   if (!elem) return;
   if (isSafari()) {
+    // Safari では HLS を使用
     elem.dataset.src = `https://${host}/filmaapi/hls/${id}.m3u8?api_key=${api_key}`;
   } else {
+    // その他のブラウザでは DASH を使用
     elem.dataset.src = `https://${host}/filmaapi/dash/${id}.mpd?api_key=${api_key}`;
   }
   init_xcream_player('video-' + id);
