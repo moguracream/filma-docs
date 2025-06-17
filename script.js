@@ -77,8 +77,11 @@ function loadFileListByFolder(container) {
 
           const img = document.createElement('img');
           img.className = 'img-thumbnail';
-          const screenshot = Array.isArray(file.screen_shots) && file.screen_shots.length
-            ? file.screen_shots[0]
+          const screenshots = Array.isArray(file.screen_shots)
+            ? file.screen_shots
+            : [];
+          const screenshot = screenshots.length
+            ? screenshots[Math.floor(Math.random() * screenshots.length)]
             : `https://via.placeholder.com/160x90.png?text=${idx + 1}`;
           img.src = screenshot;
           img.alt = file.filename;
