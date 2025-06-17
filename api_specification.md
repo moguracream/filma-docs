@@ -53,6 +53,7 @@ GET /filmaapi/storage
 | api_key | string | ✓ | - | APIキー |
 | page | integer | - | 1 | ページ番号 |
 | per_page | integer | - | 20 | 1ページあたりの件数（最大100） |
+| folder_id | integer | - | - | フォルダID（指定時は該当フォルダのファイルのみ取得） |
 
 **レスポンス例:**
 
@@ -97,7 +98,7 @@ GET /filmaapi/storage/{id}
 ```json
 {
   "url": "https://example.com/filmaapi/player/12345?api_key=xxx",
-  "embed_code": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js\"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-12345\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  document.addEventListener('DOMContentLoaded', function() {\n    let elem = document.getElementById('video-12345');\n    if (elem == null) {\n      return;\n    }\n    if (isSafari()) {\n      elem.dataset.src = 'https://example.com/filmaapi/hls/12345.m3u8?api_key=xxx';\n    } else {\n      elem.dataset.src = 'https://example.com/filmaapi/dash/12345.mpd?api_key=xxx';\n    }\n    init_xcream_player('video-12345');\n  });\n</script>"
+  "embed_code": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js\"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-12345\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  (function() {\n    function initPlayer() {\n      let elem = document.getElementById('video-12345');\n      if (elem == null) {\n        return;\n      }\n      if (isSafari()) {\n        elem.dataset.src = 'https://example.com/filmaapi/hls/12345.m3u8?api_key=xxx';\n      } else {\n        elem.dataset.src = 'https://example.com/filmaapi/dash/12345.mpd?api_key=xxx';\n      }\n      init_xcream_player('video-12345');\n    }\n    \n    // DOMが既に読み込まれている場合は即座に実行、そうでなければイベントを待機\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', initPlayer);\n    } else {\n      initPlayer();\n    }\n  })();\n</script>"
 }
 ```
 
@@ -132,7 +133,7 @@ GET /filmaapi/storage/metadata/{id}
        "filesize_megabyte": 150.5,
        "bitrate_human": "2.5 Mbps",
        "player_url": "https://example.com/filmaapi/player/67890?api_key=xxx",
-       "player_embedding_html": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js\"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-67890\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  document.addEventListener('DOMContentLoaded', function() {\n    let elem = document.getElementById('video-67890');\n    if (elem == null) {\n      return;\n    }\n    if (isSafari()) {\n      elem.dataset.src = 'https://example.com/filmaapi/hls/67890.m3u8?api_key=xxx';\n    } else {\n      elem.dataset.src = 'https://example.com/filmaapi/dash/67890.mpd?api_key=xxx';\n    }\n    init_xcream_player('video-67890');\n  });\n</script>"
+       "player_embedding_html": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js\"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-67890\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  (function() {\n    function initPlayer() {\n      let elem = document.getElementById('video-67890');\n      if (elem == null) {\n        return;\n      }\n      if (isSafari()) {\n        elem.dataset.src = 'https://example.com/filmaapi/hls/67890.m3u8?api_key=xxx';\n      } else {\n        elem.dataset.src = 'https://example.com/filmaapi/dash/67890.mpd?api_key=xxx';\n      }\n      init_xcream_player('video-67890');\n    }\n    \n    // DOMが既に読み込まれている場合は即座に実行、そうでなければイベントを待機\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', initPlayer);\n    } else {\n      initPlayer();\n    }\n  })();\n</script>"
      }
    ]
 }
@@ -156,6 +157,67 @@ GET /filmaapi/storage/metadata
 ```
 
 *注: 現在は空の配列を返します。*
+
+#### フォルダ一覧取得
+
+```
+GET /filmaapi/storage/folders
+```
+
+**パラメータ:**
+
+| パラメータ名 | 型 | 必須 | 説明 |
+|---|---|---|---|
+| api_key | string | ✓ | APIキー |
+
+**レスポンス例:**
+
+```json
+[
+  {
+    "id": 100,
+    "name": "動画フォルダ",
+    "created_at": "2024-01-01T10:00:00Z",
+    "updated_at": "2024-01-01T10:00:00Z",
+    "creator": "山田太郎",
+    "updater": "山田太郎"
+  },
+  {
+    "id": 101,
+    "name": "教育動画",
+    "created_at": "2024-01-02T11:00:00Z",
+    "updated_at": "2024-01-02T11:00:00Z",
+    "creator": "佐藤花子",
+    "updater": "佐藤花子"
+  }
+]
+```
+
+#### フォルダ詳細取得
+
+```
+GET /filmaapi/storage/folders/{id}
+```
+
+**パラメータ:**
+
+| パラメータ名 | 型 | 必須 | 説明 |
+|---|---|---|---|
+| api_key | string | ✓ | APIキー |
+| id | integer | ✓ | フォルダID |
+
+**レスポンス例:**
+
+```json
+{
+  "id": 100,
+  "name": "動画フォルダ",
+  "created_at": "2024-01-01T10:00:00Z",
+  "updated_at": "2024-01-01T10:00:00Z",
+  "creator": "山田太郎",
+  "updater": "山田太郎"
+}
+```
 
 #### ファイルアップロード
 
@@ -316,6 +378,8 @@ HEAD /filmaapi/hls/{id}
 | ファイル再生情報取得 | ✅ 実装済み |
 | ファイルメタデータ取得 | ✅ 実装済み |
 | ストレージ情報取得 | ✅ 実装済み（空レスポンス） |
+| フォルダ一覧取得 | ✅ 実装済み |
+| フォルダ詳細取得 | ✅ 実装済み |
 | ファイル削除 | ✅ 実装済み |
 | プレイヤー表示 | ✅ 実装済み |
 | DASH配信 | ✅ 実装済み |
@@ -337,6 +401,12 @@ curl "https://example.com/filmaapi/storage/12345?api_key=your_api_key"
 # ファイルメタデータ取得
 curl "https://example.com/filmaapi/storage/metadata/12345?api_key=your_api_key"
 
+# フォルダ一覧取得
+curl "https://example.com/filmaapi/storage/folders?api_key=your_api_key"
+
+# フォルダ詳細取得
+curl "https://example.com/filmaapi/storage/folders/100?api_key=your_api_key"
+
 # ファイル削除
 curl -X DELETE "https://example.com/filmaapi/storage/12345?api_key=your_api_key"
 ```
@@ -357,6 +427,18 @@ const playerData = await playerResponse.json();
 
 console.log('再生URL:', playerData.url);
 console.log('埋め込みコード:', playerData.embed_code);
+
+// フォルダ一覧取得
+const foldersResponse = await fetch('/filmaapi/storage/folders?api_key=your_api_key');
+const foldersData = await foldersResponse.json();
+
+console.log('フォルダ一覧:', foldersData);
+
+// フォルダ詳細取得
+const folderResponse = await fetch('/filmaapi/storage/folders/100?api_key=your_api_key');
+const folderData = await folderResponse.json();
+
+console.log('フォルダ詳細:', folderData);
 ```
 
 ## 注意事項
