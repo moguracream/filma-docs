@@ -77,10 +77,22 @@ function loadFileListByFolder(container) {
 
           const img = document.createElement('img');
           img.className = 'img-thumbnail';
-          img.src = `https://via.placeholder.com/160x90.png?text=${idx + 1}`;
+          const screenshots = Array.isArray(file.screen_shots)
+            ? file.screen_shots
+            : [];
+          const screenshot = screenshots.length
+            ? screenshots[Math.floor(Math.random() * screenshots.length)]
+            : `https://via.placeholder.com/160x90.png?text=${idx + 1}`;
+          img.src = screenshot;
           img.alt = file.filename;
 
+          const caption = document.createElement('div');
+          caption.className = 'small text-center mt-1';
+          caption.textContent = file.filename;
+
+          link.classList.add('d-block', 'text-decoration-none');
           link.appendChild(img);
+          link.appendChild(caption);
           row.appendChild(link);
         });
 
