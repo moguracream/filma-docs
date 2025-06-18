@@ -226,8 +226,9 @@ function buildScreenshotsHtml(urls) {
 
   let html = '<h2 class="h4 mb-3">Screenshots</h2>';
   html += '<div class="thumbnail-row row row-cols-2 row-cols-sm-3 row-cols-md-4 g-2">';
+
   urls.forEach(url => {
-    html += `<img src="${url}" data-full-src="${url}" alt="Screenshot" class="img-thumbnail img-fluid w-100">`;
+    html += `<div class="col"><img src="${url}" alt="Screenshot" class="img-thumbnail img-fluid w-100"></div>`;
   });
   html += '</div>';
   return html;
