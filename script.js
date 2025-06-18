@@ -71,15 +71,17 @@ function loadFileListByFolder(container) {
         heading.textContent = folder;
 
         const row = document.createElement('div');
-        row.className = 'thumbnail-row d-flex overflow-auto';
+        row.className = 'thumbnail-row row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3';
 
         files.forEach((file, idx) => {
+          const col = document.createElement('div');
+          col.className = 'col';
+
           const link = document.createElement('a');
           link.href = `video.html?id=${encodeURIComponent(file.id)}`;
-          link.className = 'me-2';
 
           const img = document.createElement('img');
-          img.className = 'img-thumbnail';
+          img.className = 'img-thumbnail img-fluid w-100';
           // サムネイルに使用する画像を選択
           const screenshots = Array.isArray(file.screen_shots)
             ? file.screen_shots
@@ -97,7 +99,8 @@ function loadFileListByFolder(container) {
           link.classList.add('d-block', 'text-decoration-none');
           link.appendChild(img);
           link.appendChild(caption);
-          row.appendChild(link);
+          col.appendChild(link);
+          row.appendChild(col);
         });
 
         section.appendChild(heading);
@@ -221,9 +224,9 @@ function buildScreenshotsHtml(urls) {
   }
 
   let html = '<h2 class="h4 mb-3">Screenshots</h2>';
-  html += '<div class="thumbnail-row d-flex flex-wrap">';
+  html += '<div class="thumbnail-row row row-cols-2 row-cols-sm-3 row-cols-md-4 g-2">';
   urls.forEach(url => {
-    html += `<img src="${url}" alt="Screenshot" class="img-thumbnail me-2 mb-2">`;
+    html += `<div class="col"><img src="${url}" alt="Screenshot" class="img-thumbnail img-fluid w-100"></div>`;
   });
   html += '</div>';
   return html;
