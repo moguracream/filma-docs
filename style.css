@@ -4,13 +4,18 @@ body {
 }
 
 .thumbnail-row img {
-  width: 160px;
-  height: 90px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
+.screenshot-thumb {
+  cursor: pointer;
+}
+
 .thumbnail-row a {
-  width: 160px;
+  width: 100%;
   text-decoration: none;
   color: inherit;
 }
@@ -25,4 +30,10 @@ body {
 }
 .xcream-video.embed {
   height: 100% !important;
+}
+
+/* Custom width utility for modal that should shrink to image size */
+.modal-fit-content {
+  width: fit-content;
+  max-width: 100%;
 }
