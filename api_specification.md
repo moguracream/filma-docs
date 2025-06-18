@@ -21,6 +21,21 @@ GET /filmaapi/storage?api_key=your_api_key_here
 - **readonly**: 読み取り専用権限
 - **fullaccess**: 読み取り・書き込み権限
 
+### 公開状態による制限
+
+ファイルには公開状態（published）が設定されており、APIキーの権限に応じてアクセス制限が適用されます。
+
+#### アクセス制御ルール
+
+| 権限 | デフォルト | show_all=true指定時 |
+|---|---|---|
+| readonly | 公開ファイルのみ | 公開ファイルのみ（パラメータ無視） |
+| fullaccess | 公開ファイルのみ | 全ファイル（公開・非公開問わず） |
+
+**show_allパラメータ:**
+- `show_all=true`: fullaccess権限の場合のみ、非公開ファイルも含めて全てのファイルにアクセス可能
+- 未指定またはfalse: 権限に関係なく公開ファイルのみアクセス可能
+
 ### ドメインアクセス制限
 
 APIユーザーごとに許可されたドメインからのアクセスのみが可能です。RefererまたはOriginヘッダーで制御されます。
@@ -54,6 +69,11 @@ GET /filmaapi/storage
 | page | integer | - | 1 | ページ番号 |
 | per_page | integer | - | 20 | 1ページあたりの件数（最大100） |
 | folder_id | integer | - | - | フォルダID（指定時は該当フォルダのファイルのみ取得） |
+| show_all | boolean | - | false | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**注意:**
+- デフォルトでは公開されたファイルのみ取得
+- `show_all=true`かつfullaccess権限の場合、非公開ファイルも含めて全ファイル取得
 
 **レスポンス例:**
 
@@ -97,6 +117,11 @@ GET /filmaapi/storage/{id}
 |---|---|---|---|
 | api_key | string | ✓ | APIキー |
 | id | integer | ✓ | ファイルID |
+| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**注意:**
+- デフォルトでは公開されたファイルのみアクセス可能
+- `show_all=true`かつfullaccess権限の場合、非公開ファイルもアクセス可能
 
 **レスポンス例:**
 
@@ -124,6 +149,11 @@ GET /filmaapi/storage/metadata/{id}
 |---|---|---|---|
 | api_key | string | ✓ | APIキー |
 | id | integer | ✓ | ファイルID |
+| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**注意:**
+- デフォルトでは公開されたファイルのみアクセス可能
+- `show_all=true`かつfullaccess権限の場合、非公開ファイルもアクセス可能
 
 **レスポンス例:**
 
@@ -321,9 +351,14 @@ GET /filmaapi/player/{id}
 |---|---|---|---|
 | api_key | string | ✓ | APIキー |
 | id | integer | ✓ | エンコードファイルID |
+| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
 **レスポンス:**
 - HTMLプレイヤー画面
+
+**注意:**
+- デフォルトでは公開されたファイルのみアクセス可能
+- `show_all=true`かつfullaccess権限の場合、非公開ファイルもアクセス可能
 
 ### DASH API
 
@@ -341,6 +376,11 @@ GET /filmaapi/dash/{id}
 |---|---|---|---|
 | api_key | string | ✓ | APIキー |
 | id | integer | ✓ | エンコードファイルID |
+| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**注意:**
+- デフォルトでは公開されたファイルのみアクセス可能
+- `show_all=true`かつfullaccess権限の場合、非公開ファイルもアクセス可能
 
 ### HLS API
 
@@ -358,6 +398,7 @@ GET /filmaapi/hls/{id}
 |---|---|---|---|
 | api_key | string | ✓ | APIキー |
 | id | integer | ✓ | エンコードファイルID |
+| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
 #### HLSメディア配信
 
@@ -371,6 +412,7 @@ GET /filmaapi/hls/{id}/media
 |---|---|---|---|
 | api_key | string | ✓ | APIキー |
 | id | integer | ✓ | エンコードファイルID |
+| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
 #### HLSヘッダー取得
 
@@ -384,6 +426,11 @@ HEAD /filmaapi/hls/{id}
 |---|---|---|---|
 | api_key | string | ✓ | APIキー |
 | id | integer | ✓ | エンコードファイルID |
+| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**注意（HLS API共通）:**
+- デフォルトでは公開されたファイルのみアクセス可能
+- `show_all=true`かつfullaccess権限の場合、非公開ファイルもアクセス可能
 
 ## 実装ステータス
 
@@ -399,6 +446,7 @@ HEAD /filmaapi/hls/{id}
 | プレイヤー表示 | ✅ 実装済み |
 | DASH配信 | ✅ 実装済み |
 | HLS配信 | ✅ 実装済み |
+| 公開状態チェック機能 | ✅ 実装済み |
 | ファイルアップロード | ❌ 未実装 |
 | エンコード管理 | ❌ 未実装 |
 
@@ -407,14 +455,23 @@ HEAD /filmaapi/hls/{id}
 ### cURLでの使用例
 
 ```bash
-# ファイル一覧取得（1ページ目、10件ずつ）
+# ファイル一覧取得（1ページ目、10件ずつ、公開ファイルのみ）
 curl "https://example.com/filmaapi/storage?api_key=your_api_key&page=1&per_page=10"
 
-# ファイル再生情報取得
+# ファイル一覧取得（全ファイル表示 - fullaccess権限のみ）
+curl "https://example.com/filmaapi/storage?api_key=your_api_key&page=1&per_page=10&show_all=true"
+
+# ファイル再生情報取得（公開ファイルのみ）
 curl "https://example.com/filmaapi/storage/12345?api_key=your_api_key"
 
-# ファイルメタデータ取得
+# ファイル再生情報取得（全ファイル表示 - fullaccess権限のみ）
+curl "https://example.com/filmaapi/storage/12345?api_key=your_api_key&show_all=true"
+
+# ファイルメタデータ取得（公開ファイルのみ）
 curl "https://example.com/filmaapi/storage/metadata/12345?api_key=your_api_key"
+
+# ファイルメタデータ取得（全ファイル表示 - fullaccess権限のみ）
+curl "https://example.com/filmaapi/storage/metadata/12345?api_key=your_api_key&show_all=true"
 
 # フォルダ一覧取得
 curl "https://example.com/filmaapi/storage/folders?api_key=your_api_key"
@@ -424,12 +481,24 @@ curl "https://example.com/filmaapi/storage/folders/100?api_key=your_api_key"
 
 # ファイル削除
 curl -X DELETE "https://example.com/filmaapi/storage/12345?api_key=your_api_key"
+
+# プレイヤー表示（公開ファイルのみ - デフォルト）
+curl "https://example.com/filmaapi/player/12345?api_key=your_api_key"
+
+# プレイヤー表示（全ファイル表示 - fullaccess権限のみ）
+curl "https://example.com/filmaapi/player/12345?api_key=your_api_key&show_all=true"
+
+# DASH配信（公開ファイルのみ）
+curl "https://example.com/filmaapi/dash/12345?api_key=your_api_key"
+
+# DASH配信（全ファイル表示 - fullaccess権限のみ）
+curl "https://example.com/filmaapi/dash/12345?api_key=your_api_key&show_all=true"
 ```
 
 ### JavaScriptでの使用例
 
 ```javascript
-// ファイル一覧取得
+// ファイル一覧取得（公開ファイルのみ）
 const listResponse = await fetch('/filmaapi/storage?api_key=your_api_key&page=1&per_page=20');
 const listData = await listResponse.json();
 
@@ -440,7 +509,14 @@ listData.items.forEach(file => {
   console.log(`ファイル ${file.filename} のスクリーンショット:`, file.screen_shots);
 });
 
-// ファイル再生情報取得
+// ファイル一覧取得（全ファイル表示 - fullaccess権限のみ）
+const allListResponse = await fetch('/filmaapi/storage?api_key=your_api_key&page=1&per_page=20&show_all=true');
+const allListData = await allListResponse.json();
+
+console.log('全ファイル総件数:', allListData.pagination.total_count);
+console.log('全ファイル一覧:', allListData.items);
+
+// ファイル再生情報取得（公開ファイルのみ）
 const playerResponse = await fetch('/filmaapi/storage/12345?api_key=your_api_key');
 const playerData = await playerResponse.json();
 
@@ -448,13 +524,28 @@ console.log('再生URL:', playerData.url);
 console.log('埋め込みコード:', playerData.embed_code);
 console.log('スクリーンショット:', playerData.screen_shots);
 
-// ファイルメタデータ取得
+// ファイル再生情報取得（全ファイル表示 - fullaccess権限のみ）
+const allPlayerResponse = await fetch('/filmaapi/storage/12345?api_key=your_api_key&show_all=true');
+const allPlayerData = await allPlayerResponse.json();
+
+console.log('全ファイル再生URL:', allPlayerData.url);
+console.log('全ファイル埋め込みコード:', allPlayerData.embed_code);
+
+// ファイルメタデータ取得（公開ファイルのみ）
 const metadataResponse = await fetch('/filmaapi/storage/metadata/12345?api_key=your_api_key');
 const metadataData = await metadataResponse.json();
+
+// ファイルメタデータ取得（全ファイル表示 - fullaccess権限のみ）
+const allMetadataResponse = await fetch('/filmaapi/storage/metadata/12345?api_key=your_api_key&show_all=true');
+const allMetadataData = await allMetadataResponse.json();
 
 console.log('メタデータ:', metadataData);
 console.log('スクリーンショット:', metadataData.screen_shots);
 console.log('プレイヤーデータ:', metadataData.player_data);
+
+console.log('全ファイルメタデータ:', allMetadataData);
+console.log('全ファイルスクリーンショット:', allMetadataData.screen_shots);
+console.log('全ファイルプレイヤーデータ:', allMetadataData.player_data);
 
 // フォルダ一覧取得
 const foldersResponse = await fetch('/filmaapi/storage/folders?api_key=your_api_key');
@@ -467,6 +558,12 @@ const folderResponse = await fetch('/filmaapi/storage/folders/100?api_key=your_a
 const folderData = await folderResponse.json();
 
 console.log('フォルダ詳細:', folderData);
+
+// プレイヤー表示（公開ファイルのみ - デフォルト）
+window.open('/filmaapi/player/12345?api_key=your_api_key', '_blank');
+
+// プレイヤー表示（全ファイル表示 - fullaccess権限のみ）
+window.open('/filmaapi/player/12345?api_key=your_api_key&show_all=true', '_blank');
 ```
 
 ## 注意事項
@@ -475,4 +572,3 @@ console.log('フォルダ詳細:', folderData);
 - fullaccess権限が必要な操作は明記されています
 - ページングは最大100件まで取得可能です
 - エラーが発生した場合は適切なHTTPステータスコードが返されます
-- 動画配信系APIはDRMが有効な場合の処理が含まれています
