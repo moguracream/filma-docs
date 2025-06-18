@@ -14,6 +14,10 @@ body {
   object-fit: cover;
 }
 
+.screenshot-thumb {
+  cursor: pointer;
+}
+
 .thumbnail-row a {
   width: 100%;
   text-decoration: none;
@@ -30,4 +34,10 @@ body {
 }
 .xcream-video.embed {
   height: 100% !important;
+}
+
+/* Custom width utility for modal that should shrink to image size */
+.modal-fit-content {
+  width: fit-content;
+  max-width: 100%;
 }
