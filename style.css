@@ -3,10 +3,6 @@ body {
   padding: 0;
 }
 
-.thumbnail-row {
-  gap: 0.5rem;
-}
-
 .thumbnail-row img {
   width: 160px;
   height: 90px;
