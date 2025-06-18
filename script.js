@@ -1,6 +1,10 @@
 // Filma API を利用する際のホスト名と API キーをここで設定します
 const API_HOST = 'filma-dev.xcream.net';
 const API_KEY = 'e47aad55d7fb4f152603b91b';
+// show_allパラメータを付与するかどうかを設定
+// trueにするとAPIリクエストに`show_all=true`が付き、fullaccess権限のAPIキー利用時は
+// 非公開ファイルも取得できます (詳細は api_specification.md 参照)
+const USE_SHOW_ALL = false;
 
 // DOM が読み込まれた後にページごとの処理を実行します
 // index.html ではファイル一覧を読み込みます
@@ -9,7 +13,7 @@ function loadFileList(listElement) {
   if (!listElement) return;
 
   // Filma API からファイル一覧を取得
-  const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}`;
+  const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
   fetch(url)
     .then(res => {
       if (!res.ok) {
@@ -45,7 +49,7 @@ function loadFileList(listElement) {
 function loadFileListByFolder(container) {
   if (!container) return;
 
-  const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}`;
+  const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
   fetch(url)
     .then(res => {
       if (!res.ok) {
@@ -131,8 +135,8 @@ function loadVideo(element) {
   const id = params.get('id') || params.get('video');
   if (!id) return;
 
-  const playerUrl = `https://${API_HOST}/filmaapi/storage/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}`;
-  const metaUrl = `https://${API_HOST}/filmaapi/storage/metadata/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}`;
+  const playerUrl = `https://${API_HOST}/filmaapi/storage/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
+  const metaUrl = `https://${API_HOST}/filmaapi/storage/metadata/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
 
   // プレイヤー埋め込み情報を取得
   fetch(playerUrl)
@@ -259,10 +263,10 @@ function initializeVideoPlayer(id, host, api_key) {
   if (!elem) return;
   if (isSafari()) {
     // Safari では HLS を使用
-    elem.dataset.src = `https://${host}/filmaapi/hls/${id}.m3u8?api_key=${api_key}`;
+    elem.dataset.src = `https://${host}/filmaapi/hls/${id}.m3u8?api_key=${api_key}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
   } else {
     // その他のブラウザでは DASH を使用
-    elem.dataset.src = `https://${host}/filmaapi/dash/${id}.mpd?api_key=${api_key}`;
+    elem.dataset.src = `https://${host}/filmaapi/dash/${id}.mpd?api_key=${api_key}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
   }
   init_xcream_player('video-' + id);
 }
