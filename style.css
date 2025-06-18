@@ -8,13 +8,14 @@ body {
 }
 
 .thumbnail-row img {
-  width: 160px;
-  height: 90px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
 .thumbnail-row a {
-  width: 160px;
+  width: 100%;
   text-decoration: none;
   color: inherit;
 }
