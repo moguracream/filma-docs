@@ -97,7 +97,7 @@ function loadFileListByFolder(container) {
           img.alt = file.filename;
 
           const caption = document.createElement('div');
-          caption.className = 'small text-center mt-1';
+          caption.className = 'small text-center text-break mt-1';
           caption.textContent = file.filename;
 
           link.classList.add('d-block', 'text-decoration-none');
