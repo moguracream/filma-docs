@@ -248,6 +248,14 @@ GET /filmaapi/storage/{id}
   ]
 }
 ```
+**補足:**
+返された`embed_code`をページに貼り付けただけでは再生できません。以下のJavaScriptとCSSをHTMLに読み込んでください。
+
+```html
+<script src="https://filma.biz/dash_player/js/xcream_player.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://filma.biz/dash_player/css/style.css">
+```
+
 
 #### ファイルメタデータ取得
 
