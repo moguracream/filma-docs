@@ -217,6 +217,26 @@ GET /filmaapi/storage
 }
 ```
 
+**レスポンスフィールド詳細:**
+
+| フィールド名 | 型 | 説明 |
+|---|---|---|
+| items | array | ファイル情報の配列 |
+| items[].id | integer | ファイルの一意識別子 |
+| items[].filename | string | ファイル名 |
+| items[].folder_id | integer | 所属フォルダのID |
+| items[].folder_name | string | 所属フォルダの名前 |
+| items[].created_at | string | ファイル作成日時（ISO 8601形式） |
+| items[].updated_at | string | ファイル更新日時（ISO 8601形式） |
+| items[].creator | string | ファイル作成者名 |
+| items[].updater | string | ファイル更新者名 |
+| items[].screen_shots | array | スクリーンショット画像のURL配列 |
+| pagination | object | ページング情報 |
+| pagination.current_page | integer | 現在のページ番号 |
+| pagination.per_page | integer | 1ページあたりの件数 |
+| pagination.total_count | integer | 総ファイル数 |
+| pagination.total_pages | integer | 総ページ数 |
+
 #### ファイル再生情報取得
 
 ```
@@ -241,12 +261,29 @@ GET /filmaapi/storage/{id}
 {
   "url": "https://example.com/filmaapi/player/12345?api_key=xxx",
   "embed_code": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js\"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-12345\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  (function() {\n    function initPlayer() {\n      let elem = document.getElementById('video-12345');\n      if (elem == null) {\n        return;\n      }\n      if (isSafari()) {\n        elem.dataset.src = 'https://example.com/filmaapi/hls/12345.m3u8?api_key=xxx';\n      } else {\n        elem.dataset.src = 'https://example.com/filmaapi/dash/12345.mpd?api_key=xxx';\n      }\n      init_xcream_player('video-12345');\n    }\n    \n    // DOMが既に読み込まれている場合は即座に実行、そうでなければイベントを待機\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', initPlayer);\n    } else {\n      initPlayer();\n    }\n  })();\n</script>",
+  "mediafile_id": 12345,
   "screen_shots": [
     "https://example.com/storage/screenshot1.jpg",
     "https://example.com/storage/screenshot2.jpg",
     "https://example.com/storage/screenshot3.jpg"
   ]
 }
+```
+
+**レスポンスフィールド詳細:**
+
+| フィールド名 | 型 | 説明 |
+|---|---|---|
+| url | string | プレイヤーページのURL |
+| embed_code | string | HTMLに埋め込み可能なプレイヤーコード |
+| mediafile_id | integer | エンコード済みファイルの識別子 |
+| screen_shots | array | スクリーンショット画像のURL配列 |
+**補足:**
+返された`embed_code`をページに貼り付けただけでは再生できません。以下のJavaScriptとCSSをHTMLに読み込んでください。
+
+```html
+<script src="https://filma.biz/dash_player/js/xcream_player.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://filma.biz/dash_player/css/style.css">
 ```
 
 #### ファイルメタデータ取得
@@ -290,11 +327,42 @@ GET /filmaapi/storage/metadata/{id}
        "filesize_megabyte": 150.5,
        "bitrate_human": "2.5 Mbps",
        "player_url": "https://example.com/filmaapi/player/67890?api_key=xxx",
-       "player_embedding_html": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js\"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-67890\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  (function() {\n    function initPlayer() {\n      let elem = document.getElementById('video-67890');\n      if (elem == null) {\n        return;\n      }\n      if (isSafari()) {\n        elem.dataset.src = 'https://example.com/filmaapi/hls/67890.m3u8?api_key=xxx';\n      } else {\n        elem.dataset.src = 'https://example.com/filmaapi/dash/67890.mpd?api_key=xxx';\n      }\n      init_xcream_player('video-67890');\n    }\n    \n    // DOMが既に読み込まれている場合は即座に実行、そうでなければイベントを待機\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', initPlayer);\n    } else {\n      initPlayer();\n    }\n  })();\n</script>"
+       "player_embedding_html": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js\"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-67890\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  (function() {\n    function initPlayer() {\n      let elem = document.getElementById('video-67890');\n      if (elem == null) {\n        return;\n      }\n      if (isSafari()) {\n        elem.dataset.src = 'https://example.com/filmaapi/hls/67890.m3u8?api_key=xxx';\n      } else {\n        elem.dataset.src = 'https://example.com/filmaapi/dash/67890.mpd?api_key=xxx';\n      }\n      init_xcream_player('video-67890');\n    }\n    \n    // DOMが既に読み込まれている場合は即座に実行、そうでなければイベントを待機\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', initPlayer);\n    } else {\n      initPlayer();\n    }\n  })();\n</script>",
+       "screen_shots": [
+         "https://example.com/storage/screenshot1.jpg",
+         "https://example.com/storage/screenshot2.jpg",
+         "https://example.com/storage/screenshot3.jpg"
+       ]
      }
    ]
 }
 ```
+
+**レスポンスフィールド詳細:**
+
+| フィールド名 | 型 | 説明 |
+|---|---|---|
+| id | integer | ファイルの一意識別子 |
+| name | string | ファイル名 |
+| folder_id | integer | 所属フォルダのID |
+| folder_name | string | 所属フォルダの名前 |
+| created_at | string | ファイル作成日時（ISO 8601形式） |
+| updated_at | string | ファイル更新日時（ISO 8601形式） |
+| creator | string | ファイル作成者名 |
+| updater | string | ファイル更新者名 |
+| screen_shots | array | ファイル全体のスクリーンショット画像URL配列 |
+| player_data | array | エンコード済みファイル（解像度別）の情報配列 |
+| player_data[].resolution_string | string | 解像度の表示文字列（例：「HD 1280x720」） |
+| player_data[].filesize_megabyte | number | ファイルサイズ（MB） |
+| player_data[].bitrate_human | string | ビットレートの人間が読める形式（例：「2.5 Mbps」） |
+| player_data[].player_url | string | 該当解像度ファイルのプレイヤーページURL |
+| player_data[].player_embedding_html | string | 該当解像度ファイル用の埋め込みHTMLコード |
+| player_data[].screen_shots | array | 該当解像度ファイルのスクリーンショット画像URL配列 |
+
+**player_dataについて:**
+- 音声のみのファイルは含まれません
+- 動画ファイルのみが対象となります
+- 解像度の低い順から配列に格納されます
 
 #### ストレージ情報取得
 
@@ -350,6 +418,17 @@ GET /filmaapi/storage/folders
 ]
 ```
 
+**レスポンスフィールド詳細:**
+
+| フィールド名 | 型 | 説明 |
+|---|---|---|
+| id | integer | フォルダの一意識別子 |
+| name | string | フォルダ名 |
+| created_at | string | フォルダ作成日時（ISO 8601形式） |
+| updated_at | string | フォルダ更新日時（ISO 8601形式） |
+| creator | string | フォルダ作成者名 |
+| updater | string | フォルダ更新者名 |
+
 #### フォルダ詳細取得
 
 ```
@@ -375,6 +454,17 @@ GET /filmaapi/storage/folders/{id}
   "updater": "山田太郎"
 }
 ```
+
+**レスポンスフィールド詳細:**
+
+| フィールド名 | 型 | 説明 |
+|---|---|---|
+| id | integer | フォルダの一意識別子 |
+| name | string | フォルダ名 |
+| created_at | string | フォルダ作成日時（ISO 8601形式） |
+| updated_at | string | フォルダ更新日時（ISO 8601形式） |
+| creator | string | フォルダ作成者名 |
+| updater | string | フォルダ更新者名 |
 
 #### ファイルアップロード
 
@@ -416,6 +506,18 @@ DELETE /filmaapi/storage/{id}
   "filename": "sample_video.mp4"
 }
 ```
+
+**レスポンスフィールド詳細:**
+
+| フィールド名 | 型 | 説明 |
+|---|---|---|
+| id | integer | 削除されたファイルの識別子 |
+| status | string | 削除ステータス（常に「deleted」） |
+| filename | string | 削除されたファイル名 |
+
+**削除について:**
+- ファイルは論理削除され、物理的には削除されません
+- 削除されたファイルは通常のAPI呼び出しでは取得できなくなります
 
 ### Encode API
 
@@ -465,6 +567,10 @@ GET /filmaapi/player/{id}
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
+**エンコードファイルIDについて:**
+- `GET /filmaapi/storage/{id}`の`mediafile_id`フィールドで取得可能
+- ファイルメタデータ取得の`player_data[].player_url`からも確認可能
+
 **レスポンス:**
 - HTMLプレイヤー画面
 
@@ -489,6 +595,10 @@ GET /filmaapi/dash/{id}
 | api_key | string | ✓ | APIキー |
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**エンコードファイルIDについて:**
+- `GET /filmaapi/storage/{id}`の`mediafile_id`フィールドで取得可能
+- ファイルメタデータ取得の`player_data[].player_url`からも確認可能
 
 **注意:**
 - デフォルトでは公開されたファイルのみアクセス可能
@@ -540,9 +650,47 @@ HEAD /filmaapi/hls/{id}
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
+**エンコードファイルIDについて（HLS API共通）:**
+- `GET /filmaapi/storage/{id}`の`mediafile_id`フィールドで取得可能
+- ファイルメタデータ取得の`player_data[].player_url`からも確認可能
+
 **注意（HLS API共通）:**
 - デフォルトでは公開されたファイルのみアクセス可能
 - `show_all=true`かつfullaccess権限の場合、非公開ファイルもアクセス可能
+
+## API利用時の重要事項
+
+### 公開状態による制御
+
+APIでは以下の条件でファイルの表示・非表示が制御されます：
+
+1. **全ファイル表示**の場合：
+   - `show_all=true`パラメータ **かつ** fullaccess権限
+   - **または** 管理画面にログイン済み
+
+2. **公開ファイルのみ表示**の場合：
+   - 公開設定されたファイルのみアクセス可能
+
+### ページング制限
+
+- `per_page`パラメータは最大100件まで指定可能
+- 100件を超える値が指定された場合は、デフォルトの20件に自動調整されます
+
+### フォルダフィルタリング
+
+- `folder_id`パラメータ指定時に該当フォルダが存在しない場合は404エラーが返されます
+- フォルダIDが0以下の場合はフィルタリングが適用されません
+
+### エラー処理
+
+- すべてのAPIで統一されたエラーハンドリングが実装されています
+- サーバーエラー発生時は500エラーと共に問い合わせ番号（inquiry number）が返されます
+
+### CORS対応
+
+- すべてのAPIでCross-Origin Resource Sharing（CORS）に対応しています
+- プリフライトリクエスト（OPTIONS）にも対応
+- エラー時はより柔軟なCORS設定が適用されます
 
 ## 実装ステータス
 
@@ -554,11 +702,14 @@ HEAD /filmaapi/hls/{id}
 | ストレージ情報取得 | ✅ 実装済み（空レスポンス） |
 | フォルダ一覧取得 | ✅ 実装済み |
 | フォルダ詳細取得 | ✅ 実装済み |
-| ファイル削除 | ✅ 実装済み |
+| ファイル削除 | ✅ 実装済み（論理削除） |
 | プレイヤー表示 | ✅ 実装済み |
 | DASH配信 | ✅ 実装済み |
 | HLS配信 | ✅ 実装済み |
 | 公開状態チェック機能 | ✅ 実装済み |
+| CORS対応 | ✅ 実装済み |
+| ドメインアクセス制限 | ✅ 実装済み |
+| 共通エラーハンドリング | ✅ 実装済み |
 | ファイルアップロード | ❌ 未実装 |
 | エンコード管理 | ❌ 未実装 |
 
