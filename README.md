@@ -34,6 +34,12 @@ MPEG-DASHによるアダプティブストリーミング配信を、Windows, Ma
   * **[APIリファレンス](api_specification.md)**: 詳細なAPI仕様をご確認いただけます。
   * **サンプルコード**: すぐに試せる実装例をご用意しています。
     * **[認証無し動画サンプル](/template-no-auth)**: 認証なしで誰でも見られる動画再生のサンプルコードです。
+    * `video.html` には Filma のストリーミングプレーヤーを読み込む次のタグが必須です。JavaScript は再生機能を提供し、CSS はプレーヤーのレイアウトを整えます。
+
+    ```html
+    <script src="https://filma.biz/dash_player/js/xcream_player.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://filma.biz/dash_player/css/style.css">
+    ```
 
 ## 📞 お問い合わせ
 
