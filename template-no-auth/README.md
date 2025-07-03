@@ -41,7 +41,7 @@ JavaScript ファイルは DASH/HLS 再生を行うプレーヤー本体を提�
 
 ## カスタマイズのヒント
 
-- `USE_SHOW_ALL` を `true` にすると、Full Access 権限の API キー使用時に非公開ファイルも取得できます（詳細は `api_specification.md` を参照）。
+- `USE_SHOW_ALL` を `true` にすると、Full Access 権限の API キー使用時に非公開ファイルも取得できます（詳細は **[APIリファレンス](../api_specification.md)** を参照）。
 - サムネイル表示数やレイアウトは `style.css` と `script.js` の該当箇所を編集することで変更可能です。
 - モーダルでスクリーンショットを拡大表示する仕組みは `setupScreenshotViewer` 関数で実装されています。必要に応じて挙動を調整してください。
 
