@@ -1,5 +1,5 @@
 // Filma API を利用する際のホスト名と API キーをここで設定します
-const API_HOST = 'filma.biz';
+const API_HOST = 'filma-dev.xcream.net';
 const API_KEY = 'e47aad55d7fb4f152603b91b';
 // show_allパラメータを付与するかどうかを設定
 // trueにするとAPIリクエストに`show_all=true`が付き、fullaccess権限のAPIキー利用時は
