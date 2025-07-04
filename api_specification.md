@@ -13,17 +13,16 @@ Filma APIは動画ファイルの管理、配信、エンコーディングを�
 Filma APIは2つの認証方法を併用できます：
 
 1. **APIキー認証** - APIキーベース認証（クエリパラメータまたはX-Api-Keyヘッダー）
-2. **JWT認証** - JWTトークンベース認証（Bearer Token、Cookie、クエリパラメータ）
+2. **JWT認証** - JWTトークンベース認証（Bearer Token、Cookie）
 
 ### 認証方法の優先順位
 
 複数の認証情報が提供された場合、以下の優先順位で認証を試行します：
 
 1. **JWT認証（Authorization header）**: `Authorization: Bearer <jwt_token>`
-2. **JWT認証（query parameter）**: `?jwt_token=<jwt_token>`
-3. **JWT認証（Cookie）**: `filma_jwt_token` Cookie
-4. **APIキー認証（X-Api-Key header）**: `X-Api-Key: <api_key>`
-5. **APIキー認証（query parameter）**: `?api_key=<api_key>`
+2. **JWT認証（Cookie）**: `filma_jwt_token` Cookie
+3. **APIキー認証（X-Api-Key header）**: `X-Api-Key: <api_key>`
+4. **APIキー認証（query parameter）**: `?api_key=<api_key>`
 
 ### APIキー認証
 
@@ -44,7 +43,7 @@ curl "https://filma.biz/filmaapi/storage?api_key=your_api_key_here"
 
 ### JWT認証
 
-JWTトークンベースの認証システムです。以下の3つの方法でJWTトークンを送信できます：
+JWTトークンベースの認証システムです。以下の2つの方法でJWTトークンを送信できます：
 
 #### 1. Authorization ヘッダー（推奨）
 
@@ -53,13 +52,7 @@ curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
   "https://filma.biz/filmaapi/storage"
 ```
 
-#### 2. クエリパラメータ
-
-```bash
-curl "https://filma.biz/filmaapi/storage?jwt_token=eyJhbGciOiJIUzI1NiJ9..."
-```
-
-#### 3. Cookie（自動管理）
+#### 2. Cookie（自動管理）
 
 ```bash
 curl -H "Cookie: filma_jwt_token=eyJhbGciOiJIUzI1NiJ9..." \
@@ -128,12 +121,13 @@ curl -X POST "https://filma.biz/filmaapi/token?api_key=your_api_key" \
 
 1. **APIキー認証**
    - ユーザーの`api_access_domains`に基づいてドメインチェック
-   - 設定されていない場合はFima APIホストのみ許可
+   - 設定されていない場合は自ホストのみ許可
 
-2. **JWT認証（Cookie・Bearer・query parameter共通）**
-   - **Fima APIホストからのアクセス**: 常に許可（管理画面アクセス含む）
+2. **JWT認証（Cookie・Bearer共通）**
+   - **自ホストからのアクセス**: 常に許可（管理画面アクセス含む）
    - **外部ドメインからのアクセス**: ユーザーの`api_access_domains`設定に基づく
-   - APIキーユーザでなくてもアクセス可能です。
+   - **一般ユーザー**: 外部ドメインからのアクセス拒否（自ホストのみ許可）
+   - **APIキーユーザー**: `api_access_domains`設定に基づく
 
 #### ドメイン制限の確認方法
 
@@ -418,7 +412,6 @@ GET /filmaapi/storage
 | パラメータ名 | 型 | 必須 | デフォルト | 説明 |
 |---|---|---|---|---|
 | api_key | string | * | - | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | - | JWTトークン（APIキー認証時は不要） |
 | page | integer | - | 1 | ページ番号 |
 | per_page | integer | - | 20 | 1ページあたりの件数（最大100） |
 | folder_id | integer | - | - | フォルダID（指定時は該当フォルダのファイルのみ取得） |
@@ -491,7 +484,6 @@ GET /filmaapi/storage/{id}
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
 | api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | ファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
@@ -543,7 +535,6 @@ GET /filmaapi/storage/metadata/{id}
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
 | api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | ファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
@@ -624,7 +615,6 @@ GET /filmaapi/storage/metadata
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
 | api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -646,7 +636,6 @@ GET /filmaapi/storage/folders
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
 | api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -695,7 +684,6 @@ GET /filmaapi/storage/folders/{id}
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
 | api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | フォルダID |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
@@ -753,7 +741,6 @@ DELETE /filmaapi/storage/{id}
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
 | api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | ファイルID |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
@@ -825,7 +812,6 @@ GET /filmaapi/player/{id}
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
 | api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
@@ -857,7 +843,6 @@ GET /filmaapi/dash/{id}
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
 | api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
@@ -886,7 +871,6 @@ GET /filmaapi/hls/{id}
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
 | api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
@@ -903,7 +887,6 @@ GET /filmaapi/hls/{id}/media
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
 | api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
@@ -920,7 +903,6 @@ HEAD /filmaapi/hls/{id}
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
 | api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
@@ -1055,35 +1037,32 @@ curl -X POST "https://filma.biz/filmaapi/token" \
 curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
   "https://filma.biz/filmaapi/storage?page=1&per_page=10"
 
-# 3. JWTトークンを使用してAPIアクセス（query parameter）
-curl "https://filma.biz/filmaapi/storage?jwt_token=eyJhbGciOiJIUzI1NiJ9...&page=1&per_page=10"
-
-# 4. ファイル再生情報取得（JWT認証）
+# 3. ファイル再生情報取得（JWT認証）
 curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
   "https://filma.biz/filmaapi/storage/12345"
 
-# 5. ファイルメタデータ取得（JWT認証）
+# 4. ファイルメタデータ取得（JWT認証）
 curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
   "https://filma.biz/filmaapi/storage/metadata/12345"
 
-# 6. プレイヤー表示（JWT認証）
+# 5. プレイヤー表示（JWT認証）
 curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
   "https://filma.biz/filmaapi/player/12345"
 
-# 7. DASH配信（JWT認証）
+# 6. DASH配信（JWT認証）
 curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
   "https://filma.biz/filmaapi/dash/12345"
 
-# 8. HLS配信（JWT認証）
+# 7. HLS配信（JWT認証）
 curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
   "https://filma.biz/filmaapi/hls/12345"
 
-# 9. トークンリフレッシュ
+# 8. トークンリフレッシュ
 curl -X POST "https://filma.biz/filmaapi/token/refresh" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
   -H "Content-Type: application/json"
 
-# 10. トークン情報取得
+# 9. トークン情報取得
 curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
   "https://filma.biz/filmaapi/token"
 ```
@@ -1098,7 +1077,7 @@ curl -H "Cookie: filma_jwt_token=eyJhbGciOiJIUzI1NiJ9..." \
 ## 注意事項
 
 - APIキー認証またはJWT認証が各リクエストに必要です
-- JWT認証は3つの方法（Authorization header、query parameter、Cookie）で利用可能です
+- JWT認証は2つの方法（Authorization header、Cookie）で利用可能です
 - 管理画面にログインすると、JWTトークンが自動でCookieに設定されます
 - fullaccess権限が必要な操作は明記されています
 - ページングは最大100件まで取得可能です
