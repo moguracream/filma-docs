@@ -6,14 +6,98 @@ Filma APIは動画ファイルの管理、配信、エンコーディングを�
 
 ## 認証
 
-すべてのAPIエンドポイントは認証が必要です。
+すべてのAPIエンドポイントは認証が必要です。Filma APIはハイブリッド認証システムを採用しており、以下の認証方法をサポートしています。
+
+### ハイブリッド認証システム
+
+Filma APIは2つの認証方法を併用できます：
+
+1. **APIキー認証** - APIキーベース認証（クエリパラメータまたはX-Api-Keyヘッダー）
+2. **JWT認証** - JWTトークンベース認証（Bearer Token、Cookie、クエリパラメータ）
+
+### 認証方法の優先順位
+
+複数の認証情報が提供された場合、以下の優先順位で認証を試行します：
+
+1. **JWT認証（Authorization header）**: `Authorization: Bearer <jwt_token>`
+2. **JWT認証（query parameter）**: `?jwt_token=<jwt_token>`
+3. **JWT認証（Cookie）**: `filma_jwt_token` Cookie
+4. **APIキー認証（X-Api-Key header）**: `X-Api-Key: <api_key>`
+5. **APIキー認証（query parameter）**: `?api_key=<api_key>`
 
 ### APIキー認証
 
-すべてのリクエストには`api_key`パラメータが必要です。
+APIキー認証では、以下の2つの方法でAPIキーを送信できます：
 
+#### 1. X-Api-Keyヘッダー（推奨）
+
+```bash
+curl -H "X-Api-Key: your_api_key_here" \
+  "https://filma.biz/filmaapi/storage"
 ```
-GET /filmaapi/storage?api_key=your_api_key_here
+
+#### 2. クエリパラメータ
+
+```bash
+curl "https://filma.biz/filmaapi/storage?api_key=your_api_key_here"
+```
+
+### JWT認証
+
+JWTトークンベースの認証システムです。以下の3つの方法でJWTトークンを送信できます：
+
+#### 1. Authorization ヘッダー（推奨）
+
+```bash
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
+  "https://filma.biz/filmaapi/storage"
+```
+
+#### 2. クエリパラメータ
+
+```bash
+curl "https://filma.biz/filmaapi/storage?jwt_token=eyJhbGciOiJIUzI1NiJ9..."
+```
+
+#### 3. Cookie（自動管理）
+
+```bash
+curl -H "Cookie: filma_jwt_token=eyJhbGciOiJIUzI1NiJ9..." \
+  "https://filma.biz/filmaapi/storage"
+```
+
+### JWTトークンの発行方法
+
+#### APIキー認証でJWTトークン発行
+
+既存のAPIキーを使用してJWTトークンを発行できます：
+
+##### X-Api-Keyヘッダーを使用（推奨）
+
+```bash
+curl -X POST "https://filma.biz/filmaapi/token" \
+  -H "X-Api-Key: your_api_key" \
+  -H "Content-Type: application/json"
+```
+
+##### クエリパラメータを使用
+
+```bash
+curl -X POST "https://filma.biz/filmaapi/token?api_key=your_api_key" \
+  -H "Content-Type: application/json"
+```
+
+**レスポンス例:**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJvcmdhbml6YXRpb25faWQiOjEsImV4cCI6MTcwNDAwNzIwMCwiaWF0IjoxNzAzOTIwODAwfQ.signature",
+  "token_type": "Bearer",
+  "expires_in": 86400,
+  "expires_at": 1704007200,
+  "user_id": 1,
+  "organization_id": 1,
+  "api_type": "readonly"
+}
 ```
 
 ### 権限レベル
@@ -38,7 +122,138 @@ GET /filmaapi/storage?api_key=your_api_key_here
 
 ### ドメインアクセス制限
 
-APIユーザーごとに許可されたドメインからのアクセスのみが可能です。RefererまたはOriginヘッダーで制御されます。
+**重要**: JWT認証でもドメインアクセス制限が適用されます。これにより二重のセキュリティを実現します。
+
+#### 認証方法別のドメインアクセス制限
+
+1. **APIキー認証**
+   - ユーザーの`api_access_domains`に基づいてドメインチェック
+   - 設定されていない場合はFima APIホストのみ許可
+
+2. **JWT認証（Cookie・Bearer・query parameter共通）**
+   - **Fima APIホストからのアクセス**: 常に許可（管理画面アクセス含む）
+   - **外部ドメインからのアクセス**: ユーザーの`api_access_domains`設定に基づく
+   - APIキーユーザでなくてもアクセス可能です。
+
+#### ドメイン制限の確認方法
+
+RefererまたはOriginヘッダーで制御されます：
+
+```bash
+# 許可されたドメインからのアクセス（成功）
+curl -H "Referer: https://example.com/video.html" \
+     -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+     "https://filma.biz/filmaapi/player/12345"
+
+# 許可されていないドメインからのアクセス（403エラー）
+curl -H "Referer: https://unauthorized.com/video.html" \
+     -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+     "https://filma.biz/filmaapi/player/12345"
+```
+
+### JWTセキュリティ特徴
+
+- **組織分離**: 組織ごとに異なるシークレットキー
+- **自動期限切れ**: デフォルト24時間で無効化
+- **ドメイン制限**: 許可されたドメインからのみアクセス可能
+- **トークンリフレッシュ**: 有効なトークンから新しいトークンを発行可能
+
+## JWT認証API
+
+### JWTトークン発行 `POST /filmaapi/token`
+
+APIキーを使用してJWTトークンを発行します。
+
+#### リクエスト
+
+**ヘッダー認証（推奨）**
+```bash
+curl -X POST "https://filma.biz/filmaapi/token" \
+  -H "X-Api-Key: e47aad55d7fb4f152603b91b" \
+  -H "Content-Type: application/json"
+```
+
+**クエリパラメータ認証**
+```bash
+curl -X POST "https://filma.biz/filmaapi/token?api_key=e47aad55d7fb4f152603b91b" \
+  -H "Content-Type: application/json"
+```
+
+#### レスポンス
+
+**成功時（HTTP 200）**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJvcmdhbml6YXRpb25faWQiOjEsImV4cCI6MTcwNDAwNzIwMCwiaWF0IjoxNzAzOTIwODAwfQ.signature",
+  "token_type": "Bearer",
+  "expires_in": 86400,
+  "expires_at": 1704007200,
+  "user_id": 1,
+  "organization_id": 1,
+  "api_type": "readonly"
+}
+```
+
+**エラー時（HTTP 401）**
+```json
+{
+  "error": "api_key_authentication_failed",
+  "message": "API認証に失敗しました"
+}
+```
+
+### JWTトークン情報取得 `GET /filmaapi/token`
+
+現在のJWTトークンの情報を取得します。
+
+#### リクエスト
+
+```bash
+curl -H "Authorization: Bearer <jwt_token>" \
+  "https://filma.biz/filmaapi/token"
+```
+
+#### レスポンス
+
+**成功時（HTTP 200）**
+```json
+{
+  "user_id": 1,
+  "organization_id": 1,
+  "api_type": "readonly",
+  "expires_at": 1704007200,
+  "issued_at": 1703920800,
+  "is_valid": true,
+  "time_remaining": 86400
+}
+```
+
+### JWTトークンリフレッシュ `POST /filmaapi/token/refresh`
+
+有効なJWTトークンを使用して新しいトークンを発行します。
+
+#### リクエスト
+
+```bash
+curl -X POST "https://filma.biz/filmaapi/token/refresh" \
+  -H "Authorization: Bearer <current_jwt_token>" \
+  -H "Content-Type: application/json"
+```
+
+#### レスポンス
+
+**成功時（HTTP 200）**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJvcmdhbml6YXRpb25faWQiOjEsImV4cCI6MTcwNDAwNzIwMCwiaWF0IjoxNzAzOTIwODAwfQ.new_signature",
+  "token_type": "Bearer",
+  "expires_in": 86400,
+  "expires_at": 1704093600,
+  "user_id": 1,
+  "organization_id": 1,
+  "api_type": "readonly"
+}
+```
 
 ## APIキーの発行方法
 
@@ -140,6 +355,7 @@ curl "https://filma.biz/filmaapi/storage?api_key=a1b2c3d4e5f6789a"
 **401 Unauthorized**
 - APIキーが正しく指定されていない
 - APIキーが無効または削除されている
+- JWTトークンが無効または期限切れ
 
 **403 Forbidden (domain access denied)**
 - アクセス許可ドメインが設定されていない
@@ -152,14 +368,38 @@ curl "https://filma.biz/filmaapi/storage?api_key=a1b2c3d4e5f6789a"
 - 公開されていないファイルにアクセスしようとしている（readonly権限の場合）
 - 存在しないファイルIDを指定している
 
+**JWT認証エラー**
+- トークンの形式が無効
+- トークンの有効期限が切れている
+- 組織のシークレットキーが一致しない
+
 ## エラーレスポンス
+
+### HTTPステータスコード
 
 | HTTPステータス | 説明 |
 |---|---|
-| 401 | 認証エラー（APIキーが無効または未指定） |
-| 403 | 権限エラー（fullaccess権限が必要な操作） |
+| 401 | 認証エラー（APIキー/JWTトークンが無効または未指定） |
+| 403 | 権限エラー（fullaccess権限が必要な操作またはドメインアクセス拒否） |
 | 404 | リソースが見つからない |
 | 500 | サーバー内部エラー |
+
+### JWT認証エラーの詳細レスポンス
+
+JWT認証で期限切れやその他のエラーが発生した場合、詳細なエラー情報がJSON形式で返されます：
+
+```json
+{
+  "error": "jwt_authentication_failed",
+  "message": "JWT認証に失敗しました",
+  "details": {
+    "timestamp": "2023-12-31T23:59:59Z",
+    "request_id": "a1b2c3d4",
+    "action_required": "refresh_token",
+    "refresh_endpoint": "/filmaapi/token"
+  }
+}
+```
 
 ## エンドポイント
 
@@ -177,11 +417,14 @@ GET /filmaapi/storage
 
 | パラメータ名 | 型 | 必須 | デフォルト | 説明 |
 |---|---|---|---|---|
-| api_key | string | ✓ | - | APIキー |
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | - | JWTトークン（APIキー認証時は不要） |
 | page | integer | - | 1 | ページ番号 |
 | per_page | integer | - | 20 | 1ページあたりの件数（最大100） |
 | folder_id | integer | - | - | フォルダID（指定時は該当フォルダのファイルのみ取得） |
 | show_all | boolean | - | false | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 **注意:**
 - デフォルトでは公開されたファイルのみ取得
@@ -247,9 +490,12 @@ GET /filmaapi/storage/{id}
 
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
-| api_key | string | ✓ | APIキー |
+| api_key | string | * | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | ファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 **注意:**
 - デフォルトでは公開されたファイルのみアクセス可能
@@ -260,7 +506,7 @@ GET /filmaapi/storage/{id}
 ```json
 {
   "url": "https://example.com/filmaapi/player/12345?api_key=xxx",
-  "embed_code": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js\"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-12345\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  (function() {\n    function initPlayer() {\n      let elem = document.getElementById('video-12345');\n      if (elem == null) {\n        return;\n      }\n      if (isSafari()) {\n        elem.dataset.src = 'https://example.com/filmaapi/hls/12345.m3u8?api_key=xxx';\n      } else {\n        elem.dataset.src = 'https://example.com/filmaapi/dash/12345.mpd?api_key=xxx';\n      }\n      init_xcream_player('video-12345');\n    }\n    \n    // DOMが既に読み込まれている場合は即座に実行、そうでなければイベントを待機\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', initPlayer);\n    } else {\n      initPlayer();\n    }\n  })();\n</script>",
+  "embed_code": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-12345\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  (function() {\n    function initPlayer() {\n      let elem = document.getElementById('video-12345');\n      if (elem == null) {\n        return;\n      }\n      if (isSafari()) {\n        elem.dataset.src = 'https://example.com/filmaapi/hls/12345.m3u8?api_key=xxx';\n      } else {\n        elem.dataset.src = 'https://example.com/filmaapi/dash/12345.mpd?api_key=xxx';\n      }\n      init_xcream_player('video-12345');\n    }\n    \n    // DOMが既に読み込まれている場合は即座に実行、そうでなければイベントを待機\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', initPlayer);\n    } else {\n      initPlayer();\n    }\n  })();\n</script>",
   "mediafile_id": 12345,
   "screen_shots": [
     "https://example.com/storage/screenshot1.jpg",
@@ -296,9 +542,12 @@ GET /filmaapi/storage/metadata/{id}
 
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
-| api_key | string | ✓ | APIキー |
+| api_key | string | * | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | ファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 **注意:**
 - デフォルトでは公開されたファイルのみアクセス可能
@@ -327,7 +576,7 @@ GET /filmaapi/storage/metadata/{id}
        "filesize_megabyte": 150.5,
        "bitrate_human": "2.5 Mbps",
        "player_url": "https://example.com/filmaapi/player/67890?api_key=xxx",
-       "player_embedding_html": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js\"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-67890\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  (function() {\n    function initPlayer() {\n      let elem = document.getElementById('video-67890');\n      if (elem == null) {\n        return;\n      }\n      if (isSafari()) {\n        elem.dataset.src = 'https://example.com/filmaapi/hls/67890.m3u8?api_key=xxx';\n      } else {\n        elem.dataset.src = 'https://example.com/filmaapi/dash/67890.mpd?api_key=xxx';\n      }\n      init_xcream_player('video-67890');\n    }\n    \n    // DOMが既に読み込まれている場合は即座に実行、そうでなければイベントを待機\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', initPlayer);\n    } else {\n      initPlayer();\n    }\n  })();\n</script>",
+       "player_embedding_html": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-67890\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  (function() {\n    function initPlayer() {\n      let elem = document.getElementById('video-67890');\n      if (elem == null) {\n        return;\n      }\n      if (isSafari()) {\n        elem.dataset.src = 'https://example.com/filmaapi/hls/67890.m3u8?api_key=xxx';\n      } else {\n        elem.dataset.src = 'https://example.com/filmaapi/dash/67890.mpd?api_key=xxx';\n      }\n      init_xcream_player('video-67890');\n    }\n    \n    // DOMが既に読み込まれている場合は即座に実行、そうでなければイベントを待機\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', initPlayer);\n    } else {\n      initPlayer();\n    }\n  })();\n</script>",
        "screen_shots": [
          "https://example.com/storage/screenshot1.jpg",
          "https://example.com/storage/screenshot2.jpg",
@@ -374,7 +623,10 @@ GET /filmaapi/storage/metadata
 
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
-| api_key | string | ✓ | APIキー |
+| api_key | string | * | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 **レスポンス:**
 ```json
@@ -393,7 +645,10 @@ GET /filmaapi/storage/folders
 
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
-| api_key | string | ✓ | APIキー |
+| api_key | string | * | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 **レスポンス例:**
 
@@ -439,8 +694,11 @@ GET /filmaapi/storage/folders/{id}
 
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
-| api_key | string | ✓ | APIキー |
+| api_key | string | * | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | フォルダID |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 **レスポンス例:**
 
@@ -494,8 +752,11 @@ DELETE /filmaapi/storage/{id}
 
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
-| api_key | string | ✓ | APIキー |
+| api_key | string | * | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | ファイルID |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 **レスポンス例:**
 
@@ -563,9 +824,12 @@ GET /filmaapi/player/{id}
 
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
-| api_key | string | ✓ | APIキー |
+| api_key | string | * | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 **エンコードファイルIDについて:**
 - `GET /filmaapi/storage/{id}`の`mediafile_id`フィールドで取得可能
@@ -592,9 +856,12 @@ GET /filmaapi/dash/{id}
 
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
-| api_key | string | ✓ | APIキー |
+| api_key | string | * | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 **エンコードファイルIDについて:**
 - `GET /filmaapi/storage/{id}`の`mediafile_id`フィールドで取得可能
@@ -618,9 +885,12 @@ GET /filmaapi/hls/{id}
 
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
-| api_key | string | ✓ | APIキー |
+| api_key | string | * | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 #### HLSメディア配信
 
@@ -632,9 +902,12 @@ GET /filmaapi/hls/{id}/media
 
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
-| api_key | string | ✓ | APIキー |
+| api_key | string | * | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 #### HLSヘッダー取得
 
@@ -646,9 +919,12 @@ HEAD /filmaapi/hls/{id}
 
 | パラメータ名 | 型 | 必須 | 説明 |
 |---|---|---|---|
-| api_key | string | ✓ | APIキー |
+| api_key | string | * | APIキー（JWT認証時は不要） |
+| jwt_token | string | * | JWTトークン（APIキー認証時は不要） |
 | id | integer | ✓ | エンコードファイルID |
 | show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
 **エンコードファイルIDについて（HLS API共通）:**
 - `GET /filmaapi/storage/{id}`の`mediafile_id`フィールドで取得可能
@@ -710,6 +986,13 @@ APIでは以下の条件でファイルの表示・非表示が制御されま�
 | CORS対応 | ✅ 実装済み |
 | ドメインアクセス制限 | ✅ 実装済み |
 | 共通エラーハンドリング | ✅ 実装済み |
+| **JWT認証システム** | **✅ 実装済み** |
+| JWTトークン発行 | ✅ 実装済み |
+| JWTトークンリフレッシュ | ✅ 実装済み |
+| JWT Cookie自動管理 | ✅ 実装済み |
+| ハイブリッド認証（APIキー+JWT） | ✅ 実装済み |
+| JWT認証でのドメイン制限 | ✅ 実装済み |
+| 管理画面JWT自動発行 | ✅ 実装済み |
 | ファイルアップロード | ❌ 未実装 |
 | エンコード管理 | ❌ 未実装 |
 
@@ -717,121 +1000,107 @@ APIでは以下の条件でファイルの表示・非表示が制御されま�
 
 ### cURLでの使用例
 
+#### APIキー認証を使用した例
+
 ```bash
 # ファイル一覧取得（1ページ目、10件ずつ、公開ファイルのみ）
-curl "https://example.com/filmaapi/storage?api_key=your_api_key&page=1&per_page=10"
+curl "https://filma.biz/filmaapi/storage?api_key=your_api_key&page=1&per_page=10"
 
 # ファイル一覧取得（全ファイル表示 - fullaccess権限のみ）
-curl "https://example.com/filmaapi/storage?api_key=your_api_key&page=1&per_page=10&show_all=true"
+curl "https://filma.biz/filmaapi/storage?api_key=your_api_key&page=1&per_page=10&show_all=true"
 
 # ファイル再生情報取得（公開ファイルのみ）
-curl "https://example.com/filmaapi/storage/12345?api_key=your_api_key"
+curl "https://filma.biz/filmaapi/storage/12345?api_key=your_api_key"
 
 # ファイル再生情報取得（全ファイル表示 - fullaccess権限のみ）
-curl "https://example.com/filmaapi/storage/12345?api_key=your_api_key&show_all=true"
+curl "https://filma.biz/filmaapi/storage/12345?api_key=your_api_key&show_all=true"
 
 # ファイルメタデータ取得（公開ファイルのみ）
-curl "https://example.com/filmaapi/storage/metadata/12345?api_key=your_api_key"
+curl "https://filma.biz/filmaapi/storage/metadata/12345?api_key=your_api_key"
 
 # ファイルメタデータ取得（全ファイル表示 - fullaccess権限のみ）
-curl "https://example.com/filmaapi/storage/metadata/12345?api_key=your_api_key&show_all=true"
+curl "https://filma.biz/filmaapi/storage/metadata/12345?api_key=your_api_key&show_all=true"
 
 # フォルダ一覧取得
-curl "https://example.com/filmaapi/storage/folders?api_key=your_api_key"
+curl "https://filma.biz/filmaapi/storage/folders?api_key=your_api_key"
 
 # フォルダ詳細取得
-curl "https://example.com/filmaapi/storage/folders/100?api_key=your_api_key"
+curl "https://filma.biz/filmaapi/storage/folders/100?api_key=your_api_key"
 
 # ファイル削除
-curl -X DELETE "https://example.com/filmaapi/storage/12345?api_key=your_api_key"
+curl -X DELETE "https://filma.biz/filmaapi/storage/12345?api_key=your_api_key"
 
 # プレイヤー表示（公開ファイルのみ - デフォルト）
-curl "https://example.com/filmaapi/player/12345?api_key=your_api_key"
+curl "https://filma.biz/filmaapi/player/12345?api_key=your_api_key"
 
 # プレイヤー表示（全ファイル表示 - fullaccess権限のみ）
-curl "https://example.com/filmaapi/player/12345?api_key=your_api_key&show_all=true"
+curl "https://filma.biz/filmaapi/player/12345?api_key=your_api_key&show_all=true"
 
 # DASH配信（公開ファイルのみ）
-curl "https://example.com/filmaapi/dash/12345?api_key=your_api_key"
+curl "https://filma.biz/filmaapi/dash/12345?api_key=your_api_key"
 
 # DASH配信（全ファイル表示 - fullaccess権限のみ）
-curl "https://example.com/filmaapi/dash/12345?api_key=your_api_key&show_all=true"
+curl "https://filma.biz/filmaapi/dash/12345?api_key=your_api_key&show_all=true"
 ```
 
-### JavaScriptでの使用例
+#### JWT認証を使用した例
 
-```javascript
-// ファイル一覧取得（公開ファイルのみ）
-const listResponse = await fetch('/filmaapi/storage?api_key=your_api_key&page=1&per_page=20');
-const listData = await listResponse.json();
+```bash
+# 1. APIキーでJWTトークンを発行
+curl -X POST "https://filma.biz/filmaapi/token" \
+  -H "X-Api-Key: your_api_key" \
+  -H "Content-Type: application/json"
 
-console.log('総件数:', listData.pagination.total_count);
-console.log('ファイル一覧:', listData.items);
-// 各ファイルのスクリーンショットを表示
-listData.items.forEach(file => {
-  console.log(`ファイル ${file.filename} のスクリーンショット:`, file.screen_shots);
-});
+# 2. 発行されたJWTトークンを使用してAPIアクセス（Authorization header）
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
+  "https://filma.biz/filmaapi/storage?page=1&per_page=10"
 
-// ファイル一覧取得（全ファイル表示 - fullaccess権限のみ）
-const allListResponse = await fetch('/filmaapi/storage?api_key=your_api_key&page=1&per_page=20&show_all=true');
-const allListData = await allListResponse.json();
+# 3. JWTトークンを使用してAPIアクセス（query parameter）
+curl "https://filma.biz/filmaapi/storage?jwt_token=eyJhbGciOiJIUzI1NiJ9...&page=1&per_page=10"
 
-console.log('全ファイル総件数:', allListData.pagination.total_count);
-console.log('全ファイル一覧:', allListData.items);
+# 4. ファイル再生情報取得（JWT認証）
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
+  "https://filma.biz/filmaapi/storage/12345"
 
-// ファイル再生情報取得（公開ファイルのみ）
-const playerResponse = await fetch('/filmaapi/storage/12345?api_key=your_api_key');
-const playerData = await playerResponse.json();
+# 5. ファイルメタデータ取得（JWT認証）
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
+  "https://filma.biz/filmaapi/storage/metadata/12345"
 
-console.log('再生URL:', playerData.url);
-console.log('埋め込みコード:', playerData.embed_code);
-console.log('スクリーンショット:', playerData.screen_shots);
+# 6. プレイヤー表示（JWT認証）
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
+  "https://filma.biz/filmaapi/player/12345"
 
-// ファイル再生情報取得（全ファイル表示 - fullaccess権限のみ）
-const allPlayerResponse = await fetch('/filmaapi/storage/12345?api_key=your_api_key&show_all=true');
-const allPlayerData = await allPlayerResponse.json();
+# 7. DASH配信（JWT認証）
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
+  "https://filma.biz/filmaapi/dash/12345"
 
-console.log('全ファイル再生URL:', allPlayerData.url);
-console.log('全ファイル埋め込みコード:', allPlayerData.embed_code);
+# 8. HLS配信（JWT認証）
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
+  "https://filma.biz/filmaapi/hls/12345"
 
-// ファイルメタデータ取得（公開ファイルのみ）
-const metadataResponse = await fetch('/filmaapi/storage/metadata/12345?api_key=your_api_key');
-const metadataData = await metadataResponse.json();
+# 9. トークンリフレッシュ
+curl -X POST "https://filma.biz/filmaapi/token/refresh" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
+  -H "Content-Type: application/json"
 
-// ファイルメタデータ取得（全ファイル表示 - fullaccess権限のみ）
-const allMetadataResponse = await fetch('/filmaapi/storage/metadata/12345?api_key=your_api_key&show_all=true');
-const allMetadataData = await allMetadataResponse.json();
+# 10. トークン情報取得
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
+  "https://filma.biz/filmaapi/token"
+```
 
-console.log('メタデータ:', metadataData);
-console.log('スクリーンショット:', metadataData.screen_shots);
-console.log('プレイヤーデータ:', metadataData.player_data);
+#### 管理画面での自動JWT認証（Cookie）
 
-console.log('全ファイルメタデータ:', allMetadataData);
-console.log('全ファイルスクリーンショット:', allMetadataData.screen_shots);
-console.log('全ファイルプレイヤーデータ:', allMetadataData.player_data);
-
-// フォルダ一覧取得
-const foldersResponse = await fetch('/filmaapi/storage/folders?api_key=your_api_key');
-const foldersData = await foldersResponse.json();
-
-console.log('フォルダ一覧:', foldersData);
-
-// フォルダ詳細取得
-const folderResponse = await fetch('/filmaapi/storage/folders/100?api_key=your_api_key');
-const folderData = await folderResponse.json();
-
-console.log('フォルダ詳細:', folderData);
-
-// プレイヤー表示（公開ファイルのみ - デフォルト）
-window.open('/filmaapi/player/12345?api_key=your_api_key', '_blank');
-
-// プレイヤー表示（全ファイル表示 - fullaccess権限のみ）
-window.open('/filmaapi/player/12345?api_key=your_api_key&show_all=true', '_blank');
+```bash
+curl -H "Cookie: filma_jwt_token=eyJhbGciOiJIUzI1NiJ9..." \
+  "https://filma.biz/filmaapi/storage"
 ```
 
 ## 注意事項
 
-- APIキーは各リクエストに必要です
+- APIキー認証またはJWT認証が各リクエストに必要です
+- JWT認証は3つの方法（Authorization header、query parameter、Cookie）で利用可能です
+- 管理画面にログインすると、JWTトークンが自動でCookieに設定されます
 - fullaccess権限が必要な操作は明記されています
 - ページングは最大100件まで取得可能です
 - エラーが発生した場合は適切なHTTPステータスコードが返されます
+- JWT認証でもドメインアクセス制限が適用されます
