@@ -1,4 +1,4 @@
-# Filma - 動画配信プラットフォーム (PaaS配信
+# Filma - 動画配信プラットフォーム (PaaS)
 **Filma**は、開発者向けの動画配信プラットフォーム (Platform as a Service) です。
 本リポジトリでは、Filmaの[APIリファレンス](api_specification.md)やサンプルコードを公開しています。ご契約前から使用感をご確認いただけますので、ぜひお試しください。
 
