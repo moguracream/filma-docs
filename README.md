@@ -73,7 +73,8 @@ Filmaは現在、機能追加や拡張を積極的に行っています。「こ
 ## 📜 ご利用規約
 
 [ご利用規約](terms_of_service_template.md)
+[サービスレベルアグリーメント](service_level_agreement.md)
 
-## 提供会社
+## 🏢 提供会社
 
 [株式会社クリーム](https://cream.co.jp/)
