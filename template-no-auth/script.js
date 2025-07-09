@@ -49,7 +49,7 @@ function loadFileList(listElement) {
 function loadFileListByFolder(container) {
   if (!container) return;
 
-  const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
+  const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}${USE_SHOW_ALL ? "&show_all=true" : ""}&per_page=100`;
   fetch(url)
     .then(res => {
       if (!res.ok) {
@@ -98,7 +98,7 @@ function loadFileListByFolder(container) {
 
           const caption = document.createElement('div');
           caption.className = 'small text-center text-break mt-1';
-          caption.textContent = file.filename;
+          caption.innerHTML = file.filename + "<br>" + file.published_status_text;
 
           link.classList.add('d-block', 'text-decoration-none');
           link.appendChild(img);
@@ -195,7 +195,11 @@ function buildMetadataHtml(data) {
     ['Created', data.created_at],
     ['Updated', data.updated_at],
     ['Creator', data.creator],
-    ['Updater', data.updater]
+    ['Updater', data.updater],
+    ['published', data.published],
+    ['published_until', data.published_until],
+    ['published_with_expiry', data.published_with_expiry],
+    ['published_status_text', data.published_status_text],
   ];
 
   // HTML を組み立てていく
