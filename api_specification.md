@@ -201,6 +201,10 @@ GET /filmaapi/storage
       "updated_at": "2024-01-01T10:00:00Z",
       "creator": "山田太郎",
       "updater": "山田太郎",
+      "published": true,
+      "published_until": "2024-12-31T23:59:00Z",
+      "published_with_expiry": true,
+      "published_status_text": "公開（2024/12/31 23:59まで）",
       "screen_shots": [
         "https://example.com/storage/screenshot1.jpg",
         "https://example.com/storage/screenshot2.jpg",
@@ -230,6 +234,10 @@ GET /filmaapi/storage
 | items[].updated_at | string | ファイル更新日時（ISO 8601形式） |
 | items[].creator | string | ファイル作成者名 |
 | items[].updater | string | ファイル更新者名 |
+| items[].published | boolean | 公開状態（true: 公開設定, false: 非公開設定） |
+| items[].published_until | string \| null | 公開期限（ISO 8601形式、nullの場合は期限なし） |
+| items[].published_with_expiry | boolean | 公開期限を考慮した実際の公開状態 |
+| items[].published_status_text | string | 公開状態の表示文字列（「公開」「公開（期限付き）」「公開期限切れ」「非公開」） |
 | items[].screen_shots | array | スクリーンショット画像のURL配列 |
 | pagination | object | ページング情報 |
 | pagination.current_page | integer | 現在のページ番号 |
@@ -316,6 +324,10 @@ GET /filmaapi/storage/metadata/{id}
   "updated_at": "2024-01-01T10:00:00Z",
   "creator": "山田太郎",
   "updater": "山田太郎",
+  "published": true,
+  "published_until": "2024-12-31T23:59:00Z",
+  "published_with_expiry": true,
+  "published_status_text": "公開（2024/12/31 23:59まで）",
   "screen_shots": [
     "https://example.com/storage/screenshot1.jpg",
     "https://example.com/storage/screenshot2.jpg",
@@ -350,6 +362,10 @@ GET /filmaapi/storage/metadata/{id}
 | updated_at | string | ファイル更新日時（ISO 8601形式） |
 | creator | string | ファイル作成者名 |
 | updater | string | ファイル更新者名 |
+| published | boolean | 公開状態（true: 公開設定, false: 非公開設定） |
+| published_until | string \| null | 公開期限（ISO 8601形式、nullの場合は期限なし） |
+| published_with_expiry | boolean | 公開期限を考慮した実際の公開状態 |
+| published_status_text | string | 公開状態の表示文字列（「公開」「公開（期限付き）」「公開期限切れ」「非公開」） |
 | screen_shots | array | ファイル全体のスクリーンショット画像URL配列 |
 | player_data | array | エンコード済みファイル（解像度別）の情報配列 |
 | player_data[].resolution_string | string | 解像度の表示文字列（例：「HD 1280x720」） |
@@ -670,6 +686,17 @@ APIでは以下の条件でファイルの表示・非表示が制御されま�
 
 2. **公開ファイルのみ表示**の場合：
    - 公開設定されたファイルのみアクセス可能
+   - **公開期限も考慮**: 公開期限が設定されている場合、現在時刻が期限内のファイルのみアクセス可能
+
+### 公開期限機能
+
+- **published_until**: ファイルの公開期限を設定可能（null = 期限なし）
+- **published_with_expiry**: 公開期限を考慮した実際の公開状態を返す
+- **published_status_text**: 公開状態の表示文字列を返す
+  - 「公開」: 期限なしで公開中
+  - 「公開（2024/12/31 23:59まで）」: 期限付きで公開中
+  - 「公開期限切れ」: 公開設定だが期限切れ
+  - 「非公開」: 非公開設定
 
 ### ページング制限
 
@@ -707,6 +734,7 @@ APIでは以下の条件でファイルの表示・非表示が制御されま�
 | DASH配信 | ✅ 実装済み |
 | HLS配信 | ✅ 実装済み |
 | 公開状態チェック機能 | ✅ 実装済み |
+| 公開期限機能 | ✅ 実装済み |
 | CORS対応 | ✅ 実装済み |
 | ドメインアクセス制限 | ✅ 実装済み |
 | 共通エラーハンドリング | ✅ 実装済み |
@@ -770,6 +798,10 @@ console.log('ファイル一覧:', listData.items);
 // 各ファイルのスクリーンショットを表示
 listData.items.forEach(file => {
   console.log(`ファイル ${file.filename} のスクリーンショット:`, file.screen_shots);
+  console.log(`公開状態: ${file.published_status_text}`);
+  if (file.published_until) {
+    console.log(`公開期限: ${file.published_until}`);
+  }
 });
 
 // ファイル一覧取得（全ファイル表示 - fullaccess権限のみ）
@@ -805,10 +837,13 @@ const allMetadataData = await allMetadataResponse.json();
 console.log('メタデータ:', metadataData);
 console.log('スクリーンショット:', metadataData.screen_shots);
 console.log('プレイヤーデータ:', metadataData.player_data);
+console.log('公開状態:', metadataData.published_status_text);
+console.log('公開期限考慮後の公開状態:', metadataData.published_with_expiry);
 
 console.log('全ファイルメタデータ:', allMetadataData);
 console.log('全ファイルスクリーンショット:', allMetadataData.screen_shots);
 console.log('全ファイルプレイヤーデータ:', allMetadataData.player_data);
+console.log('全ファイル公開状態:', allMetadataData.published_status_text);
 
 // フォルダ一覧取得
 const foldersResponse = await fetch('/filmaapi/storage/folders?api_key=your_api_key');
