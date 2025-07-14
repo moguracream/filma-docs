@@ -481,6 +481,7 @@ GET /filmaapi/storage
     {
       "id": 12345,
       "filename": "sample_video.mp4",
+      "mediafile_id": 12345,
       "folder_id": 100,
       "folder_name": "動画フォルダ",
       "created_at": "2024-01-01T10:00:00Z",
@@ -514,6 +515,7 @@ GET /filmaapi/storage
 | items | array | ファイル情報の配列 |
 | items[].id | integer | ファイルの一意識別子 |
 | items[].filename | string | ファイル名 |
+| items[].mediafile_id | integer | メディアファイルID（プレイヤーやストリーミングで使用） |
 | items[].folder_id | integer | 所属フォルダのID |
 | items[].folder_name | string | 所属フォルダの名前 |
 | items[].created_at | string | ファイル作成日時（ISO 8601形式） |
@@ -609,6 +611,7 @@ GET /filmaapi/storage/metadata/{id}
 ```json
 {
   "id": 12345,
+  "mediafile_id": 12345,
   "name": "sample_video.mp4",
   "folder_id": 100,
   "folder_name": "動画フォルダ",
@@ -647,6 +650,7 @@ GET /filmaapi/storage/metadata/{id}
 | フィールド名 | 型 | 説明 |
 |---|---|---|
 | id | integer | ファイルの一意識別子 |
+| mediafile_id | integer | メディアファイルID（プレイヤーやストリーミングで使用） |
 | name | string | ファイル名 |
 | folder_id | integer | 所属フォルダのID |
 | folder_name | string | 所属フォルダの名前 |
