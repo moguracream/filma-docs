@@ -20,7 +20,7 @@ Filma APIは2つの認証方法を併用できます：
 複数の認証情報が提供された場合、以下の優先順位で認証を試行します：
 
 1. **JWT認証（Authorization header）**: `Authorization: Bearer <jwt_token>`
-2. **JWT認証（Cookie）**: `filma_jwt_token` Cookie
+2. **JWT認証（Cookie）**: `filmajwt` Cookie
 3. **JWT認証（query parameter）**: `?jwt=<jwt_token>`
 4. **APIキー認証（X-Api-Key header）**: `X-Api-Key: <api_key>`
 5. **APIキー認証（query parameter）**: `?api_key=<api_key>`
@@ -56,7 +56,7 @@ curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
 #### 2. Cookie（自動管理）
 
 ```bash
-curl -H "Cookie: filma_jwt_token=eyJhbGciOiJIUzI1NiJ9..." \
+curl -H "Cookie: filmajwt=eyJhbGciOiJIUzI1NiJ9..." \
   "https://filma.biz/filmaapi/storage"
 ```
 
@@ -158,15 +158,17 @@ curl -H "Referer: https://any-domain.com/video.html" \
 ### JWTセキュリティ特徴
 
 - **組織分離**: 組織ごとに異なるシークレットキー
-- **自動期限切れ**: デフォルト24時間で無効化
+- **自動期限切れ**: デフォルト1時間で無効化
 - **ドメイン制限なし**: どのドメインからでもアクセス可能（セキュリティはトークン有効性で担保）
 - **トークンリフレッシュ**: 有効なトークンから新しいトークンを発行可能
+- **Cookie自動設定**: HTTPS環境でのJWTトークン発行時にCookieが自動設定される
+- **CSRF保護**: SameSite=Lax設定により、外部サイトからのPOSTリクエストを自動的に保護
 
 ## JWT認証API
 
 ### JWTトークン発行 `POST /filmaapi/token`
 
-APIキーを使用してJWTトークンを発行します。
+APIキーを使用してJWTトークンを発行します。発行されたJWTトークンは、JSONレスポンスで返却されると同時に、HTTPS環境では自動的にCookieとしても設定されます。
 
 #### リクエスト
 
@@ -197,6 +199,24 @@ curl -X POST "https://filma.biz/filmaapi/token?api_key=e47aad55d7fb4f152603b91b"
   "api_type": "readonly"
 }
 ```
+
+**JWTトークンCookie設定（HTTPS環境でのみ）**
+```
+Set-Cookie: filmajwt=eyJhbGciOiJIUzI1NiJ9...; Expires=Mon, 01 Jan 2024 12:00:00 GMT; Path=/; Secure; HttpOnly; SameSite=Lax
+```
+
+**Cookieの特徴**
+- **自動設定**: JWTトークン発行時にHTTPS環境で自動的にCookieが設定される
+- **セキュリティ**: `HttpOnly`でJavaScriptからのアクセスを防止
+- **SameSite=Lax**: 外部サイトからのGETリクエストを許可、POSTリクエストを保護
+- **期限**: JWTトークンと同じ有効期限
+- **利便性**: 次回以降のAPIアクセスでCookie認証が利用可能
+
+**SameSite=Laxの動作**
+- **同一サイト**: 全てのリクエストでCookieが送信される
+- **外部サイト（GET）**: 動画プレイヤーや埋め込みコンテンツでCookieが送信される
+- **外部サイト（POST）**: CSRF攻撃を防止するため、Cookieは送信されない
+- **スクリプトからのアクセス**: curl、Python、Node.js等では制限なし
 
 **エラー時（HTTP 401）**
 ```json
@@ -424,7 +444,7 @@ JWT認証で期限切れやその他のエラーが発生した場合、詳細�
 - 認証ヘッダーまたはCookieを使用する場合は、対応するクエリパラメーターは不要です：
   - `Authorization: Bearer`ヘッダー使用時 → `jwt`パラメーター不要
   - `X-Api-Key`ヘッダー使用時 → `api_key`パラメーター不要
-  - `filma_jwt_token` Cookie使用時 → `jwt`パラメーター不要
+  - `filmajwt` Cookie使用時 → `jwt`パラメーター不要
 
 ### Storage API
 
@@ -1098,13 +1118,17 @@ curl "https://filma.biz/filmaapi/dash/12345?api_key=your_api_key&show_all=true"
 #### JWT認証を使用した例
 
 ```bash
-# 1. APIキーでJWTトークンを発行
+# 1. APIキーでJWTトークンを発行（JWTトークンは自動的にCookieとしても設定される）
 curl -X POST "https://filma.biz/filmaapi/token" \
   -H "X-Api-Key: your_api_key" \
   -H "Content-Type: application/json"
 
 # 2. 発行されたJWTトークンを使用してAPIアクセス（Authorization header）
 curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
+  "https://filma.biz/filmaapi/storage?page=1&per_page=10"
+
+# 2-2. または、自動設定されたCookieを使用してアクセス
+curl -H "Cookie: filmajwt=eyJhbGciOiJIUzI1NiJ9..." \
   "https://filma.biz/filmaapi/storage?page=1&per_page=10"
 
 # 3. ファイル再生情報取得（JWT認証）
@@ -1140,16 +1164,37 @@ curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
 #### 管理画面での自動JWT認証（Cookie）
 
 ```bash
-curl -H "Cookie: filma_jwt_token=eyJhbGciOiJIUzI1NiJ9..." \
+curl -H "Cookie: filmajwt=eyJhbGciOiJIUzI1NiJ9..." \
   "https://filma.biz/filmaapi/storage"
 ```
 
 ### JavaScriptでの使用例
 
 ```javascript
-// ファイル一覧取得（公開ファイルのみ）
-const listResponse = await fetch('/filmaapi/storage?api_key=your_api_key&page=1&per_page=20');
+// 1. APIキーでJWTトークンを発行（ブラウザ環境では自動的にCookieが設定される）
+const tokenResponse = await fetch('/filmaapi/token', {
+  method: 'POST',
+  headers: {
+    'X-Api-Key': 'your_api_key',
+    'Content-Type': 'application/json'
+  }
+});
+const tokenData = await tokenResponse.json();
+console.log('発行されたJWTトークン:', tokenData.token);
+
+// 2. JWTトークンを使ってAPIアクセス（Cookie認証 - 自動的に送信される）
+const listResponse = await fetch('/filmaapi/storage?page=1&per_page=20', {
+  credentials: 'include'  // Cookieを含めて送信
+});
 const listData = await listResponse.json();
+
+// 3. または、Authorization headerを使用
+const listResponseWithHeader = await fetch('/filmaapi/storage?page=1&per_page=20', {
+  headers: {
+    'Authorization': `Bearer ${tokenData.token}`
+  }
+});
+const listDataWithHeader = await listResponseWithHeader.json();
 
 console.log('総件数:', listData.pagination.total_count);
 console.log('ファイル一覧:', listData.items);
