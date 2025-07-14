@@ -630,6 +630,7 @@ GET /filmaapi/storage/metadata/{id}
   ],
   "player_data": [
      {
+       "mediafile_id": 67890,
        "resolution_string": "HD 1280x720",
        "filesize_megabyte": 150.5,
        "bitrate_human": "2.5 Mbps",
@@ -664,6 +665,7 @@ GET /filmaapi/storage/metadata/{id}
 | published_status_text | string | 公開状態の表示文字列（「公開」「公開（期限付き）」「公開期限切れ」「非公開」） |
 | screen_shots | array | ファイル全体のスクリーンショット画像URL配列 |
 | player_data | array | エンコード済みファイル（解像度別）の情報配列 |
+| player_data[].mediafile_id | integer | エンコード済みファイルのメディアファイルID |
 | player_data[].resolution_string | string | 解像度の表示文字列（例：「HD 1280x720」） |
 | player_data[].filesize_megabyte | number | ファイルサイズ（MB） |
 | player_data[].bitrate_human | string | ビットレートの人間が読める形式（例：「2.5 Mbps」） |
