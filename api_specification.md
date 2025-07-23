@@ -19,11 +19,13 @@ Filma APIは2つの認証方法を併用できます：
 
 複数の認証情報が提供された場合、以下の優先順位で認証を試行します：
 
-1. **JWT認証（Authorization header）**: `Authorization: Bearer <jwt_token>`
-2. **JWT認証（Cookie）**: `filmajwt` Cookie
-3. **JWT認証（query parameter）**: `?jwt=<jwt_token>`
+1. **JWT認証（query parameter）**: `?jwt=<jwt_token>` （ストリーミング用途での明示的指定を最優先）
+2. **JWT認証（Authorization header）**: `Authorization: Bearer <jwt_token>`
+3. **JWT認証（Cookie）**: `filmajwt` Cookie
 4. **APIキー認証（X-Api-Key header）**: `X-Api-Key: <api_key>`
 5. **APIキー認証（query parameter）**: `?api_key=<api_key>`
+
+**注意**: URLパラメータでのJWT指定を最優先とすることで、ストリーミングURL生成時の新しいJWTが確実に使用され、ブラウザの古いCookieによる意図しない期限切れを防止します。
 
 ### APIキー認証
 
@@ -170,6 +172,15 @@ curl -H "Referer: https://any-domain.com/video.html" \
 
 APIキーを使用してJWTトークンを発行します。発行されたJWTトークンは、JSONレスポンスで返却されると同時に、HTTPS環境では自動的にCookieとしても設定されます。
 
+#### パラメータ
+
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | ✓ | - | APIキー（X-Api-Keyヘッダーまたはクエリパラメータで指定） |
+| expires_in | integer | - | 3600 | JWT有効期限（秒）。最大7日間（604800秒） |
+| jwt_expires_at | string | - | - | JWT有効期限をISO 8601形式で指定（expires_inより優先） |
+| mediafile_id | integer | - | - | 特定のメディアファイルに限定したJWT発行（セキュリティ強化） |
+
 #### リクエスト
 
 **ヘッダー認証（推奨）**
@@ -185,20 +196,58 @@ curl -X POST "https://filma.biz/filmaapi/token?api_key=e47aad55d7fb4f152603b91b"
   -H "Content-Type: application/json"
 ```
 
+**メディアファイル固有JWT発行**
+```bash
+curl -X POST "https://filma.biz/filmaapi/token" \
+  -H "X-Api-Key: e47aad55d7fb4f152603b91b" \
+  -H "Content-Type: application/json" \
+  -d '{"mediafile_id": 12345, "expires_in": 7200}'
+```
+
 #### レスポンス
 
 **成功時（HTTP 200）**
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJvcmdhbml6YXRpb25faWQiOjEsImV4cCI6MTcwNDAwNzIwMCwiaWF0IjoxNzAzOTIwODAwfQ.signature",
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MDQwMDcyMDAsImlhdCI6MTcwMzkyMDgwMCwibWVkaWFmaWxlX2lkIjoxMjM0NX0.signature",
   "token_type": "Bearer",
   "expires_in": 86400,
   "expires_at": 1704007200,
   "user_id": 1,
   "organization_id": 1,
-  "api_type": "readonly"
+  "api_type": "readonly",
+  "mediafile_id": 12345
 }
 ```
+
+**JWTペイロード構造**
+
+発行されたJWTトークンには以下の情報が含まれます：
+
+```json
+{
+  "user_id": 1,
+  "api_type": "readonly",
+  "auth_method": "api_key",
+  "mediafile_id": 12345,
+  "iat": 1703920800,
+  "exp": 1704007200
+}
+```
+
+| フィールド名 | 型 | 説明 |
+|---|---|---|
+| user_id | integer | ユーザーID |
+| api_type | string | API権限レベル（readonly, fullaccess） |
+| auth_method | string | 認証方法（api_key, session_login, jwt_refresh等） |
+| mediafile_id | integer \| null | メディアファイル固有JWT時のファイルID。指定時はそのファイルのみアクセス可能 |
+| iat | integer | トークン発行時刻（UnixTimestamp） |
+| exp | integer | トークン有効期限（UnixTimestamp） |
+
+**メディアファイル固有JWT**
+- `mediafile_id`を指定してJWTを発行した場合、そのJWTは指定されたメディアファイルのみアクセス可能
+- ストリーミングやプレイヤーアクセス時に、JWTのmediafile_idとリクエストされたファイルIDが一致しない場合は403エラー
+- セキュリティ強化により不正なアクセスを防止
 
 **JWTトークンCookie設定（HTTPS環境でのみ）**
 ```
@@ -450,6 +499,38 @@ JWT認証で期限切れやその他のエラーが発生した場合、詳細�
 
 ファイルの管理と配信を行います。
 
+#### 共通パラメータ
+
+**jwt_expires_at パラメータについて:**
+
+`jwt_expires_at`パラメータは、API応答で返されるプレイヤーURLや埋め込みコードに使用されるJWTトークンの有効期限を指定するためのパラメータです。
+
+| 項目 | 説明 |
+|---|---|
+| **形式** | ISO 8601形式の日時文字列（例：`2024-12-31T23:59:59Z`） |
+| **目的** | 生成されるJWTトークンの有効期限を制御 |
+| **デフォルト値** | 未指定時は現在時刻+1時間 |
+| **使用場面** | プレイヤーURL、埋め込みコード生成時 |
+
+**使用例:**
+
+```bash
+# 2024年12月31日 23:59:59 UTC まで有効なJWTを含むプレイヤーURLを生成
+curl -H "X-Api-Key: your_api_key" \
+  "https://filma.biz/filmaapi/storage/12345?jwt_expires_at=2024-12-31T23:59:59Z"
+```
+
+**動作:**
+- 指定された日時まで有効なJWTトークンが自動生成される
+- 生成されたJWTは該当メディアファイル専用（mediafile_id付き）
+- プレイヤーURLと埋め込みコードに含まれるすべてのJWTトークンに適用
+- 無効な日時形式の場合は400エラー
+
+**注意事項:**
+- 過去の日時を指定した場合、即座に期限切れとなる
+- 最大有効期限は7日間（システム制限）
+- JWTトークンの有効期限はストリーミング再生時間を考慮して設定することを推奨
+
 #### ファイル一覧取得
 
 ```
@@ -541,12 +622,13 @@ GET /filmaapi/storage/{id}
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
-| id | integer | ✓ | ファイルID |
-| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
+| id | integer | ✓ | - | ファイルID |
+| show_all | boolean | - | false | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+| jwt_expires_at | string | - | 現在時刻+1時間 | 生成されるJWTトークンの有効期限をISO 8601形式で指定 |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -558,8 +640,9 @@ GET /filmaapi/storage/{id}
 
 ```json
 {
-  "url": "https://example.com/filmaapi/player/12345?api_key=xxx",
-  "embed_code": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-12345\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  (function() {\n    function initPlayer() {\n      let elem = document.getElementById('video-12345');\n      if (elem == null) {\n        return;\n      }\n      if (isSafari()) {\n        elem.dataset.src = 'https://example.com/filmaapi/hls/12345.m3u8?api_key=xxx';\n      } else {\n        elem.dataset.src = 'https://example.com/filmaapi/dash/12345.mpd?api_key=xxx';\n      }\n      init_xcream_player('video-12345');\n    }\n    \n    // DOMが既に読み込まれている場合は即座に実行、そうでなければイベントを待機\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', initPlayer);\n    } else {\n      initPlayer();\n    }\n  })();\n</script>",
+  "url": "https://example.com/filmaapi/player/12345?jwt=eyJhbGciOiJIUzI1NiJ9...",
+  "embed_code": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js\"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-12345\" class=\"filma-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  document.addEventListener('DOMContentLoaded', function() {\n    let elem = document.getElementById('video-12345');\n    if (elem == null) {\n      return;\n    }\n    if (isSafari()) {\n      elem.dataset.src = 'https://example.com/filmaapi/hls/12345.m3u8?jwt=eyJhbGciOiJIUzI1NiJ9...';\n    } else {\n      elem.dataset.src = 'https://example.com/filmaapi/dash/12345.mpd?jwt=eyJhbGciOiJIUzI1NiJ9...';\n    }\n    init_xcream_player('video-12345');\n  });\n</script>",
+  "simple_embed_code": "<div id=\"video-12345\" class=\"filma-video\" data-drm=\"true\" style=\"width: 100%;\"></div>",
   "mediafile_id": 12345,
   "screen_shots": [
     "https://example.com/storage/screenshot1.jpg",
@@ -573,17 +656,29 @@ GET /filmaapi/storage/{id}
 
 | フィールド名 | 型 | 説明 |
 |---|---|---|
-| url | string | プレイヤーページのURL |
-| embed_code | string | HTMLに埋め込み可能なプレイヤーコード |
+| url | string | プレイヤーページのURL（JWTトークン付き） |
+| embed_code | string | 完全なHTMLプレイヤー埋め込みコード（JS/CSS込み） |
+| simple_embed_code | string | シンプルなHTML埋め込みコード（JS/CSSは別途読み込みが必要） |
 | mediafile_id | integer | エンコード済みファイルの識別子 |
 | screen_shots | array | スクリーンショット画像のURL配列 |
 **補足:**
-返された`embed_code`をページに貼り付けただけでは再生できません。以下のJavaScriptとCSSをHTMLに読み込んでください。
+
+**完全な埋め込みコード（embed_code）**: スクリプトとCSSが含まれているため、そのままページに貼り付けるだけで動作します。
+
+**シンプルな埋め込みコード（simple_embed_code）**: HTMLの`<div>`要素のみです。以下のJavaScriptとCSSを別途HTMLに読み込む必要があります：
 
 ```html
 <script src="https://filma.biz/dash_player/js/xcream_player.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://filma.biz/dash_player/css/style.css">
+<script>
+  // 初期化処理
+  document.addEventListener('DOMContentLoaded', function() {
+    init_xcream_player('video-12345'); // video-{mediafile_id}を指定
+  });
+</script>
 ```
+
+**JWT認証について**: 生成されるプレイヤーURLと埋め込みコードには、リクエストした時点でのユーザー権限に基づいた専用JWTトークンが含まれます。このJWTは該当メディアファイルのみアクセス可能で、セキュリティが強化されています。
 
 #### ファイルメタデータ取得
 
@@ -593,12 +688,13 @@ GET /filmaapi/storage/metadata/{id}
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
-| id | integer | ✓ | ファイルID |
-| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
+| id | integer | ✓ | - | ファイルID |
+| show_all | boolean | - | false | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+| jwt_expires_at | string | - | 現在時刻+1時間 | 生成されるJWTトークンの有効期限をISO 8601形式で指定 |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -634,8 +730,9 @@ GET /filmaapi/storage/metadata/{id}
        "resolution_string": "HD 1280x720",
        "filesize_megabyte": 150.5,
        "bitrate_human": "2.5 Mbps",
-       "player_url": "https://example.com/filmaapi/player/67890?api_key=xxx",
-       "player_embedding_html": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-67890\" class=\"sample-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  (function() {\n    function initPlayer() {\n      let elem = document.getElementById('video-67890');\n      if (elem == null) {\n        return;\n      }\n      if (isSafari()) {\n        elem.dataset.src = 'https://example.com/filmaapi/hls/67890.m3u8?api_key=xxx';\n      } else {\n        elem.dataset.src = 'https://example.com/filmaapi/dash/67890.mpd?api_key=xxx';\n      }\n      init_xcream_player('video-67890');\n    }\n    \n    // DOMが既に読み込まれている場合は即座に実行、そうでなければイベントを待機\n    if (document.readyState === 'loading') {\n      document.addEventListener('DOMContentLoaded', initPlayer);\n    } else {\n      initPlayer();\n    }\n  })();\n</script>",
+       "player_url": "https://example.com/filmaapi/player/67890?jwt=eyJhbGciOiJIUzI1NiJ9...",
+       "player_embedding_html": "<script src=\"https://example.com/dash_player/js/xcream_player.min.js\"></script>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://example.com/dash_player/css/style.css\">\n<div id=\"video-67890\" class=\"filma-video\" data-drm=\"true\" style=\"width: 100%;\"></div>\n<script>\n  document.addEventListener('DOMContentLoaded', function() {\n    let elem = document.getElementById('video-67890');\n    if (elem == null) {\n      return;\n    }\n    if (isSafari()) {\n      elem.dataset.src = 'https://example.com/filmaapi/hls/67890.m3u8?jwt=eyJhbGciOiJIUzI1NiJ9...';\n    } else {\n      elem.dataset.src = 'https://example.com/filmaapi/dash/67890.mpd?jwt=eyJhbGciOiJIUzI1NiJ9...';\n    }\n    init_xcream_player('video-67890');\n  });\n</script>",
+       "player_embedding_html_simple": "<div id=\"video-67890\" class=\"filma-video\" data-drm=\"true\" style=\"width: 100%;\"></div>",
        "screen_shots": [
          "https://example.com/storage/screenshot1.jpg",
          "https://example.com/storage/screenshot2.jpg",
@@ -669,8 +766,9 @@ GET /filmaapi/storage/metadata/{id}
 | player_data[].resolution_string | string | 解像度の表示文字列（例：「HD 1280x720」） |
 | player_data[].filesize_megabyte | number | ファイルサイズ（MB） |
 | player_data[].bitrate_human | string | ビットレートの人間が読める形式（例：「2.5 Mbps」） |
-| player_data[].player_url | string | 該当解像度ファイルのプレイヤーページURL |
-| player_data[].player_embedding_html | string | 該当解像度ファイル用の埋め込みHTMLコード |
+| player_data[].player_url | string | 該当解像度ファイルのプレイヤーページURL（JWTトークン付き） |
+| player_data[].player_embedding_html | string | 該当解像度ファイル用の完全な埋め込みHTMLコード（JS/CSS込み） |
+| player_data[].player_embedding_html_simple | string | 該当解像度ファイル用のシンプルな埋め込みHTMLコード（JS/CSSは別途読み込みが必要） |
 | player_data[].screen_shots | array | 該当解像度ファイルのスクリーンショット画像URL配列 |
 
 **player_dataについて:**
@@ -686,10 +784,10 @@ GET /filmaapi/storage/metadata
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -708,10 +806,10 @@ GET /filmaapi/storage/folders
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -757,11 +855,11 @@ GET /filmaapi/storage/folders/{id}
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
-| id | integer | ✓ | フォルダID |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
+| id | integer | ✓ | - | フォルダID |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -799,10 +897,10 @@ POST /filmaapi/storage
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
 
 *注: 現在未実装です。*
 
@@ -816,11 +914,11 @@ DELETE /filmaapi/storage/{id}
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
-| id | integer | ✓ | ファイルID |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
+| id | integer | ✓ | - | ファイルID |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -888,12 +986,12 @@ GET /filmaapi/player/{id}
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
-| id | integer | ✓ | エンコードファイルID |
-| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
+| id | integer | ✓ | - | エンコードファイルID |
+| show_all | boolean | - | false | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -920,12 +1018,12 @@ GET /filmaapi/dash/{id}
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
-| id | integer | ✓ | エンコードファイルID |
-| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
+| id | integer | ✓ | - | エンコードファイルID |
+| show_all | boolean | - | false | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -949,12 +1047,12 @@ GET /filmaapi/hls/{id}
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
-| id | integer | ✓ | エンコードファイルID |
-| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
+| id | integer | ✓ | - | エンコードファイルID |
+| show_all | boolean | - | false | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -966,12 +1064,12 @@ GET /filmaapi/hls/{id}/media
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
-| id | integer | ✓ | エンコードファイルID |
-| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
+| id | integer | ✓ | - | エンコードファイルID |
+| show_all | boolean | - | false | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
@@ -983,12 +1081,12 @@ HEAD /filmaapi/hls/{id}
 
 **パラメータ:**
 
-| パラメータ名 | 型 | 必須 | 説明 |
-|---|---|---|---|
-| api_key | string | * | APIキー（JWT認証時は不要） |
-| jwt | string | * | JWTトークン（APIキー認証時は不要） |
-| id | integer | ✓ | エンコードファイルID |
-| show_all | boolean | - | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
+| id | integer | ✓ | - | エンコードファイルID |
+| show_all | boolean | - | false | 全ファイル表示フラグ（fullaccess権限のみ有効） |
 
 **認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
 
