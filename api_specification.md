@@ -19,13 +19,17 @@ Filma APIは2つの認証方法を併用できます：
 
 複数の認証情報が提供された場合、以下の優先順位で認証を試行します：
 
-1. **JWT認証（query parameter）**: `?jwt=<jwt_token>` （ストリーミング用途での明示的指定を最優先）
-2. **JWT認証（Authorization header）**: `Authorization: Bearer <jwt_token>`
-3. **JWT認証（Cookie）**: `filmajwt` Cookie
-4. **APIキー認証（X-Api-Key header）**: `X-Api-Key: <api_key>`
-5. **APIキー認証（query parameter）**: `?api_key=<api_key>`
+1. **APIキー認証（X-Api-Key header）**: `X-Api-Key: <api_key>`
+2. **APIキー認証（query parameter）**: `?api_key=<api_key>`
+3. **JWT認証（query parameter）**: `?jwt=<jwt_token>` （APIキーがない場合のみ）
+4. **JWT認証（Authorization header）**: `Authorization: Bearer <jwt_token>` （APIキーがない場合のみ）
+5. **JWT認証（Cookie）**: `filmajwt` Cookie （APIキーがない場合のみ）
 
-**注意**: URLパラメータでのJWT指定を最優先とすることで、ストリーミングURL生成時の新しいJWTが確実に使用され、ブラウザの古いCookieによる意図しない期限切れを防止します。
+**注意**: ブラウザのCookieに古いJWTトークンが残っていても、APIキーがあれば無視されます。期限切れJWTトークンによる認証エラーを防止するための仕様です。
+
+**認証フロー**:
+- APIキーが提供された場合：APIキー認証のみを試行（JWTトークンは無視）
+- APIキーがない場合：JWT認証を試行（パラメータ → Authorization ヘッダー → Cookie の順）
 
 ### APIキー認証
 
@@ -1380,3 +1384,4 @@ window.open('/filmaapi/player/12345?api_key=your_api_key&show_all=true', '_blank
 - ページングは最大100件まで取得可能です
 - エラーが発生した場合は適切なHTTPステータスコードが返されます
 - ドメインアクセス制限はAPIキー認証のみに適用され、JWT認証では制限されません
+
