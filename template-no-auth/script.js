@@ -147,8 +147,8 @@ function loadVideo(element) {
       return res.json();
     })
     .then(playerData => {
-      if (playerData.embed_code) {
-        player.innerHTML = playerData.embed_code;
+      if (playerData.simple_embed_code) {
+        player.innerHTML = playerData.simple_embed_code;
         initializeVideoPlayer(playerData.mediafile_id, API_HOST, API_KEY);
       } else {
         player.textContent = 'No player information available.';
