@@ -2,73 +2,80 @@
 const API_HOST = 'filma-dev.xcream.net';
 // この API キーは JWT 発行時のみ使用します
 const API_KEY = 'e47aad55d7fb4f152603b91b';
-// 取得した JWT を保持
-let JWT_TOKEN = null;
-let JWT_TOKEN_PROMISE = null;
 
-// JWT を取得する。既に取得済みで有効な場合はそのまま返す。
-async function getJwtToken() {
-  if (JWT_TOKEN) {
-    return JWT_TOKEN;
-  }
-  if (JWT_TOKEN_PROMISE) {
-    return JWT_TOKEN_PROMISE;
-  }
-  JWT_TOKEN_PROMISE = (async () => {
-    const url = `https://${API_HOST}/filmaapi/token?api_key=${encodeURIComponent(API_KEY)}`;
-    const res = await fetch(url, { method: 'POST' });
-    if (!res.ok) {
-      JWT_TOKEN_PROMISE = null;
-      throw new Error(`Failed to obtain JWT: HTTP ${res.status}`);
-    }
-    const data = await res.json();
-    JWT_TOKEN = data.token;
-    JWT_TOKEN_PROMISE = null;
-    return JWT_TOKEN;
-  })();
-  return JWT_TOKEN_PROMISE;
+// JWT 取得用関数を生成
+function createJwtTokenFetcher(apiHost, apiKey) {
+  let jwtToken = null;
+  let jwtTokenPromise = null;
+
+  return async function getJwtToken() {
+    if (jwtToken) return jwtToken;
+    if (jwtTokenPromise) return jwtTokenPromise;
+
+    jwtTokenPromise = (async () => {
+      const url = `https://${apiHost}/filmaapi/token?api_key=${encodeURIComponent(apiKey)}`;
+      const res = await fetch(url, { method: 'POST' });
+
+      if (!res.ok) {
+        jwtTokenPromise = null;
+        throw new Error(`Failed to obtain JWT: HTTP ${res.status}`);
+      }
+
+      const data = await res.json();
+      jwtToken = data.token;
+      jwtTokenPromise = null;
+      return jwtToken;
+    })();
+
+    return jwtTokenPromise;
+  };
 }
+
+// 使用例
+const getJwtToken = createJwtTokenFetcher(API_HOST, API_KEY);
 // show_allパラメータを付与するかどうかを設定
 // trueにするとAPIリクエストに`show_all=true`が付き、fullaccess権限のAPIキー利用時は
 // 非公開ファイルも取得できます (詳細は api_specification.md 参照)
 const USE_SHOW_ALL = false;
 
-let METADATA_OPTIONS = null;
-let METADATA_OPTIONS_PROMISE = null;
+function createMetadataOptionsFetcher(apiHost, getToken) {
+  let metadataOptions = null;
+  let metadataOptionsPromise = null;
 
-// メタデータオプションを取得
-async function fetchMetadataOptions() {
-  if (METADATA_OPTIONS) {
-    return METADATA_OPTIONS;
-  }
-  if (METADATA_OPTIONS_PROMISE) {
-    return METADATA_OPTIONS_PROMISE;
-  }
-  METADATA_OPTIONS_PROMISE = (async () => {
-    const token = await getJwtToken();
-    const url = `https://${API_HOST}/filmaapi/storage/metadata_options`;
-    const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-    if (!res.ok) {
-      METADATA_OPTIONS_PROMISE = null;
-      throw new Error(`HTTP ${res.status}`);
-    }
-    const data = await res.json();
-    const meta = {};
-    if (data && data.metadata_keys) {
-      const keys = data.metadata_keys;
-      if (keys.category && Array.isArray(keys.category.unique_values)) {
-        meta.category = keys.category.unique_values;
+  return async function fetchMetadataOptions() {
+    if (metadataOptions) return metadataOptions;
+    if (metadataOptionsPromise) return metadataOptionsPromise;
+
+    metadataOptionsPromise = (async () => {
+      const token = await getToken();
+      const url = `https://${apiHost}/filmaapi/storage/metadata_options`;
+      const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+      if (!res.ok) {
+        metadataOptionsPromise = null;
+        throw new Error(`HTTP ${res.status}`);
       }
-      if (keys.tags && Array.isArray(keys.tags.unique_values)) {
-        meta.tags = keys.tags.unique_values;
+      const data = await res.json();
+      const meta = {};
+      if (data && data.metadata_keys) {
+        const keys = data.metadata_keys;
+        if (keys.category && Array.isArray(keys.category.unique_values)) {
+          meta.category = keys.category.unique_values;
+        }
+        if (keys.tags && Array.isArray(keys.tags.unique_values)) {
+          meta.tags = keys.tags.unique_values;
+        }
       }
-    }
-    METADATA_OPTIONS = meta;
-    METADATA_OPTIONS_PROMISE = null;
-    return METADATA_OPTIONS;
-  })();
-  return METADATA_OPTIONS_PROMISE;
+      metadataOptions = meta;
+      metadataOptionsPromise = null;
+      return metadataOptions;
+    })();
+
+    return metadataOptionsPromise;
+  };
 }
+
+// メタデータ取得関数を生成
+const fetchMetadataOptions = createMetadataOptionsFetcher(API_HOST, getJwtToken);
 
 // カテゴリ一覧を取得して<select>要素に追加
 async function loadCategoryOptions(select) {
