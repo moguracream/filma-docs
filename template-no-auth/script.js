@@ -6,30 +6,42 @@ const API_KEY = 'e47aad55d7fb4f152603b91b';
 // 非公開ファイルも取得できます (詳細は api_specification.md 参照)
 const USE_SHOW_ALL = false;
 
-let METADATA_OPTIONS = null;
+function createMetadataOptionsFetcher(apiHost, apiKey) {
+  let metadataOptions = null;
+  let metadataOptionsPromise = null;
 
-// メタデータオプションを取得
-async function fetchMetadataOptions() {
-  if (METADATA_OPTIONS) return METADATA_OPTIONS;
-  const url = `https://${API_HOST}/filmaapi/storage/metadata_options?api_key=${encodeURIComponent(API_KEY)}`;
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`HTTP ${res.status}`);
-  }
-  const data = await res.json();
-  const meta = {};
-  if (data && data.metadata_keys) {
-    const keys = data.metadata_keys;
-    if (keys.category && Array.isArray(keys.category.unique_values)) {
-      meta.category = keys.category.unique_values;
-    }
-    if (keys.tags && Array.isArray(keys.tags.unique_values)) {
-      meta.tags = keys.tags.unique_values;
-    }
-  }
-  METADATA_OPTIONS = meta;
-  return METADATA_OPTIONS;
+  return async function fetchMetadataOptions() {
+    if (metadataOptions) return metadataOptions;
+    if (metadataOptionsPromise) return metadataOptionsPromise;
+
+    metadataOptionsPromise = (async () => {
+      const url = `https://${apiHost}/filmaapi/storage/metadata_options?api_key=${encodeURIComponent(apiKey)}`;
+      const res = await fetch(url);
+      if (!res.ok) {
+        metadataOptionsPromise = null;
+        throw new Error(`HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      const meta = {};
+      if (data && data.metadata_keys) {
+        const keys = data.metadata_keys;
+        if (keys.category && Array.isArray(keys.category.unique_values)) {
+          meta.category = keys.category.unique_values;
+        }
+        if (keys.tags && Array.isArray(keys.tags.unique_values)) {
+          meta.tags = keys.tags.unique_values;
+        }
+      }
+      metadataOptions = meta;
+      metadataOptionsPromise = null;
+      return metadataOptions;
+    })();
+
+    return metadataOptionsPromise;
+  };
 }
+
+const fetchMetadataOptions = createMetadataOptionsFetcher(API_HOST, API_KEY);
 
 // カテゴリ一覧を取得して<select>要素に追加
 async function loadCategoryOptions(select) {
