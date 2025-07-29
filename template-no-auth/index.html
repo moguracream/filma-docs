@@ -11,6 +11,20 @@
   <div class="container py-4">
     <h1 class="text-center mb-4">Video Categories</h1>
 
+    <div class="row mb-3 g-2 align-items-end">
+      <div class="col-md-4">
+        <label for="categoryFilter" class="form-label">Category</label>
+        <select id="categoryFilter" class="form-select"></select>
+      </div>
+      <div class="col-md-4">
+        <label for="tagFilter" class="form-label">Tag</label>
+        <select id="tagFilter" class="form-select"></select>
+      </div>
+      <div class="col-md-4">
+        <button id="applyFilters" class="btn btn-primary w-100">Apply Filters</button>
+      </div>
+    </div>
+
     <div id="categories"></div>
   </div>
 
@@ -19,7 +33,18 @@
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('categories');
+      const categorySelect = document.getElementById('categoryFilter');
+      const tagSelect = document.getElementById('tagFilter');
+      loadCategoryOptions(categorySelect);
+      loadTagOptions(tagSelect);
       loadFileListByFolder(container);
+
+      document.getElementById('applyFilters').addEventListener('click', () => {
+        container.innerHTML = '';
+        const category = categorySelect.value;
+        const tag = tagSelect.value;
+        loadFileListByFolder(container, { category, tag });
+      });
     });
   </script>
 </body>

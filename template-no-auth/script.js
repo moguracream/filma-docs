@@ -6,6 +6,67 @@ const API_KEY = 'e47aad55d7fb4f152603b91b';
 // 非公開ファイルも取得できます (詳細は api_specification.md 参照)
 const USE_SHOW_ALL = false;
 
+let METADATA_OPTIONS = null;
+
+// メタデータオプションを取得
+async function fetchMetadataOptions() {
+  if (METADATA_OPTIONS) return METADATA_OPTIONS;
+  const url = `https://${API_HOST}/filmaapi/storage/metadata_options?api_key=${encodeURIComponent(API_KEY)}`;
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status}`);
+  }
+  const data = await res.json();
+  const meta = {};
+  if (data && data.metadata_keys) {
+    const keys = data.metadata_keys;
+    if (keys.category && Array.isArray(keys.category.unique_values)) {
+      meta.category = keys.category.unique_values;
+    }
+    if (keys.tags && Array.isArray(keys.tags.unique_values)) {
+      meta.tags = keys.tags.unique_values;
+    }
+  }
+  METADATA_OPTIONS = meta;
+  return METADATA_OPTIONS;
+}
+
+// カテゴリ一覧を取得して<select>要素に追加
+async function loadCategoryOptions(select) {
+  if (!select) return;
+  try {
+    const options = await fetchMetadataOptions();
+    const list = Array.isArray(options.category) ? options.category : [];
+    select.innerHTML = '<option value="">All</option>';
+    list.forEach(name => {
+      const option = document.createElement('option');
+      option.value = name;
+      option.textContent = name;
+      select.appendChild(option);
+    });
+  } catch (err) {
+    console.error('Error fetching categories:', err);
+  }
+}
+
+// タグ一覧を取得して<select>要素に追加
+async function loadTagOptions(select) {
+  if (!select) return;
+  try {
+    const options = await fetchMetadataOptions();
+    const list = Array.isArray(options.tags) ? options.tags : [];
+    select.innerHTML = '<option value="">All</option>';
+    list.forEach(name => {
+      const option = document.createElement('option');
+      option.value = name;
+      option.textContent = name;
+      select.appendChild(option);
+    });
+  } catch (err) {
+    console.error('Error fetching tags:', err);
+  }
+}
+
 // DOM が読み込まれた後にページごとの処理を実行します
 // index.html ではファイル一覧を読み込みます
 // ファイル一覧を取得してリストに表示する
@@ -46,10 +107,16 @@ function loadFileList(listElement) {
 }
 
 // フォルダごとにサムネイルをまとめて表示する
-function loadFileListByFolder(container) {
+function loadFileListByFolder(container, options = {}) {
   if (!container) return;
 
-  const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
+  const params = new URLSearchParams();
+  params.set('api_key', API_KEY);
+  if (USE_SHOW_ALL) params.set('show_all', 'true');
+  if (options.category) params.set('category', options.category);
+  if (options.tag) params.append('tags', options.tag);
+
+  const url = `https://${API_HOST}/filmaapi/storage?${params.toString()}`;
   fetch(url)
     .then(res => {
       if (!res.ok) {
@@ -98,7 +165,14 @@ function loadFileListByFolder(container) {
 
           const caption = document.createElement('div');
           caption.className = 'small text-center text-break mt-1';
-          caption.textContent = file.filename;
+          const meta = [];
+          if (file.user_metadata && file.user_metadata.category) {
+            meta.push(file.user_metadata.category);
+          }
+          if (file.user_metadata && Array.isArray(file.user_metadata.tags)) {
+            meta.push(...file.user_metadata.tags);
+          }
+          caption.innerHTML = `${file.filename}<br><span class="text-muted">${meta.join(', ')}</span>`;
 
           link.classList.add('d-block', 'text-decoration-none');
           link.appendChild(img);
@@ -195,7 +269,9 @@ function buildMetadataHtml(data) {
     ['Created', data.created_at],
     ['Updated', data.updated_at],
     ['Creator', data.creator],
-    ['Updater', data.updater]
+    ['Updater', data.updater],
+    ['Category', data.user_metadata && data.user_metadata.category],
+    ['Tags', Array.isArray(data.user_metadata && data.user_metadata.tags) ? data.user_metadata.tags.join(', ') : null]
   ];
 
   // HTML を組み立てていく
