@@ -34,7 +34,17 @@ async function fetchMetadataOptions() {
     throw new Error(`HTTP ${res.status}`);
   }
   const data = await res.json();
-  METADATA_OPTIONS = data.metadata_keys || {};
+  const meta = {};
+  if (data && data.metadata_keys) {
+    const keys = data.metadata_keys;
+    if (keys.category && Array.isArray(keys.category.unique_values)) {
+      meta.category = keys.category.unique_values;
+    }
+    if (keys.tags && Array.isArray(keys.tags.unique_values)) {
+      meta.tags = keys.tags.unique_values;
+    }
+  }
+  METADATA_OPTIONS = meta;
   return METADATA_OPTIONS;
 }
 
