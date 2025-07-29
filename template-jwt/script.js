@@ -2,6 +2,10 @@
 const API_HOST = 'filma-dev.xcream.net';
 // この API キーは JWT 発行時のみ使用します
 const API_KEY = 'e47aad55d7fb4f152603b91b';
+// show_allパラメータを付与するかどうかを設定
+// trueにするとAPIリクエストに`show_all=true`が付き、fullaccess権限のAPIキー利用時は
+// 非公開ファイルも取得できます (詳細は api_specification.md 参照)
+const USE_SHOW_ALL = false;
 
 // JWT 取得用関数を生成
 function createJwtTokenFetcher(apiHost, apiKey) {
@@ -30,14 +34,9 @@ function createJwtTokenFetcher(apiHost, apiKey) {
     return jwtTokenPromise;
   };
 }
-
-// 使用例
 const getJwtToken = createJwtTokenFetcher(API_HOST, API_KEY);
-// show_allパラメータを付与するかどうかを設定
-// trueにするとAPIリクエストに`show_all=true`が付き、fullaccess権限のAPIキー利用時は
-// 非公開ファイルも取得できます (詳細は api_specification.md 参照)
-const USE_SHOW_ALL = false;
 
+// メタデータ取得関数を生成
 function createMetadataOptionsFetcher(apiHost, getToken) {
   let metadataOptions = null;
   let metadataOptionsPromise = null;
@@ -73,8 +72,6 @@ function createMetadataOptionsFetcher(apiHost, getToken) {
     return metadataOptionsPromise;
   };
 }
-
-// メタデータ取得関数を生成
 const fetchMetadataOptions = createMetadataOptionsFetcher(API_HOST, getJwtToken);
 
 // カテゴリ一覧を取得して<select>要素に追加

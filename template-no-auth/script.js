@@ -6,6 +6,7 @@ const API_KEY = 'e47aad55d7fb4f152603b91b';
 // 非公開ファイルも取得できます (詳細は api_specification.md 参照)
 const USE_SHOW_ALL = false;
 
+// メタデータ取得関数を生成
 function createMetadataOptionsFetcher(apiHost, apiKey) {
   let metadataOptions = null;
   let metadataOptionsPromise = null;
@@ -40,7 +41,6 @@ function createMetadataOptionsFetcher(apiHost, apiKey) {
     return metadataOptionsPromise;
   };
 }
-
 const fetchMetadataOptions = createMetadataOptionsFetcher(API_HOST, API_KEY);
 
 // カテゴリ一覧を取得して<select>要素に追加
