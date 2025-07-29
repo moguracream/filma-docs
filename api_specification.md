@@ -878,6 +878,68 @@ GET /filmaapi/storage/metadata
 
 *注: 現在は空の配列を返します。*
 
+#### メタデータオプション取得
+
+```
+GET /filmaapi/storage/metadata_options
+```
+
+**パラメータ:**
+
+| パラメータ名 | 型 | 必須 | デフォルト | 説明 |
+|---|---|---|---|---|
+| api_key | string | * | - | APIキー（JWT認証時は不要） |
+| jwt | string | * | - | JWTトークン（APIキー認証時は不要） |
+| show_all | boolean | - | false | 全ファイル表示フラグ（fullaccess権限のみ有効） |
+
+**認証:** APIキー認証、JWT認証、またはCookie認証のいずれか
+
+**注意:**
+- デフォルトでは公開されたファイルのみ対象
+- `show_all=true`かつfullaccess権限の場合、非公開ファイルも含めて全ファイル対象
+- メタデータが設定されているファイルのみを対象として集計
+
+**レスポンス例:**
+
+```json
+{
+  "total_files_with_metadata": 25,
+  "metadata_keys": {
+    "tags": {
+      "count": 15,
+      "unique_values": ["製品紹介", "プロモーション", "企業紹介", "2024年春", "マーケティング"],
+      "total_unique_values": 5
+    },
+    "category": {
+      "count": 12,
+      "unique_values": ["マーケティング", "教育", "エンターテイメント", "技術"],
+      "total_unique_values": 4
+    },
+    "priority": {
+      "count": 8,
+      "unique_values": ["高", "中", "低"],
+      "total_unique_values": 3
+    },
+    "department": {
+      "count": 6,
+      "unique_values": ["営業部", "マーケティング部", "開発部"],
+      "total_unique_values": 3
+    }
+  }
+}
+```
+
+**レスポンスフィールド詳細:**
+
+| フィールド名 | 型 | 説明 |
+|---|---|---|
+| total_files_with_metadata | integer | メタデータが設定されているファイルの総数 |
+| metadata_keys | object | 動的に収集されたメタデータキーの詳細情報 |
+| metadata_keys.{key} | object | 各メタデータキーの詳細情報 |
+| metadata_keys.{key}.count | integer | そのキーが使用されているファイル数 |
+| metadata_keys.{key}.unique_values | array | そのキーのユニークな値の配列（アルファベット順） |
+| metadata_keys.{key}.total_unique_values | integer | そのキーのユニークな値の総数 |
+
 #### フォルダ一覧取得
 
 ```
@@ -1460,4 +1522,3 @@ window.open('/filmaapi/player/12345?api_key=your_api_key&show_all=true', '_blank
 - ページングは最大100件まで取得可能です
 - エラーが発生した場合は適切なHTTPステータスコードが返されます
 - ドメインアクセス制限はAPIキー認証のみに適用され、JWT認証では制限されません
-
