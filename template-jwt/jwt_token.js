@@ -1,6 +1,6 @@
-// NOTE: This code runs on the client side only for demo purposes.
-// In a real application you should issue JWTs on your backend and
-// never expose your API key in frontend JavaScript.
+// 注意: このコードはデモ用途でクライアント側のみで実行しています。
+// 実運用ではバックエンドで JWT を発行し、
+// API キーをフロントエンドの JavaScript には公開しないでください。
 
 const API_HOST = 'filma-dev.xcream.net';
 // この API キーは JWT 発行時のみ使用します
