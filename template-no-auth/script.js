@@ -284,6 +284,10 @@ function buildMetadataHtml(data) {
     ['Updater', data.updater],
     ['Category', data.user_metadata && data.user_metadata.category],
     ['Tags', Array.isArray(data.user_metadata && data.user_metadata.tags) ? data.user_metadata.tags.join(', ') : null]
+    ['published', data.published],
+    ['published_until', data.published_until],
+    ['published_with_expiry', data.published_with_expiry],
+    ['published_status_text', data.published_status_text],
   ];
 
   // HTML を組み立てていく
