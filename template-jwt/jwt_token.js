@@ -2,7 +2,7 @@
 // 実運用ではセキュリティを確保するため、可能な限りバックエンドで JWT を発行し、
 // API キーをフロントエンドの JavaScript には公開しないことをおすすめします。
 
-const API_HOST = 'filma-dev.xcream.net';
+const API_HOST = 'filma.biz';
 // この API キーは JWT 発行時のみ使用します
 const API_KEY = 'e47aad55d7fb4f152603b91b';
 // show_allパラメータを付与するかどうかを設定
