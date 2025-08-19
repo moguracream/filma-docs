@@ -1,13 +1,5 @@
-// Filma API を利用する際のホスト名と API キーをここで設定します
-const API_HOST = 'filma.biz';
-const API_KEY = 'e47aad55d7fb4f152603b91b';
-// show_allパラメータを付与するかどうかを設定
-// trueにするとAPIリクエストに`show_all=true`が付き、fullaccess権限のAPIキー利用時は
-// 非公開ファイルも取得できます (詳細は api_specification.md 参照)
-const USE_SHOW_ALL = false;
-
 // メタデータ取得関数を生成
-function createMetadataOptionsFetcher(apiHost, apiKey) {
+function createMetadataOptionsFetcher(apiHost, getToken) {
   let metadataOptions = null;
   let metadataOptionsPromise = null;
 
@@ -16,8 +8,9 @@ function createMetadataOptionsFetcher(apiHost, apiKey) {
     if (metadataOptionsPromise) return metadataOptionsPromise;
 
     metadataOptionsPromise = (async () => {
-      const url = `https://${apiHost}/filmaapi/storage/metadata_options?api_key=${encodeURIComponent(apiKey)}`;
-      const res = await fetch(url);
+      const token = await getToken();
+      const url = `https://${apiHost}/filmaapi/storage/metadata_options`;
+      const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
       if (!res.ok) {
         metadataOptionsPromise = null;
         throw new Error(`HTTP ${res.status}`);
@@ -41,7 +34,7 @@ function createMetadataOptionsFetcher(apiHost, apiKey) {
     return metadataOptionsPromise;
   };
 }
-const fetchMetadataOptions = createMetadataOptionsFetcher(API_HOST, API_KEY);
+const fetchMetadataOptions = createMetadataOptionsFetcher(API_HOST, getJwtToken);
 
 // カテゴリ一覧を取得して<select>要素に追加
 async function loadCategoryOptions(select) {
@@ -82,12 +75,13 @@ async function loadTagOptions(select) {
 // DOM が読み込まれた後にページごとの処理を実行します
 // index.html ではファイル一覧を読み込みます
 // ファイル一覧を取得してリストに表示する
-function loadFileList(listElement) {
+async function loadFileList(listElement) {
   if (!listElement) return;
 
-  // Filma API からファイル一覧を取得
-  const url = `https://${API_HOST}/filmaapi/storage?api_key=${encodeURIComponent(API_KEY)}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
-  fetch(url)
+  const token = await getJwtToken();
+  const url = `https://${API_HOST}/filmaapi/storage${USE_SHOW_ALL ? "?show_all=true" : ""}`;
+
+  fetch(url, { headers: { 'Authorization': `Bearer ${token}` } })
     .then(res => {
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);
@@ -99,7 +93,6 @@ function loadFileList(listElement) {
         const li = document.createElement('li');
         li.className = 'list-group-item';
 
-        // ファイル名をクリックすると再生ページへ遷移
         const link = document.createElement('a');
         link.href = `video.html?id=${encodeURIComponent(file.id)}`;
         link.textContent = file.filename;
@@ -108,7 +101,6 @@ function loadFileList(listElement) {
         listElement.appendChild(li);
       });
     })
-    // 取得に失敗した場合はエラーメッセージを表示
     .catch(err => {
       const li = document.createElement('li');
       li.className = 'list-group-item text-danger';
@@ -119,17 +111,16 @@ function loadFileList(listElement) {
 }
 
 // フォルダごとにサムネイルをまとめて表示する
-function loadFileListByFolder(container, options = {}) {
+async function loadFileListByFolder(container, options = {}) {
   if (!container) return;
 
+  const token = await getJwtToken();
   const params = new URLSearchParams();
-  params.set('api_key', API_KEY);
   if (USE_SHOW_ALL) params.set('show_all', 'true');
   if (options.category) params.set('category', options.category);
   if (options.tag) params.append('tags', options.tag);
-
-  const url = `https://${API_HOST}/filmaapi/storage?${params.toString()}`;
-  fetch(url)
+  const url = `https://${API_HOST}/filmaapi/storage${params.toString() ? `?${params.toString()}` : ''}`;
+  fetch(url, { headers: { 'Authorization': `Bearer ${token}` } })
     .then(res => {
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);
@@ -175,16 +166,16 @@ function loadFileListByFolder(container, options = {}) {
           img.src = screenshot;
           img.alt = file.filename;
 
-          const caption = document.createElement('div');
-          caption.className = 'small text-center text-break mt-1';
-          const meta = [];
-          if (file.user_metadata && file.user_metadata.category) {
-            meta.push(file.user_metadata.category);
-          }
-          if (file.user_metadata && Array.isArray(file.user_metadata.tags)) {
-            meta.push(...file.user_metadata.tags);
-          }
-          caption.innerHTML = `${file.filename}<br><span class="text-muted">${meta.join(', ')}</span>`;
+        const caption = document.createElement('div');
+        caption.className = 'small text-center text-break mt-1';
+        const meta = [];
+        if (file.user_metadata && file.user_metadata.category) {
+          meta.push(file.user_metadata.category);
+        }
+        if (file.user_metadata && Array.isArray(file.user_metadata.tags)) {
+          meta.push(...file.user_metadata.tags);
+        }
+        caption.innerHTML = `${file.filename}<br><span class="text-muted">${meta.join(', ')}</span>`;
 
           link.classList.add('d-block', 'text-decoration-none');
           link.appendChild(img);
@@ -209,23 +200,23 @@ function loadFileListByFolder(container, options = {}) {
 }
 
 // video.html で ID から動画を読み込む
-function loadVideo(element) {
+async function loadVideo(element) {
   const player = element;
   if (!player) return;
 
   const metadataContainer = document.getElementById('metadata');
   const screenshotContainer = document.getElementById('screenshots');
 
-  // URL パラメータから動画 ID を取得
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id') || params.get('video');
   if (!id) return;
 
-  const playerUrl = `https://${API_HOST}/filmaapi/storage/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
-  const metaUrl = `https://${API_HOST}/filmaapi/storage/metadata/${encodeURIComponent(id)}?api_key=${encodeURIComponent(API_KEY)}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
+  const token = await getJwtToken();
+  const playerUrl = `https://${API_HOST}/filmaapi/storage/${encodeURIComponent(id)}${USE_SHOW_ALL ? '?show_all=true' : ''}`;
+  const metaUrl = `https://${API_HOST}/filmaapi/storage/metadata/${encodeURIComponent(id)}${USE_SHOW_ALL ? '?show_all=true' : ''}`;
 
   // プレイヤー埋め込み情報を取得
-  fetch(playerUrl)
+  fetch(playerUrl, { headers: { 'Authorization': `Bearer ${token}` } })
     .then(res => {
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);
@@ -235,7 +226,7 @@ function loadVideo(element) {
     .then(playerData => {
       if (playerData.simple_embed_code) {
         player.innerHTML = playerData.simple_embed_code;
-        initializeVideoPlayer(playerData.mediafile_id, API_HOST, API_KEY);
+        initializeVideoPlayer(playerData.mediafile_id, API_HOST, token);
       } else {
         player.textContent = 'No player information available.';
       }
@@ -246,7 +237,7 @@ function loadVideo(element) {
     });
 
   // メタデータは別途取得する
-  fetch(metaUrl)
+  fetch(metaUrl, { headers: { 'Authorization': `Bearer ${token}` } })
     .then(res => {
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);
@@ -284,10 +275,6 @@ function buildMetadataHtml(data) {
     ['Updater', data.updater],
     ['Category', data.user_metadata && data.user_metadata.category],
     ['Tags', Array.isArray(data.user_metadata && data.user_metadata.tags) ? data.user_metadata.tags.join(', ') : null]
-    ['published', data.published],
-    ['published_until', data.published_until],
-    ['published_with_expiry', data.published_with_expiry],
-    ['published_status_text', data.published_status_text],
   ];
 
   // HTML を組み立てていく
@@ -350,15 +337,15 @@ function setupScreenshotViewer(container) {
 }
 
 // 埋め込みプレイヤーを初期化
-function initializeVideoPlayer(id, host, api_key) {
+function initializeVideoPlayer(id, host, jwt) {
   let elem = document.getElementById('video-' + id);
   if (!elem) return;
   if (isSafari()) {
     // Safari では HLS を使用
-    elem.dataset.src = `https://${host}/filmaapi/hls/${id}.m3u8?api_key=${api_key}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
+    elem.dataset.src = `https://${host}/filmaapi/hls/${id}.m3u8?jwt=${jwt}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
   } else {
     // その他のブラウザでは DASH を使用
-    elem.dataset.src = `https://${host}/filmaapi/dash/${id}.mpd?api_key=${api_key}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
+    elem.dataset.src = `https://${host}/filmaapi/dash/${id}.mpd?jwt=${jwt}${USE_SHOW_ALL ? "&show_all=true" : ""}`;
   }
   init_xcream_player('video-' + id);
 }
