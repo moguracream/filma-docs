@@ -11,6 +11,9 @@
 | `script.js` | Filma API へのリクエスト処理をまとめた JavaScript。動画一覧取得、動画読み込み、メタデータ表示、サムネイル用の画像表示などを行います。API 接続先 (`API_HOST`) と API キー (`API_KEY`) を冒頭で設定します。|
 | `style.css` | サンプルの最小限のスタイル定義。サムネイルの比率調整やモーダル表示のレイアウト調整を行います。|
 
+## 以下で実際に動作が確認できます
+https://moguracream.github.io/filma-docs/template-no-auth/index.html
+
 ## 使い方
 
 1. `script.js` の `API_HOST` と `API_KEY` をお手元の Filma 契約情報に合わせて変更します。
