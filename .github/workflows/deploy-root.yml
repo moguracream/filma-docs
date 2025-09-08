@@ -1,0 +1,46 @@
+# 目的: master の内容（template-* ディレクトリ等）を gh-pages ルートへ同期
+# 特徴: 他リポジトリからのデプロイを保持（keep_files: true）
+
+name: Deploy existing HTML (master -> gh-pages)
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  deploy-root:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ここで静的サイトのビルドが必要なら追加
+      # - name: Build
+      #   run: |
+      #     npm ci
+      #     npm run build
+
+      - name: Prepare publish dir
+        run: |
+          mkdir -p public
+          rsync -av --delete \
+            --exclude '.git/' \
+            --exclude '.gitignore' \
+            --exclude '.github/' \
+            --exclude '.gitattributes' \
+            --exclude 'README*' \
+            --exclude 'LICENSE*' \
+            ./ public/
+
+      - name: Deploy to gh-pages root
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./public
+          keep_files: true
+          # enable_jekyll: true        # 必要なら有効化
+          # cname: docs.example.com     # カスタムドメイン使用時
