@@ -47,6 +47,10 @@
       
     
     
+      <link rel="stylesheet" href="../styles/overrides.css">
+    
+      <link rel="stylesheet" href="../styles/lightbox.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -484,6 +488,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#okng" class="md-nav__link">
+    <span class="md-ellipsis">
+      アクセス許可ドメインのOK/NG例（正規化ルール）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      よくある失敗と対処
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="よくある失敗と対処">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -506,6 +543,29 @@
   
   <span class="md-ellipsis">
     API埋め込み
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embed_wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WordPressへの埋め込み
     
   </span>
   
@@ -694,6 +754,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#okng" class="md-nav__link">
+    <span class="md-ellipsis">
+      アクセス許可ドメインのOK/NG例（正規化ルール）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      よくある失敗と対処
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="よくある失敗と対処">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -711,29 +804,105 @@
 
 
 <h1 id="html">埋め込みHTMLを使ったサイト埋め込み</h1>
+<p><a href="../#クイックスタート（最短ルート）">← クイックスタートへ戻る</a></p>
 <blockquote>
-<p>重要: 埋め込みHTMLでも「アクセス許可ドメイン」の設定が必要です。初期アカウント発行時に自動作成される「デフォルトのAPIユーザー（APIキー保有）」の API 設定で、自サイトのFQDNを登録してください。未設定のままでは自社サイトからの再生が拒否されます。</p>
+<p>重要: 埋め込みHTMLでも「アクセス許可ドメイン」の設定が必要です。初期アカウント発行時に自動作成される「デフォルトのAPIユーザー（APIキー保有）」の API 設定で、自サイトのドメイン名を登録してください（サブドメイン可）。未設定のままでは自社サイトからの再生が拒否されます。</p>
 </blockquote>
 <h2 id="_1">事前準備（初回のみ）</h2>
 <ol>
-<li>ユーザー一覧 <code>/filmaadmin/user</code> を開く</li>
-<li>初期アカウント発行時に自動作成された「デフォルトのAPIユーザー」を開く</li>
-<li>「API設定編集」(<code>/filmaadmin/apisettings/edit?id=:user_id</code>) を開く</li>
-<li>「アクセス許可ドメイン」に自サイトのFQDNを1行につき1件で登録（例: <code>example.com</code>, <code>app.example.com</code>）→ 保存</li>
-<li>URLで入力しても保存時にFQDNへ正規化されます</li>
+<li>ユーザー一覧 <code>/filmaadmin/user</code> を開く
+   <img alt="ユーザー一覧 画面" src="../img/user_list_placeholder.svg" /></li>
+<li>初期アカウント発行時に自動作成された「デフォルトのAPIユーザー」(API_READ_ONLY)を開く</li>
+<li>「APIキー」をクリックして「API設定編集」(<code>/filmaadmin/apisettings/edit/:user_id</code>) を開く
+   <img alt="API設定編集（アクセス許可ドメインの設定）" src="../img/apisettings_edit_placeholder.svg" /></li>
+<li>「アクセス許可ドメイン」に自サイトのドメイン名を1行につき1件で登録（例: <code>example.com</code>, <code>app.example.com</code>）→ 保存</li>
+<li>URLで入力しても保存時にドメイン名（ホスト部）へ自動変換されます</li>
+<li><code>example.com</code> と入力すると、その配下のサブドメイン（www.example.com / app.example.com など）も許可されます</li>
+<li>特定のサブドメインのみ許可したい場合は <code>app.example.com</code> のようにサブドメインまで入力してください</li>
 <li>間違った形式はエラーになります</li>
 <li>（閲覧のみなら）API種類は <code>readonly</code> のままでOK</li>
 </ol>
 <h2 id="html_1">埋め込みHTMLの取得と貼付け</h2>
 <ol>
-<li>ファイル詳細 <code>/filmaadmin/file/detail?id=:file_id</code> を開く</li>
-<li>「派生メディア」表の DASH 行で「埋め込みHTMLをコピー」</li>
+<li>ファイル詳細 <code>/filmaadmin/file/detail/:file_id</code> を開く
+   <img alt="ファイル詳細 → 派生メディア（埋め込みHTMLボタン）" src="../img/file_detail_children_placeholder.svg" /></li>
+<li>「派生メディア」表の 対象解像度行で「埋め込みHTMLをコピー」</li>
 <li>コピーしたHTMLを自サイトに貼り付け</li>
 </ol>
 <h2 id="_2">注意</h2>
 <ul>
 <li>対象ファイルが「公開」になっていること</li>
 <li>必要に応じて「公開期限」を設定</li>
+</ul>
+<h2 id="okng">アクセス許可ドメインのOK/NG例（正規化ルール）</h2>
+<ul>
+<li>入力は1行に1つ。URLを入力しても保存時にドメイン名（ホスト部）へ自動変換されます。</li>
+<li>ワイルドカード（<code>*.example.com</code> など）は不可。サブドメインは親ドメインの許可でカバーされます。</li>
+</ul>
+<p>OK例</p>
+<ul>
+<li><code>example.com</code> → example.com とそのサブドメイン（www.example.com, app.example.com など）も許可</li>
+<li><code>https://www.example.com/path</code> → 正規化して <code>www.example.com</code> を登録</li>
+<li><code>APP.EXAMPLE.COM</code> → 大文字は小文字に正規化（<code>app.example.com</code>）</li>
+</ul>
+<p>NG例（保存時にエラー）</p>
+<ul>
+<li><code>http://</code> や <code>https://</code> のない不正URLで、ドメイン名の抽出ができないもの</li>
+<li>ドメイン形式でない文字列（空白や記号を含むなど）</li>
+<li>ワイルドカード表記（<code>*.example.com</code>）</li>
+</ul>
+<p>ヒント</p>
+<ul>
+<li>迷ったら「ドメイン名（ホスト名）」だけを入力してください（例: <code>video.example.co.jp</code>）。</li>
+<li>サブドメインを個別に絞りたい場合は、親ドメインではなくサブドメインを行ごとに登録してください。</li>
+</ul>
+<h2 id="_3">よくある失敗と対処</h2>
+<p>症状: 埋め込みページで再生が始まらない / 403 に見える</p>
+<ul>
+<li>
+<p>原因1: アクセス許可ドメイン未設定またはドメイン不一致</p>
+<ul>
+<li>対処: 「API設定編集」で埋め込みページのドメイン名を登録（例: <code>news.example.com</code>）。</li>
+<li>注意: <code>example.com</code> を登録すれば <code>www.example.com</code> や <code>app.example.com</code> も許可されます。</li>
+</ul>
+</li>
+<li>
+<p>原因2: ファイルが未公開/公開期限切れ</p>
+<ul>
+<li>対処: 「ファイル編集」で「公開する」をON、必要に応じて公開期限を延長。</li>
+</ul>
+</li>
+<li>
+<p>原因3: Mixed Content（HTTPサイトにHTTPSリソース、または逆）</p>
+<ul>
+<li>対処: 可能な限り、埋め込み先も配信元もHTTPSに統一。</li>
+</ul>
+</li>
+<li>
+<p>原因4: CORS/ブラウザ制限（iOSの自動再生など）</p>
+<ul>
+<li>対処: ブラウザコンソールでエラーを確認。自動再生はミュート必須などの要件を検討。</li>
+</ul>
+</li>
+<li>
+<p>原因5: キャッシュ/古いHTML</p>
+<ul>
+<li>対処: ブラウザのキャッシュクリア、ページのハードリロード、CDNがあればパージ。</li>
+</ul>
+</li>
+</ul>
+<p>デバッグのコツ</p>
+<ul>
+<li>ブラウザの開発者ツール（Console/Network）でエラーを確認。</li>
+<li>直接再生用URL（または期限付きURL）で動作するかを切り分け。</li>
+<li>403/401 等のレスポンスが出る場合は、公開状態とアクセス許可ドメインを再確認。</li>
+</ul>
+<hr />
+<h3 id="_4">次にやること / 関連</h3>
+<ul>
+<li>期限付きURLの発行・管理: <a href="../signedurl/">期限付きURLの発行</a></li>
+<li>APIでの埋め込みに切り替える: <a href="../embed_api/">APIを使った埋め込み</a></li>
+<li>WordPress で使いたい: <a href="../embed_wordpress/">WordPressへの埋め込み</a></li>
 </ul>
 
 
@@ -790,6 +959,12 @@
     
     
       <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/mermaid-init.js"></script>
+      
+        <script src="../javascripts/lightbox.js"></script>
       
     
   </body>

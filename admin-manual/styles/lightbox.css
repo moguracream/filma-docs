@@ -1,0 +1,48 @@
+.filma-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .15s ease, visibility .15s ease;
+  z-index: 9999;
+}
+
+.filma-lightbox-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.filma-lightbox-image {
+  max-width: 95vw;
+  max-height: 95vh;
+  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+  border-radius: 6px;
+  background: #111;
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: pinch-zoom;
+}
+
+.filma-lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 18px;
+  color: #fff;
+  background: rgba(255,255,255,.18);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+html.filma-lightbox-lock, html.filma-lightbox-lock body {
+  overflow: hidden !important;
+}
+

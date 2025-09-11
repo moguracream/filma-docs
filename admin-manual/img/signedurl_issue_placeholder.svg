@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="465" viewBox="0 0 960 465">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+
+  <!-- タイトル -->
+  <text x="480" y="44" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#334155">期限付きURLの発行</text>
+
+  <!-- カード: 見出し -->
+  <rect x="60" y="80" width="840" height="36" rx="6" fill="#e5e7eb" stroke="#cbd5e1"/>
+  <text x="80" y="103" font-family="sans-serif" font-size="14" fill="#334155">期限付きURLの発行</text>
+
+  <!-- カード: 本体 -->
+  <rect x="60" y="116" width="840" height="280" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+
+  <!-- メディア情報（簡略） -->
+  <text x="80" y="146" font-family="sans-serif" font-size="13" fill="#334155">メディア情報</text>
+  <text x="80" y="166" font-family="sans-serif" font-size="12" fill="#64748b">解像度:</text>
+  <text x="130" y="166" font-family="sans-serif" font-size="12" fill="#111827">1920x1080</text>
+  <text x="260" y="166" font-family="sans-serif" font-size="12" fill="#64748b">平均ビットレート:</text>
+  <text x="340" y="166" font-family="sans-serif" font-size="12" fill="#111827">6.5 Mbps</text>
+  <text x="80" y="186" font-family="sans-serif" font-size="12" fill="#64748b">再生時間:</text>
+  <text x="130" y="186" font-family="sans-serif" font-size="12" fill="#111827">12:34</text>
+  <text x="260" y="186" font-family="sans-serif" font-size="12" fill="#64748b">DRM:</text>
+  <text x="295" y="186" font-family="sans-serif" font-size="12" fill="#111827">なし</text>
+
+  <!-- 行: URL有効期限 -->
+  <text x="80" y="220" font-family="sans-serif" font-size="13" fill="#475569">URL有効期限（日付時刻）</text>
+  <rect x="300" y="204" width="260" height="28" rx="4" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="308" y="222" font-family="monospace" font-size="12" fill="#334155">2025-12-31T23:59</text>
+
+  <!-- 行: メモ -->
+  <text x="80" y="264" font-family="sans-serif" font-size="13" fill="#475569">メモ</text>
+  <rect x="300" y="244" width="520" height="80" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="308" y="264" font-family="sans-serif" font-size="12" fill="#94a3b8">（任意）このURLの用途や共有先など</text>
+
+  <!-- ボタン行 -->
+  <rect x="80" y="338" width="96" height="36" rx="6" fill="#2563eb"/>
+  <text x="128" y="360" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffffff">保存</text>
+  <rect x="188" y="338" width="130" height="36" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="253" y="360" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#334155">キャンセル</text>
+
+  <!-- 補足 -->
+  <text x="480" y="440" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
+</svg>

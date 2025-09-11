@@ -47,6 +47,10 @@
       
     
     
+      <link rel="stylesheet" href="../styles/overrides.css">
+    
+      <link rel="stylesheet" href="../styles/lightbox.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -470,6 +474,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      公開設定との関係（重要）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      検索・フィルタ・再発行の注意点
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="検索・フィルタ・再発行の注意点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -515,6 +552,29 @@
   
   <span class="md-ellipsis">
     API埋め込み
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embed_wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WordPressへの埋め込み
     
   </span>
   
@@ -712,6 +772,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      公開設定との関係（重要）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      検索・フィルタ・再発行の注意点
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="検索・フィルタ・再発行の注意点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -729,28 +822,54 @@
 
 
 <h1 id="url">期限付きURLの発行</h1>
+<p><a href="../#クイックスタート（最短ルート）">← クイックスタートへ戻る</a></p>
 <h2 id="url_1">画面URL</h2>
 <ul>
-<li>発行: <code>/filmaadmin/signedurl/issue?id=:mediafile_id</code></li>
-<li>一覧: <code>/filmaadmin/signedurl/list?mediafile_id=:mediafile_id</code></li>
-<li>詳細: <code>/filmaadmin/signedurl/detail?id=:signed_url_id</code></li>
+<li>発行: <code>/filmaadmin/signedurl/issue/:mediafile_id</code></li>
+<li>一覧: <code>/filmaadmin/signedurl/list/:file_id</code> または <code>/filmaadmin/signedurl/list?mediafile_id=:mediafile_id</code></li>
+<li>詳細: <code>/filmaadmin/signedurl/detail/:signed_url_id</code></li>
 </ul>
 <h2 id="_1">発行（派生メディア単位）</h2>
 <ol>
-<li>「ファイル詳細」(<code>/filmaadmin/file/detail?id=:file_id</code>) → 「派生メディア」</li>
-<li>対象解像度行の「期限付きURL生成」</li>
-<li>「URL有効期限」「メモ」を入力し保存</li>
-<li>生成結果が同画面に表示され、URLをコピー可能</li>
+<li>「ファイル詳細」(<code>/filmaadmin/file/detail/:file_id</code>) → 「派生メディア」</li>
+<li>対象解像度行の「期限付きURL生成」をクリック → 発行画面（<code>/filmaadmin/signedurl/issue/:mediafile_id</code>）へ遷移
+   <img alt="ファイル詳細 → 派生メディア（期限付きURL生成ボタン）" src="../img/file_detail_children_placeholder.svg" /></li>
+<li>発行画面で「URL有効期限」「メモ」を入力し「保存」
+   <img alt="期限付きURL発行 画面" src="../img/signedurl_issue_placeholder.svg" /></li>
+<li>生成結果が同画面に表示され、URLをコピー可能（保存ボタンの下に成功メッセージと生成URL欄が表示されます）
+   <img alt="発行後（生成結果の表示とコピー）" src="../img/signedurl_issue_result_placeholder.svg" /></li>
 </ol>
 <h2 id="_2">一覧と運用</h2>
 <ul>
 <li>一覧で検索（メモ）/フィルタ（有効/全件/無効）に対応</li>
-<li>各行から「URLをコピー」「無効にする」「再発行」「詳細」</li>
+<li>各行から「URLをコピー」「無効にする」「再発行」「詳細」
+   <img alt="期限付きURL 一覧画面" src="../img/signedurl_list_placeholder.svg" /></li>
 </ul>
 <h2 id="_3">注意</h2>
 <ul>
 <li>有効期限切れ/無効化されたURLはアクセス不可になります</li>
 <li>メモは詳細画面から編集可能</li>
+</ul>
+<h2 id="_4">公開設定との関係（重要）</h2>
+<ul>
+<li>期限付きURLは「URL固有の有効期限」でアクセス可否を制御しますが、元ファイルの公開設定も同時に考慮されます。</li>
+<li>対象ファイルが「公開OFF」または「公開期限切れ（published_untilを過ぎている）」の場合、期限付きURLが有効でもアクセスはできません（404相当）。</li>
+<li>対象ファイルが公開中かつ期限内である必要があります。</li>
+<li>期限付きURLの有効期限を延長・短縮しても、元ファイルの公開期限は自動では変わりません。用途に応じて両者を調整してください。</li>
+<li>既存の期限付きURLがある状態でファイルを非公開にした場合、以後そのURLはアクセス不可になります（ファイルの公開再開で再びアクセス可能）。</li>
+</ul>
+<h2 id="_5">検索・フィルタ・再発行の注意点</h2>
+<ul>
+<li>検索はメモ欄に対して行われます。キーワードは部分一致です。</li>
+<li>フィルタは「有効/全件/無効」から選択します。期限切れは「無効」に含まれます。</li>
+<li>再発行は同一メディアで新規にURLを作成します。既存URLは自動では無効化されないため、不要になったURLは「無効にする」を実行してください。</li>
+<li>「URLをコピー」ボタンは完全なURL（トークン付き）をクリップボードにコピーします。共有先の管理にご注意ください。</li>
+</ul>
+<hr />
+<h3 id="_6">次にやること / 関連</h3>
+<ul>
+<li>サイト埋め込み（HTML）: <a href="../embed_html/">埋め込みHTML</a></li>
+<li>サイト埋め込み（API）: <a href="../embed_api/">APIを使った埋め込み</a></li>
 </ul>
 
 
@@ -807,6 +926,12 @@
     
     
       <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/mermaid-init.js"></script>
+      
+        <script src="../javascripts/lightbox.js"></script>
       
     
   </body>

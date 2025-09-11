@@ -16,7 +16,7 @@
         <link rel="prev" href="../embed_html/">
       
       
-        <link rel="next" href="../unpublish_delete/">
+        <link rel="next" href="../embed_wordpress/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -46,6 +46,10 @@
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
+    
+      <link rel="stylesheet" href="../styles/overrides.css">
+    
+      <link rel="stylesheet" href="../styles/lightbox.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -510,9 +514,108 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
+      認証方式の選び方（非エンジニア向け）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="認証方式の選び方（非エンジニア向け）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      A. APIキーを直接使う
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      B. JWTを使う
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      迷ったら…
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      推奨アーキテクチャ（JWTのバックエンド発行）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推奨アーキテクチャ（JWTのバックエンド発行）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      基本フロー
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      ポイント（運用）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      画面から得られる情報（管理画面とAPIの対応）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
       注意
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="注意">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -520,6 +623,29 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embed_wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WordPressへの埋め込み
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -706,9 +832,108 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
+      認証方式の選び方（非エンジニア向け）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="認証方式の選び方（非エンジニア向け）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      A. APIキーを直接使う
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      B. JWTを使う
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      迷ったら…
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      推奨アーキテクチャ（JWTのバックエンド発行）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推奨アーキテクチャ（JWTのバックエンド発行）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      基本フロー
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      ポイント（運用）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      画面から得られる情報（管理画面とAPIの対応）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
       注意
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="注意">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -733,14 +958,21 @@
 <ul>
 <li>APIユーザーは APIキー を持ち、アクセス許可ドメイン で利用元ドメインを制限できます</li>
 <li>用途に応じて API種類（<code>readonly</code>/<code>fullaccess</code>）を選択。閲覧のみなら <code>readonly</code> 推奨</li>
+<li>認証方式は「APIキー」または「JWT」の2種類（どちらか一方でOK）</li>
 </ul>
 <h2 id="_2">準備</h2>
 <ol>
-<li>既存のデフォルトAPIユーザーを利用（初期アカウント発行時に自動作成）</li>
+<li>既存のデフォルトAPIユーザーを利用（初期アカウント発行時に自動作成）<ul>
 <li>必要なら <code>/filmaadmin/user/new</code> で新規APIユーザーを作成（「APIユーザー」をON）</li>
-<li><code>/filmaadmin/apisettings/edit?id=:user_id</code> を開き、「アクセス許可ドメイン」に自サイトのFQDNを登録</li>
-<li>URLでも入力可（保存時にFQDNへ正規化）</li>
+</ul>
+</li>
+<li><code>/filmaadmin/apisettings/edit/:user_id</code> を開き、「アクセス許可ドメイン」に自サイトのドメイン名を登録（サブドメイン可）<ul>
+<li>URLで入力しても保存時にドメイン名（ホスト部）へ自動変換されます</li>
+<li><code>example.com</code> と入力すると、その配下のサブドメイン（www.example.com / app.example.com など）も許可されます</li>
+<li>特定のサブドメインのみ許可したい場合は <code>app.example.com</code> のようにサブドメインまで入力してください</li>
 <li>未設定ドメインからのアクセスは拒否されます</li>
+</ul>
+</li>
 </ol>
 <h2 id="_3">実装フロー（例）</h2>
 <ol>
@@ -748,9 +980,78 @@
 <li>自サイトのプレイヤーへURL/トークンを設定</li>
 <li>ドメイン照合エラーの場合は、許可ドメイン設定を確認</li>
 </ol>
-<h2 id="_4">注意</h2>
+<h2 id="_4">認証方式の選び方（非エンジニア向け）</h2>
+<p>どちらの方式でも再生は可能です。用途に合わせて選んでください。</p>
+<h3 id="a-api">A. APIキーを直接使う</h3>
+<ul>
+<li>使い方: リクエストで <code>X-Api-Key</code> ヘッダー（推奨）または <code>?api_key=</code> を付けて呼び出します</li>
+<li>ドメイン制限: アクセス許可ドメインのチェックが働きます（未設定だと自社サイトから再生できません）</li>
+<li>長所<ul>
+<li>導入が簡単（追加の発行手順が不要）</li>
+<li>ドメインでのアクセス制限が効く（Referer/Origin）</li>
+</ul>
+</li>
+<li>短所<ul>
+<li>APIキーが長期固定になりがちで、漏えい時のリスクが高い</li>
+<li>フロント側の実装でキーを扱う場合は取り扱いに注意（直接埋め込みは避け、サーバー経由に）</li>
+</ul>
+</li>
+</ul>
+<h3 id="b-jwt">B. JWTを使う</h3>
+<ul>
+<li>使い方: まずAPIキーで「短期のJWTトークン」を発行し、そのJWTを使って再生用URLを呼び出します</li>
+<li>ドメイン制限: 適用されません（JWTの有効性で保護）。どのドメインからでもアクセス可</li>
+<li>長所<ul>
+<li>短期の使い捨てトークンで安全（期限切れで自動無効化、Cookie運用も可能）</li>
+<li>ファイル単位（<code>mediafile_id</code>）で限定したJWTも発行できる</li>
+</ul>
+</li>
+<li>短所<ul>
+<li>初回に「JWT発行」のひと手間が必要</li>
+<li>ドメイン制限が効かないため、トークンの保管と配布に注意（短寿命運用が前提）</li>
+</ul>
+</li>
+</ul>
+<h3 id="_5">迷ったら…</h3>
+<ul>
+<li>「まずは簡単に」→ APIキーで開始（必ずアクセス許可ドメインを設定）</li>
+<li>「より安全に」→ 短期JWTを採用（必要に応じてファイル限定JWT）</li>
+</ul>
+<h2 id="jwt">推奨アーキテクチャ（JWTのバックエンド発行）</h2>
+<p>JWT はできるだけ自社バックエンドで発行・配布する運用を推奨します。APIキーをフロントに露出させず、短期トークンで安全に配信できます。</p>
+<h3 id="_6">基本フロー</h3>
+<ol>
+<li>フロント → 自社バックエンド: 対象メディアIDを渡して JWT を要求</li>
+<li>バックエンド → Filma API: APIキーで <code>POST /filmaapi/token</code>（必要に応じて <code>mediafile_id</code> 指定、<code>expires_in</code> で短期化）</li>
+<li>バックエンド → フロント: 短期JWT（または埋め込みHTML/URL）を返却</li>
+<li>フロント: JWT 付きURLでプレイヤーを初期化</li>
+</ol>
+<h3 id="_7">ポイント（運用）</h3>
+<ol>
+<li>有効期限は短め（例: 数分〜15分）を基本に、必要時に自動リフレッシュ</li>
+<li>外部共有や限定公開は「ファイル限定JWT（<code>mediafile_id</code>）」で最小権限</li>
+<li>バックエンドで発行ログ/失効ポリシーを持ち、問題時は短期運用＋差し替えで対応</li>
+<li>JWTはドメイン制限が効かないため、短寿命＋限定スコープで担保（APIキーは常にバックエンド保管）</li>
+</ol>
+<h2 id="api_1">画面から得られる情報（管理画面とAPIの対応）</h2>
+<ul>
+<li>管理画面の「埋め込みHTML」でコピーできるコードは、プレイヤー用JS/CSS込みの完全版です</li>
+<li>APIでも同等の「埋め込みHTML（完全版/シンプル版）」が取得できます（<code>embed_code</code> / <code>simple_embed_code</code>）</li>
+<li>タグ/カテゴリなど管理画面のメタ情報は <code>user_metadata</code> として取得できます</li>
+</ul>
+<blockquote>
+<p>技術メモ: 認証の優先順位や詳細は Filma API 仕様書 を参照してください（非エンジニアの方は本ページの方針だけ把握で十分です）。
+参照先: <a href="https://github.com/moguracream/filma-docs/blob/master/api_specification.md">Filma API 仕様書</a></p>
+</blockquote>
+<h2 id="_8">注意</h2>
 <ul>
 <li><code>fullaccess</code> は強力な権限です。キー管理（保護・ローテーション）を徹底してください</li>
+</ul>
+<hr />
+<h3 id="_9">次にやること / 関連</h3>
+<ul>
+<li>HTML埋め込みへ戻る: <a href="../embed_html/">埋め込みHTML</a></li>
+<li>期限付きURLの発行・管理: <a href="../signedurl/">期限付きURLの発行</a></li>
 </ul>
 
 
@@ -807,6 +1108,12 @@
     
     
       <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/mermaid-init.js"></script>
+      
+        <script src="../javascripts/lightbox.js"></script>
       
     
   </body>

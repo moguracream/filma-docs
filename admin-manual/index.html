@@ -45,6 +45,10 @@
       
     
     
+      <link rel="stylesheet" href="styles/overrides.css">
+    
+      <link rel="stylesheet" href="styles/lightbox.css">
+    
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -278,6 +282,15 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       クイックスタート（最短ルート）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      やりたいこと別ショートカット
     </span>
   </a>
   
@@ -521,6 +534,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="embed_wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WordPressへの埋め込み
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -708,6 +744,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      やりたいこと別ショートカット
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -742,19 +787,31 @@
 <li>ファイル一覧: <code>/filmaadmin/file</code></li>
 <li>フォルダ一覧: <code>/filmaadmin/folder</code></li>
 <li>ユーザー一覧: <code>/filmaadmin/user</code></li>
-<li>API設定編集: <code>/filmaadmin/apisettings/edit?id=:user_id</code></li>
-<li>期限付きURL: 発行 <code>/filmaadmin/signedurl/issue?id=:mediafile_id</code> / 一覧 <code>/filmaadmin/signedurl/list?mediafile_id=:mediafile_id</code></li>
+<li>API設定編集: <code>/filmaadmin/apisettings/edit/:user_id</code></li>
+<li>期限付きURL: 発行 <code>/filmaadmin/signedurl/issue/:mediafile_id</code> / 一覧 <code>/filmaadmin/signedurl/list/:file_id</code> または <code>/filmaadmin/signedurl/list?mediafile_id=:mediafile_id</code></li>
 </ul>
 <h2 id="_3">クイックスタート（最短ルート）</h2>
 <ol>
-<li>ダッシュボード → 「クイック操作」でアップロード先フォルダへ → 動画をアップロード</li>
-<li>ファイル編集 → 「公開する」ON、必要に応じて公開期限を設定</li>
-<li>「派生メディア」から「埋め込みHTMLをコピー」→ 自サイトへ貼付</li>
-<li>もしくは「期限付きURL」を発行して共有</li>
+<li>ダッシュボード → 「クイック操作」でアップロード先フォルダへ → 動画をアップロード（詳細: <a href="upload/">動画のアップロード</a>）</li>
+<li>ファイル編集 → 「公開する」ON、必要に応じて公開期限を設定（詳細: <a href="publish/">動画の公開</a>）</li>
+<li>「派生メディア」から「埋め込みHTMLをコピー」→ 自サイトへ貼付（詳細: <a href="embed_html/">埋め込みHTML</a>）</li>
+<li>もしくは「期限付きURL」を発行して共有（詳細: <a href="signedurl/">期限付きURLの発行</a>）</li>
 </ol>
 <blockquote>
-<p>重要: 埋め込みHTMLでも「アクセス許可ドメイン」の設定が必要です。初期アカウント発行時に自動作成される「デフォルトのAPIユーザー」の API 設定で、自サイトのFQDNを登録してください。</p>
+<p>重要: 埋め込みHTMLでも「アクセス許可ドメイン」の設定が必要です。初期アカウント発行時に自動作成される「デフォルトのAPIユーザー」の API 設定で、自サイトのドメイン名を登録してください（サブドメイン可。例: example.com / app.example.com）。</p>
 </blockquote>
+<h2 id="_4">やりたいこと別ショートカット</h2>
+<ul>
+<li>ログインしたい: <a href="login/">ログイン</a></li>
+<li>動画をアップロードしたい: <a href="upload/">動画のアップロード</a></li>
+<li>動画を公開したい: <a href="publish/">動画の公開</a></li>
+<li>サイトに埋め込みたい（HTML）: <a href="embed_html/">埋め込みHTML</a></li>
+<li>サイトに埋め込みたい（API）: <a href="embed_api/">APIを使った埋め込み</a></li>
+<li>期限付きURLを発行・管理したい: <a href="signedurl/">期限付きURLの発行</a></li>
+<li>動画を非公開/削除したい: <a href="unpublish_delete/">非公開化・削除</a></li>
+<li>ユーザーを管理したい: <a href="users/">ユーザーの種類</a></li>
+<li>画面URLと遷移を確認したい: <a href="routes_flow/">画面URLと遷移</a></li>
+</ul>
 
 
 
@@ -810,6 +867,12 @@
     
     
       <script src="assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="javascripts/mermaid-init.js"></script>
+      
+        <script src="javascripts/lightbox.js"></script>
       
     
   </body>

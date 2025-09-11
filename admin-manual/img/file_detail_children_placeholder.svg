@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+
+  <!-- 画面タイトル -->
+  <text x="480" y="44" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#334155">ファイル詳細</text>
+
+  <!-- 情報カード（簡略） -->
+  <rect x="60" y="64" width="840" height="72" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="80" y="88" font-family="sans-serif" font-size="14" fill="#334155">ファイル情報</text>
+  <text x="80" y="110" font-family="sans-serif" font-size="12" fill="#64748b">名称: training_2024_intro.mp4 ／ 公開状態: 公開 ／ 公開期限: 期限なし</text>
+
+  <!-- 派生メディアカード 見出し -->
+  <rect x="60" y="148" width="840" height="36" rx="6" fill="#e5e7eb" stroke="#cbd5e1"/>
+  <text x="80" y="171" font-family="sans-serif" font-size="14" fill="#334155">派生メディア</text>
+
+  <!-- 派生メディアカード 本体 -->
+  <rect x="60" y="184" width="840" height="300" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+
+  <!-- 注意（表ヘッダの上に配置） -->
+  <rect x="76" y="190" width="808" height="40" rx="6" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="92" y="216" font-family="sans-serif" font-size="12" fill="#9a3412">注意: ストリーミング/ダウンロードのテストには適切なAPIキー設定が必要です。埋め込みHTMLの発行は同画面の操作から行えます。</text>
+
+  <!-- テーブルヘッダ -->
+  <rect x="60" y="235" width="840" height="36" fill="#e5e7eb"/>
+  <text x="100" y="255" font-family="sans-serif" font-size="12" fill="#334155">解像度</text>
+  <text x="200" y="255" font-family="sans-serif" font-size="12" fill="#334155">サイズ</text>
+  <text x="280" y="255" font-family="sans-serif" font-size="12" fill="#334155">平均ビットレート</text>
+  <text x="400" y="255" font-family="sans-serif" font-size="12" fill="#334155">ダウンロード/ストリーミング</text>
+  <text x="620" y="255" font-family="sans-serif" font-size="12" fill="#334155">操作</text>
+
+  <!-- 行1（DASH/ストリーミング有） -->
+  <rect x="60" y="268" width="840" height="36" fill="#ffffff"/>
+  <text x="100" y="290" font-family="sans-serif" font-size="12" fill="#111827">1920x1080</text>
+  <text x="200" y="290" font-family="sans-serif" font-size="12" fill="#6b7280">850 MB</text>
+  <text x="300" y="290" font-family="sans-serif" font-size="12" fill="#6b7280">6.5 Mbps</text>
+  <text x="430" y="296" text-anchor="start" font-family="sans-serif" font-size="12" fill="#2563eb" text-decoration="underline">ストリーミング</text>
+  <rect x="610" y="280" width="120" height="24" rx="6" fill="#0ea5e9"/>
+  <text x="670" y="296" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">期限付きURL生成</text>
+  <rect x="740" y="280" width="140" height="24" rx="6" fill="#2563eb"/>
+  <text x="810" y="296" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">埋め込みHTMLをコピー</text>
+
+  <!-- 行2（ダウンロード） -->
+  <rect x="60" y="304" width="840" height="36" fill="#f9fafb"/>
+  <text x="100" y="326" font-family="sans-serif" font-size="12" fill="#111827">1280x720</text>
+  <text x="200" y="326" font-family="sans-serif" font-size="12" fill="#6b7280">420 MB</text>
+  <text x="300" y="326" font-family="sans-serif" font-size="12" fill="#6b7280">3.2 Mbps</text>
+  <text x="430" y="332" text-anchor="start" font-family="sans-serif" font-size="12" fill="#2563eb" text-decoration="underline">ダウンロード</text>
+  <rect x="610" y="316" width="120" height="24" rx="6" fill="#0ea5e9"/>
+  <text x="670" y="332" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">期限付きURL生成</text>
+  <rect x="740" y="316" width="140" height="24" rx="6" fill="#2563eb"/>
+  <text x="810" y="332" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">埋め込みHTMLをコピー</text>
+
+  <!-- 行3 -->
+  <rect x="60" y="340" width="840" height="36" fill="#ffffff"/>
+  <text x="100" y="362" font-family="sans-serif" font-size="12" fill="#111827">854x480</text>
+  <text x="200" y="362" font-family="sans-serif" font-size="12" fill="#6b7280">220 MB</text>
+  <text x="300" y="362" font-family="sans-serif" font-size="12" fill="#6b7280">1.6 Mbps</text>
+  <text x="430" y="368" text-anchor="start" font-family="sans-serif" font-size="12" fill="#2563eb" text-decoration="underline">ダウンロード</text>
+  <rect x="610" y="352" width="120" height="24" rx="6" fill="#0ea5e9"/>
+  <text x="670" y="368" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">期限付きURL生成</text>
+  <rect x="740" y="352" width="140" height="24" rx="6" fill="#2563eb"/>
+  <text x="810" y="368" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">埋め込みHTMLをコピー</text>
+
+  
+
+  <!-- キャプション -->
+  <text x="480" y="536" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
+</svg>

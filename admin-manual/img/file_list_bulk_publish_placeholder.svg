@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="630" viewBox="0 0 960 630">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+
+  <!-- タイトル -->
+  <text x="480" y="44" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#334155">ファイル一覧</text>
+
+  <!-- フィルタ行（公開状態/タグ/カテゴリ/絞り込み/クリア） -->
+  <rect x="60" y="64" width="840" height="64" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="80" y="90" font-family="sans-serif" font-size="12" fill="#475569">公開状態:</text>
+  <rect x="140" y="76" width="140" height="28" rx="4" fill="#eef2f7" stroke="#cbd5e1"/>
+  <polygon points="264,86 272,86 268,94" fill="#64748b"/>
+  <text x="300" y="90" font-family="sans-serif" font-size="12" fill="#475569">タグ:</text>
+  <rect x="336" y="76" width="160" height="28" rx="4" fill="#eef2f7" stroke="#cbd5e1"/>
+  <polygon points="480,86 488,86 484,94" fill="#64748b"/>
+  <text x="520" y="90" font-family="sans-serif" font-size="12" fill="#475569">カテゴリ:</text>
+  <rect x="576" y="76" width="160" height="28" rx="4" fill="#eef2f7" stroke="#cbd5e1"/>
+  <polygon points="720,86 728,86 724,94" fill="#64748b"/>
+  <rect x="748" y="76" width="72" height="28" rx="6" fill="#2563eb"/>
+  <text x="784" y="94" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">絞り込み</text>
+  <rect x="824" y="76" width="60" height="28" rx="6" fill="#64748b"/>
+  <text x="854" y="94" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">クリア</text>
+
+  <!-- 一括操作行 -->
+  <rect x="60" y="136" width="840" height="56" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="80" y="166" font-family="sans-serif" font-size="12" fill="#475569">選択したファイルの公開状態:</text>
+  <rect x="260" y="152" width="160" height="28" rx="4" fill="#eef2f7" stroke="#cbd5e1"/>
+  <polygon points="404,162 412,162 408,170" fill="#64748b"/>
+  <rect x="428" y="152" width="96" height="28" rx="6" fill="#f59e0b"/>
+  <text x="476" y="170" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#111827">一括変更</text>
+  <text x="540" y="166" font-family="sans-serif" font-size="12" fill="#9ca3af">（ファイル選択時に有効）</text>
+
+  <!-- テーブル -->
+  <rect x="60" y="200" width="840" height="356" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <!-- ヘッダ行 -->
+  <rect x="60" y="200" width="840" height="36" fill="#e5e7eb"/>
+  <rect x="76" y="212" width="16" height="16" rx="3" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="120" y="222" font-family="sans-serif" font-size="12" fill="#334155">番号</text>
+  <text x="200" y="222" font-family="sans-serif" font-size="12" fill="#334155">名称</text>
+  <text x="380" y="222" font-family="sans-serif" font-size="12" fill="#334155">公開状態</text>
+  <text x="470" y="222" font-family="sans-serif" font-size="12" fill="#334155">処理状況</text>
+  <text x="560" y="222" font-family="sans-serif" font-size="12" fill="#334155">タグ</text>
+  <text x="640" y="222" font-family="sans-serif" font-size="12" fill="#334155">カテゴリ</text>
+  <text x="720" y="222" font-family="sans-serif" font-size="12" fill="#334155">作成日</text>
+  <text x="820" y="222" font-family="sans-serif" font-size="12" fill="#334155">編集</text>
+
+  <!-- 行1 -->
+  <rect x="60" y="236" width="840" height="36" fill="#ffffff"/>
+  <rect x="76" y="248" width="16" height="16" rx="3" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="120" y="258" font-family="sans-serif" font-size="12" fill="#111827">101</text>
+  <text x="200" y="258" font-family="sans-serif" font-size="12" fill="#111827">training_2024_intro.mp4</text>
+  <text x="380" y="258" font-family="sans-serif" font-size="12" fill="#16a34a">公開</text>
+  <text x="470" y="258" font-family="sans-serif" font-size="12" fill="#6b7280">エンコード完了</text>
+  <text x="560" y="258" font-family="sans-serif" font-size="12" fill="#6b7280">guide</text>
+  <text x="640" y="258" font-family="sans-serif" font-size="12" fill="#6b7280">一般</text>
+  <text x="720" y="258" font-family="sans-serif" font-size="12" fill="#6b7280">2024/09/01</text>
+  <rect x="804" y="244" width="48" height="24" rx="6" fill="#2563eb"/>
+  <text x="828" y="260" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">編集</text>
+
+  <!-- 行2 -->
+  <rect x="60" y="272" width="840" height="36" fill="#f9fafb"/>
+  <rect x="76" y="284" width="16" height="16" rx="3" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="120" y="294" font-family="sans-serif" font-size="12" fill="#111827">102</text>
+  <text x="200" y="294" font-family="sans-serif" font-size="12" fill="#111827">webinar_oct.mp4</text>
+  <text x="380" y="294" font-family="sans-serif" font-size="12" fill="#ca8a04">公開期限切れ</text>
+  <text x="470" y="294" font-family="sans-serif" font-size="12" fill="#6b7280">エンコード完了</text>
+  <text x="560" y="294" font-family="sans-serif" font-size="12" fill="#6b7280">event</text>
+  <text x="640" y="294" font-family="sans-serif" font-size="12" fill="#6b7280">社外</text>
+  <text x="720" y="294" font-family="sans-serif" font-size="12" fill="#6b7280">2024/09/10</text>
+  <rect x="804" y="280" width="48" height="24" rx="6" fill="#2563eb"/>
+  <text x="828" y="296" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">編集</text>
+
+  <!-- 行3 -->
+  <rect x="60" y="308" width="840" height="36" fill="#ffffff"/>
+  <rect x="76" y="320" width="16" height="16" rx="3" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="120" y="330" font-family="sans-serif" font-size="12" fill="#111827">103</text>
+  <text x="200" y="330" font-family="sans-serif" font-size="12" fill="#111827">promo_teaser.mp4</text>
+  <text x="380" y="330" font-family="sans-serif" font-size="12" fill="#dc2626">非公開</text>
+  <text x="470" y="330" font-family="sans-serif" font-size="12" fill="#6b7280">エンコード中</text>
+  <text x="560" y="330" font-family="sans-serif" font-size="12" fill="#6b7280">promo</text>
+  <text x="640" y="330" font-family="sans-serif" font-size="12" fill="#6b7280">社内</text>
+  <text x="720" y="330" font-family="sans-serif" font-size="12" fill="#6b7280">2024/09/12</text>
+  <rect x="804" y="316" width="48" height="24" rx="6" fill="#2563eb"/>
+  <text x="828" y="332" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">編集</text>
+
+  <!-- ページャ（簡略） -->
+  <text x="480" y="576" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#64748b">1/10ページ  前へ  次へ  表示件数: 50件</text>
+
+  <!-- キャプション -->
+  <text x="480" y="610" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
+</svg>
+

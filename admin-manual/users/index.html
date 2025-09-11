@@ -47,6 +47,10 @@
       
     
     
+      <link rel="stylesheet" href="../styles/overrides.css">
+    
+      <link rel="stylesheet" href="../styles/lightbox.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -445,6 +449,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embed_wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WordPressへの埋め込み
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -601,6 +628,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="デフォルトのAPIユーザー">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -692,6 +734,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="デフォルトのAPIユーザー">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -727,7 +784,13 @@
 <ul>
 <li>初期アカウント発行時に自動作成されます</li>
 <li>埋め込みHTML でもこのユーザーの「アクセス許可ドメイン」設定が必要です</li>
-<li>設定場所: <code>/filmaadmin/apisettings/edit?id=:user_id</code></li>
+<li>設定場所: <code>/filmaadmin/apisettings/edit/:user_id</code></li>
+</ul>
+<hr />
+<h3 id="_2">次にやること / 関連</h3>
+<ul>
+<li>埋め込みHTMLの準備: <a href="../embed_html/">埋め込みHTML</a></li>
+<li>API埋め込みの実装: <a href="../embed_api/">APIを使った埋め込み</a></li>
 </ul>
 
 
@@ -784,6 +847,12 @@
     
     
       <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/mermaid-init.js"></script>
+      
+        <script src="../javascripts/lightbox.js"></script>
       
     
   </body>

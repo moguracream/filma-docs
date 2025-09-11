@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="520" viewBox="0 0 840 520">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+
+  <!-- 見出し -->
+  <text x="420" y="56" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#334155">ログイン</text>
+
+  <!-- パスワードログイン（表形式フォーム想定） -->
+  <rect x="120" y="80" width="600" height="150" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="150" y="124" font-family="sans-serif" font-size="12" fill="#475569">メールアドレス</text>
+  <rect x="260" y="104" width="430" height="28" rx="4" fill="#eef2f7" stroke="#cbd5e1"/>
+  <text x="150" y="164" font-family="sans-serif" font-size="12" fill="#475569">パスワード</text>
+  <rect x="260" y="144" width="430" height="28" rx="4" fill="#eef2f7" stroke="#cbd5e1"/>
+  <!-- 送信ボタン（下側余白を詰めて下寄せ） -->
+  <rect x="540" y="186" width="150" height="36" rx="6" fill="#3b82f6"/>
+  <text x="615" y="209" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffffff">送信</text>
+
+  <!-- メール認証コードでログイン（Bootstrapカード想定） -->
+  <rect x="120" y="280" width="600" height="168" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <rect x="120" y="280" width="600" height="44" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="140" y="308" font-family="sans-serif" font-size="15" fill="#334155">🔑 メール認証コードでログイン</text>
+  <!-- フォーム行: 左=メール, 右=送信ボタン（btn-block相当） -->
+  <text x="140" y="364" font-family="sans-serif" font-size="12" fill="#475569">メールアドレス</text>
+  <rect x="140" y="370" width="380" height="36" rx="6" fill="#eef2f7" stroke="#cbd5e1"/>
+  <rect x="540" y="370" width="160" height="36" rx="6" fill="#3b82f6"/>
+  <text x="620" y="393" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffffff">認証コードを送信</text>
+
+  <text x="420" y="500" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
+</svg>

@@ -47,6 +47,10 @@
       
     
     
+      <link rel="stylesheet" href="../styles/overrides.css">
+    
+      <link rel="stylesheet" href="../styles/lightbox.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -305,6 +309,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="トラブルシュート">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -523,6 +542,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embed_wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WordPressへの埋め込み
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -708,6 +750,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="トラブルシュート">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -734,19 +791,35 @@
 </ul>
 <h2 id="_2">手順</h2>
 <ul>
-<li>メール + パスワードでログイン</li>
-<li><code>/filmaadmin</code> → 「メールアドレス」「パスワード」入力 → 送信（reCAPTCHA ボタンがある場合は指示に従う）</li>
-<li>認証コードでログイン（推奨）</li>
+<li>
+<p>メール + パスワードでログイン</p>
+<ul>
+<li><code>/filmaadmin</code> → 「メールアドレス」「パスワード」入力 → 送信</li>
+</ul>
+<p><img alt="ログインフォーム（例）" src="../img/login_form_placeholder.svg" /></p>
+</li>
+<li>
+<p>認証コードでログイン（推奨）</p>
+<ul>
 <li>「メール認証コードでログイン」→ メールアドレス入力 → 認証コード受信 → 「認証コードの確認」に6桁入力 → ログイン</li>
+</ul>
+<p><img alt="認証コード入力（例）" src="../img/login_verify_placeholder.svg" /></p>
+</li>
 </ul>
 <h2 id="_3">ログアウト</h2>
 <ul>
-<li>右上のメニューから「ログアウト」を選択。セッションとJWTが破棄されます。</li>
+<li>右上のメニューから「ログアウト」</li>
 </ul>
 <h2 id="_4">トラブルシュート</h2>
 <ul>
 <li>メール/パスワード誤り: 再入力。認証コードログインが使える場合はそちらを利用</li>
 <li>メールが届かない: 迷惑メールやフィルタを確認。ドメイン許可設定を確認</li>
+</ul>
+<hr />
+<h3 id="_5">次にやること / 関連</h3>
+<ul>
+<li>アップロードへ進む: <a href="../upload/">動画のアップロード</a></li>
+<li>画面遷移を確認: <a href="../routes_flow/">画面URLと遷移</a></li>
 </ul>
 
 
@@ -803,6 +876,12 @@
     
     
       <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/mermaid-init.js"></script>
+      
+        <script src="../javascripts/lightbox.js"></script>
       
     
   </body>

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+
+  <!-- タイトル -->
+  <text x="480" y="44" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#334155">ユーザー一覧</text>
+
+  <!-- 操作バー（新規作成などの簡略表現） -->
+  <rect x="60" y="64" width="840" height="40" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <rect x="76" y="74" width="120" height="24" rx="6" fill="#10b981"/>
+  <text x="136" y="90" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">ユーザー作成</text>
+
+  <!-- 一覧テーブル枠 -->
+  <rect x="60" y="112" width="840" height="340" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <!-- ヘッダ -->
+  <rect x="60" y="112" width="840" height="36" fill="#e5e7eb"/>
+  <text x="80" y="134" font-family="sans-serif" font-size="12" fill="#334155">番号</text>
+  <text x="140" y="134" font-family="sans-serif" font-size="12" fill="#334155">氏名</text>
+  <text x="300" y="134" font-family="sans-serif" font-size="12" fill="#334155">メール</text>
+  <text x="500" y="134" font-family="sans-serif" font-size="12" fill="#334155">種別</text>
+  <text x="560" y="134" font-family="sans-serif" font-size="12" fill="#334155">APIキー</text>
+  <text x="720" y="134" font-family="sans-serif" font-size="12" fill="#334155">操作</text>
+
+  <!-- 行1（APIユーザー例） -->
+  <rect x="60" y="148" width="840" height="44" fill="#ffffff"/>
+  <text x="80" y="174" font-family="sans-serif" font-size="12" fill="#111827">1024</text>
+  <text x="140" y="174" font-family="sans-serif" font-size="12" fill="#111827">API_READ_ONLY</text>
+  <text x="500" y="172" font-family="sans-serif" font-size="12" fill="#0ea5e9">API</text>
+  <rect x="560" y="158" width="150" height="20" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="635" y="172" text-anchor="middle" font-family="monospace" font-size="11" fill="#334155">sk_live_xxx_****</text>
+  <rect x="720" y="158" width="90" height="24" rx="6" fill="#2563eb"/>
+  <text x="765" y="174" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">編集</text>
+  <rect x="816" y="158" width="64" height="24" rx="6" fill="#ef4444"/>
+  <text x="848" y="174" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">削除</text>
+
+  <!-- 行2（一般ユーザー例） -->
+  <rect x="60" y="192" width="840" height="44" fill="#f9fafb"/>
+  <text x="80" y="218" font-family="sans-serif" font-size="12" fill="#111827">1025</text>
+  <text x="140" y="218" font-family="sans-serif" font-size="12" fill="#111827">一般ユーザーA</text>
+  <text x="300" y="212" font-family="sans-serif" font-size="11" fill="#6b7280">user-a@example.com</text>
+  <text x="500" y="214" font-family="sans-serif" font-size="12" fill="#64748b">一般</text>
+  <rect x="720" y="202" width="90" height="24" rx="6" fill="#2563eb"/>
+  <text x="765" y="218" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">編集</text>
+  <rect x="816" y="202" width="64" height="24" rx="6" fill="#ef4444"/>
+  <text x="848" y="218" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">削除</text>
+
+  <!-- 行3（APIユーザー例） -->
+  <rect x="60" y="236" width="840" height="44" fill="#ffffff"/>
+  <text x="80" y="262" font-family="sans-serif" font-size="12" fill="#111827">1026</text>
+  <text x="140" y="262" font-family="sans-serif" font-size="12" fill="#111827">一般ユーザーB</text>
+  <text x="300" y="256" font-family="sans-serif" font-size="11" fill="#6b7280">api2@example.com</text>
+  <text x="500" y="260" font-family="sans-serif" font-size="12" fill="#64748b">一般</text>
+  <text x="600" y="260" font-family="sans-serif" font-size="12" fill="#9ca3af">-</text>
+  <rect x="720" y="246" width="90" height="24" rx="6" fill="#2563eb"/>
+  <text x="765" y="262" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">編集</text>
+  <rect x="816" y="246" width="64" height="24" rx="6" fill="#ef4444"/>
+  <text x="848" y="262" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">削除</text>
+
+  <!-- キャプション -->
+  <text x="480" y="496" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
+</svg>

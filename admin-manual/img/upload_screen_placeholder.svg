@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+
+  <!-- タイトル（枠外ヘッダ） -->
+  <text x="480" y="48" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#334155">アップロード</text>
+
+  <!-- フォルダ/アップロード先 行（label + form-control-sm select） -->
+  <rect x="60" y="72" width="840" height="48" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="80" y="100" font-family="sans-serif" font-size="12" fill="#475569">アップロード先フォルダ:</text>
+  <rect x="210" y="82" width="200" height="28" rx="4" fill="#eef2f7" stroke="#cbd5e1"/>
+  <polygon points="398,93 406,93 402,101" fill="#64748b"/>
+
+  <!-- 注意（alert-info） -->
+  <rect x="60" y="124" width="840" height="52" rx="6" fill="#e0f2fe" stroke="#bae6fd"/>
+  <text x="80" y="155" font-family="sans-serif" font-size="12" fill="#0369a1">ⓘ 注意: アップロード後にファイルを公開するには、編集画面で「公開する」をONにして保存してください。</text>
+
+  <!-- ドラッグ&ドロップ領域（solid border grey, min-height相当） -->
+  <rect x="60" y="184" width="840" height="200" rx="4" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="480" y="250" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#475569">こちらをクリックするか、アップロードするファイルをドラッグしてください</text>
+
+  <!-- 操作ボタン（primary x2：横並び・左寄せ） -->
+  <rect x="60" y="396" width="180" height="36" rx="6" fill="#3b82f6"/>
+  <text x="150" y="418" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffffff">アップロード</text>
+  <rect x="250" y="396" width="180" height="36" rx="6" fill="#3b82f6"/>
+  <text x="340" y="418" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffffff">すべてキャンセル</text>
+
+  <!-- 戻るリンク（btn-outline-secondary風：アップロードの直下に配置） -->
+  <rect x="60" y="440" width="180" height="36" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="150" y="462" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#334155">ファイル一覧に戻る</text>
+
+  <!-- キャプション -->
+  <text x="480" y="504" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
+</svg>

@@ -47,6 +47,10 @@
       
     
     
+      <link rel="stylesheet" href="../styles/overrides.css">
+    
+      <link rel="stylesheet" href="../styles/lightbox.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -397,6 +401,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      公開期限について
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="公開期限について">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -515,6 +543,29 @@
   
   <span class="md-ellipsis">
     API埋め込み
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embed_wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WordPressへの埋め込み
     
   </span>
   
@@ -712,6 +763,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      公開期限について
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="公開期限について">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -729,9 +804,10 @@
 
 
 <h1 id="_1">動画の公開</h1>
+<p><a href="../#クイックスタート（最短ルート）">← クイックスタートへ戻る</a></p>
 <h2 id="url">画面URL</h2>
 <ul>
-<li>ファイル編集: <code>/filmaadmin/file/edit?id=:file_id</code></li>
+<li>ファイル編集: <code>/filmaadmin/file/edit/:file_id</code></li>
 <li>ファイル一覧: <code>/filmaadmin/file</code></li>
 </ul>
 <h2 id="_2">単体公開</h2>
@@ -739,18 +815,50 @@
 <li>ファイル一覧から対象の「編集」を開く</li>
 <li>「公開する」をON</li>
 <li>必要に応じて「公開期限」を設定（空欄は期限なし）</li>
-<li>「保存」</li>
+<li>「保存」
+<img alt="ファイル編集（公開と公開期限）" src="../img/file_edit_publish_placeholder.svg" /></li>
 </ol>
 <h2 id="_3">一括公開/非公開</h2>
 <ol>
 <li>ファイル一覧で対象ファイルにチェック</li>
 <li>「選択したファイルの公開状態」で「公開」または「非公開」を選択</li>
-<li>「一括変更」</li>
+<li>「一括変更」
+<img alt="ファイル一覧（一括公開/非公開）" src="../img/file_list_bulk_publish_placeholder.svg" /></li>
 </ol>
 <h2 id="_4">絞り込みと確認</h2>
 <ul>
 <li>一覧上部で「公開状態」「タグ」「カテゴリ」でフィルタ可能</li>
 <li>ソートとページングにも対応</li>
+</ul>
+<h2 id="_5">公開期限について</h2>
+<ul>
+<li>表示可否: 公開期限（<code>published_until</code>）を過ぎると、公開フラグがONでも「外部公開の対象外」になります。<ul>
+<li>APIの一覧取得では除外されます。</li>
+<li>埋め込み/プレイヤーへのアクセスは不可（404相当の応答）になります。</li>
+</ul>
+</li>
+<li>管理画面表示: 一覧の「公開状態」で「公開期限切れ」と表示され、詳細/編集画面では公開期限に過去日時が表示されます。</li>
+<li>期限なし: 公開期限を空欄にすると期限なし（常に公開）として扱われます。</li>
+<li>期限の再設定: 未来の日時を再設定すれば、再び公開対象として扱われます。</li>
+<li>
+<p>期限付きURLとの関係: 期限付きURLは各URLに設定した期限で制御されます（公開期限とは独立）。</p>
+</li>
+<li>
+<p>APIの<code>show_all</code>パラメータについて:</p>
+<ul>
+<li>デフォルトではAPIの一覧は「公開中かつ期限内」のみ返します。</li>
+<li>ただし、<code>show_all=true</code> を付与し、かつAPIキーが<code>fullaccess</code>のときは「非公開や期限切れも含む全件」を取得できます。</li>
+<li>また、管理者（filmaadmin）ログイン状態でのAPIアクセスも同等に全件表示が有効になります。</li>
+<li>例: <code>/filmaapi/storage?show_all=true</code></li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="_6">次にやること / 関連</h3>
+<ul>
+<li>期限付きURLの発行・管理: <a href="../signedurl/">期限付きURLの発行</a></li>
+<li>サイト埋め込み（HTML）: <a href="../embed_html/">埋め込みHTML</a></li>
+<li>サイト埋め込み（API）: <a href="../embed_api/">APIを使った埋め込み</a></li>
 </ul>
 
 
@@ -807,6 +915,12 @@
     
     
       <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/mermaid-init.js"></script>
+      
+        <script src="../javascripts/lightbox.js"></script>
       
     
   </body>

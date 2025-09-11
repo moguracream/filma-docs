@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://moguracream.github.io/filma-docs/admin-manual/unpublish_delete/">
       
       
-        <link rel="prev" href="../embed_api/">
+        <link rel="prev" href="../embed_wordpress/">
       
       
         <link rel="next" href="../users/">
@@ -46,6 +46,10 @@
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
+    
+      <link rel="stylesheet" href="../styles/overrides.css">
+    
+      <link rel="stylesheet" href="../styles/lightbox.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -445,6 +449,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embed_wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WordPressへの埋め込み
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -578,6 +605,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="削除不可ケース">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -692,6 +734,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="削除不可ケース">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      次にやること / 関連
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -713,18 +770,24 @@
 <h1 id="_1">動画の非公開化・削除</h1>
 <h2 id="_2">非公開化</h2>
 <ul>
-<li>個別: <code>/filmaadmin/file/edit?id=:file_id</code> → 「公開する」をOFF → 保存</li>
+<li>個別: <code>/filmaadmin/file/edit/:file_id</code> → 「公開する」をOFF → 保存</li>
 <li>一括: <code>/filmaadmin/file</code> で対象にチェック → 「選択したファイルの公開状態」= 非公開 → 「一括変更」</li>
 </ul>
 <h2 id="_3">削除</h2>
 <ol>
-<li><code>/filmaadmin/file/detail?id=:file_id</code> → 「削除」</li>
+<li><code>/filmaadmin/file/detail/:file_id</code> → 「削除」</li>
 <li>確認画面で内容を確認 → 実行（論理削除）</li>
 <li>一覧に成功メッセージ表示</li>
 </ol>
 <h2 id="_4">削除不可ケース</h2>
 <ul>
 <li>作成者が「プラットフォーム管理者」のファイルは削除不可（エラーメッセージが表示されます）</li>
+</ul>
+<hr />
+<h3 id="_5">次にやること / 関連</h3>
+<ul>
+<li>再度公開する: <a href="../publish/">動画の公開</a></li>
+<li>ファイルの期限付き共有: <a href="../signedurl/">期限付きURLの発行</a></li>
 </ul>
 
 
@@ -781,6 +844,12 @@
     
     
       <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/mermaid-init.js"></script>
+      
+        <script src="../javascripts/lightbox.js"></script>
       
     
   </body>

@@ -45,6 +45,10 @@
       
     
     
+      <link rel="stylesheet" href="../styles/overrides.css">
+    
+      <link rel="stylesheet" href="../styles/lightbox.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -443,6 +447,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embed_wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WordPressへの埋め込み
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -614,9 +641,69 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
+      遷移図（フローチャート）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
       遷移図（テキスト）
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="遷移図（テキスト）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      認証:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      アップロード/公開:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#url_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      期限付きURL:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#html" class="md-nav__link">
+    <span class="md-ellipsis">
+      埋め込みHTML 初回準備:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      ユーザー管理:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -666,9 +753,69 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
+      遷移図（フローチャート）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
       遷移図（テキスト）
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="遷移図（テキスト）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      認証:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      アップロード/公開:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#url_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      期限付きURL:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#html" class="md-nav__link">
+    <span class="md-ellipsis">
+      埋め込みHTML 初回準備:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      ユーザー管理:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -696,28 +843,109 @@
 <li>ファイル一覧: <code>/filmaadmin/file</code></li>
 <li>フォルダ一覧: <code>/filmaadmin/folder</code></li>
 <li>ユーザー一覧: <code>/filmaadmin/user</code></li>
-<li>ファイル編集: <code>/filmaadmin/file/edit?id=:file_id</code></li>
-<li>ファイル詳細: <code>/filmaadmin/file/detail?id=:file_id</code></li>
-<li>アップロード: <code>/filmaadmin/file/upload?folder_id=:folder_id</code></li>
-<li>API設定編集: <code>/filmaadmin/apisettings/edit?id=:user_id</code></li>
-<li>期限付きURL: 発行 <code>/filmaadmin/signedurl/issue?id=:mediafile_id</code> / 一覧 <code>/filmaadmin/signedurl/list?mediafile_id=:mediafile_id</code> / 詳細 <code>/filmaadmin/signedurl/detail?id=:signed_url_id</code></li>
+<li>ファイル編集: <code>/filmaadmin/file/edit/:file_id</code></li>
+<li>ファイル詳細: <code>/filmaadmin/file/detail/:file_id</code></li>
+<li>アップロード: <code>/filmaadmin/file/upload/:folder_id</code></li>
+<li>API設定編集: <code>/filmaadmin/apisettings/edit/:user_id</code></li>
+<li>期限付きURL: 発行 <code>/filmaadmin/signedurl/issue/:mediafile_id</code> / 一覧 <code>/filmaadmin/signedurl/list/:file_id</code> または <code>/filmaadmin/signedurl/list?mediafile_id=:mediafile_id</code> / 詳細 <code>/filmaadmin/signedurl/detail/:signed_url_id</code></li>
 </ul>
-<h2 id="_1">遷移図（テキスト）</h2>
-<p>認証:
-- <code>/filmaadmin</code> → ログイン成功 → <code>/filmaadmin/dashboard</code>
-- <code>/filmaadmin</code> → 認証コード送信 → <code>/filmaadmin/verify</code> → 成功 → <code>/filmaadmin/dashboard</code></p>
-<p>アップロード/公開:
-- <code>/filmaadmin/dashboard</code> → クイック操作 → <code>/filmaadmin/file/upload?folder_id=:id</code> → 完了 → <code>/filmaadmin/file?folder_id=:id</code>
-- <code>/filmaadmin/file</code> → 「編集」→ <code>/filmaadmin/file/edit?id=:file_id</code> → 保存 → <code>/filmaadmin/file/detail?id=:file_id</code></p>
-<p>期限付きURL:
-- <code>/filmaadmin/file/detail?id=:file_id</code> → 「期限付きURL一覧」→ <code>/filmaadmin/signedurl/list?mediafile_id=:mediafile_id</code>
-- 一覧 → 「新規発行」→ <code>/filmaadmin/signedurl/issue?id=:mediafile_id</code> → 保存 → 一覧に反映
-- 一覧 → 「詳細」→ <code>/filmaadmin/signedurl/detail?id=:signed_url_id</code> → 「メモを編集」→ <code>/filmaadmin/signedurl/edit?id=:signed_url_id</code></p>
-<p>埋め込みHTML 初回準備:
-- <code>/filmaadmin/user</code> → デフォルトAPIユーザー → <code>/filmaadmin/apisettings/edit?id=:user_id</code>（アクセス許可ドメイン設定）
-- <code>/filmaadmin/file/detail?id=:file_id</code> → 「埋め込みHTMLをコピー」→ 自サイトへ貼付け</p>
-<p>ユーザー管理:
-- <code>/filmaadmin/user</code> → 新規/編集/削除 → 詳細/一覧</p>
+<h2 id="_1">遷移図（フローチャート）</h2>
+<pre class="mermaid"><code>flowchart TB
+  %% 認証
+  login["ログイン&lt;br/&gt;`/filmaadmin`"]
+  verify["認証コード入力&lt;br/&gt;`/filmaadmin/verify`"]
+  dashboard["ダッシュボード&lt;br/&gt;`/filmaadmin/dashboard`"]
+
+  %% 一覧・詳細・編集・アップロード
+  file_list["ファイル一覧&lt;br/&gt;`/filmaadmin/file`"]
+  file_list_f["ファイル一覧（フォルダ指定）&lt;br/&gt;`/filmaadmin/file/:id`"]
+  file_detail["ファイル詳細&lt;br/&gt;`/filmaadmin/file/detail/:file_id`"]
+  file_edit["ファイル編集&lt;br/&gt;`/filmaadmin/file/edit/:file_id`"]
+  upload["アップロード&lt;br/&gt;`/filmaadmin/file/upload/:id`"]
+
+  %% 期限付きURL
+  su_list["期限付きURL一覧&lt;br/&gt;`/filmaadmin/signedurl/list/:file_id`&lt;br/&gt;または&lt;br/&gt;`/filmaadmin/signedurl/list?mediafile_id=:mediafile_id`"]
+  su_issue["期限付きURL発行&lt;br/&gt;`/filmaadmin/signedurl/issue/:mediafile_id`"]
+  su_detail["期限付きURL詳細&lt;br/&gt;`/filmaadmin/signedurl/detail/:signed_url_id`"]
+  su_edit["期限付きURL編集&lt;br/&gt;`/filmaadmin/signedurl/edit/:signed_url_id`"]
+
+  %% ユーザー・API設定
+  users["ユーザー一覧&lt;br/&gt;`/filmaadmin/user`"]
+  api_edit["API設定編集&lt;br/&gt;`/filmaadmin/apisettings/edit/:user_id`"]
+
+  %% 認証フロー
+  login --&gt;|ログイン成功| dashboard
+  login --&gt;|認証コード送信| verify --&gt;|成功| dashboard
+
+  %% アップロード/公開フロー
+  dashboard --&gt;|クイック操作| upload --&gt;|完了| file_list_f
+  file_list --&gt;|編集| file_edit --&gt;|保存| file_detail
+
+  %% 期限付きURLフロー
+  file_detail --&gt;|一覧| su_list
+  su_list --&gt;|新規発行| su_issue --&gt;|保存| su_list
+  su_list --&gt;|詳細| su_detail --&gt;|メモを編集| su_edit
+
+  %% 埋め込みHTML 初回準備
+  users --&gt;|デフォルトAPIユーザー| api_edit
+  file_detail -.-&gt;|埋め込みHTMLをコピー| file_detail</code></pre>
+<hr />
+<h2 id="_2">遷移図（テキスト）</h2>
+<h3 id="_3">認証:</h3>
+<ul>
+<li>ログイン（<code>/filmaadmin</code>）<br>
+→ ログイン成功<br>
+→ ダッシュボード（<code>/filmaadmin/dashboard</code>）</li>
+<li>ログイン（<code>/filmaadmin</code>） <br>
+→ 認証コード送信 <br>
+→ 認証コード入力（<code>/filmaadmin/verify</code>） <br>
+→ 成功 <br>
+→ ダッシュボード（<code>/filmaadmin/dashboard</code>）</li>
+</ul>
+<h3 id="_4">アップロード/公開:</h3>
+<ul>
+<li>ダッシュボード（<code>/filmaadmin/dashboard</code>） <br>
+→ クイック操作 <br>
+→ アップロード（<code>/filmaadmin/file/upload/:id</code>） <br>
+→ 完了 <br>
+→ ファイル一覧（<code>/filmaadmin/file/:id</code>）</li>
+<li>ファイル一覧（<code>/filmaadmin/file</code>） <br>
+→ 「編集」<br>
+→ ファイル編集（<code>/filmaadmin/file/edit/:file_id</code>） <br>
+→ 保存 <br>
+→ ファイル詳細（<code>/filmaadmin/file/detail/:file_id</code>）</li>
+</ul>
+<h3 id="url_2">期限付きURL:</h3>
+<ul>
+<li>ファイル詳細（<code>/filmaadmin/file/detail/:file_id</code>） <br>
+→ 「期限付きURL一覧」<br>
+→ 期限付きURL一覧（<code>/filmaadmin/signedurl/list/:file_id</code> または <code>/filmaadmin/signedurl/list?mediafile_id=:mediafile_id</code>）</li>
+<li>期限付きURL一覧 <br>
+→ 「新規発行」<br>
+→ 期限付きURL発行（<code>/filmaadmin/signedurl/issue/:mediafile_id</code>） <br>
+→ 保存 <br>
+→ 一覧に反映</li>
+<li>期限付きURL一覧 <br>
+→ 「詳細」<br>
+→ 期限付きURL詳細（<code>/filmaadmin/signedurl/detail/:signed_url_id</code>） <br>
+→ 「メモを編集」<br>
+→ 期限付きURL編集（<code>/filmaadmin/signedurl/edit/:signed_url_id</code>）</li>
+</ul>
+<h3 id="html">埋め込みHTML 初回準備:</h3>
+<ul>
+<li>ユーザー一覧（<code>/filmaadmin/user</code>） <br>
+→ デフォルトAPIユーザー <br>
+→ API設定編集（<code>/filmaadmin/apisettings/edit/:user_id</code>）でアクセス許可ドメイン設定</li>
+<li>ファイル詳細（<code>/filmaadmin/file/detail/:file_id</code>） <br>
+→ 「埋め込みHTMLをコピー」<br>
+→ 自サイトへ貼付け</li>
+</ul>
+<h3 id="_5">ユーザー管理:</h3>
+<ul>
+<li>ユーザー一覧（<code>/filmaadmin/user</code>） <br>
+→ 新規/編集/削除 <br>
+→ 詳細/一覧</li>
+</ul>
 
 
 
@@ -773,6 +1001,12 @@
     
     
       <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/mermaid-init.js"></script>
+      
+        <script src="../javascripts/lightbox.js"></script>
       
     
   </body>
