@@ -1155,7 +1155,7 @@ DASH形式での動画配信を行います。
 #### DASH配信
 
 ```
-GET /filmaapi/dash/{id}
+GET /filmaapi/dash/{id}.mpd
 ```
 
 **パラメータ:**
@@ -1184,7 +1184,7 @@ HLS形式での動画配信を行います。
 #### HLS配信
 
 ```
-GET /filmaapi/hls/{id}
+GET /filmaapi/hls/{id}.m3u8
 ```
 
 **パラメータ:**
@@ -1201,7 +1201,7 @@ GET /filmaapi/hls/{id}
 #### HLSメディア配信
 
 ```
-GET /filmaapi/hls/{id}/media
+GET /filmaapi/hls/media/{id}.m3u8
 ```
 
 **パラメータ:**
@@ -1218,7 +1218,7 @@ GET /filmaapi/hls/{id}/media
 #### HLSヘッダー取得
 
 ```
-HEAD /filmaapi/hls/{id}
+HEAD /filmaapi/hls/{id}.m3u8
 ```
 
 **パラメータ:**
@@ -1522,3 +1522,4 @@ window.open('/filmaapi/player/12345?api_key=your_api_key&show_all=true', '_blank
 - ページングは最大100件まで取得可能です
 - エラーが発生した場合は適切なHTTPステータスコードが返されます
 - ドメインアクセス制限はAPIキー認証のみに適用され、JWT認証では制限されません
+
