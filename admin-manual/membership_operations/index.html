@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://moguracream.github.io/filma-docs/admin-manual/users/">
+        <link rel="canonical" href="https://moguracream.github.io/filma-docs/admin-manual/membership_operations/">
       
       
-        <link rel="prev" href="../unpublish_delete/">
+        <link rel="prev" href="../membership_playback_jwt/">
       
       
-        <link rel="next" href="../membership_overview/">
+        <link rel="next" href="../membership_paypal_ipn/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>ユーザーの種類 - Filma Admin Manual</title>
+        <title>運用・トラブルシュート（会員機能） - Filma Admin Manual</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#api" class="md-skip">
+        <a href="#_1" class="md-skip">
           コンテンツにスキップ
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ユーザーの種類
+              運用・トラブルシュート（会員機能）
             
           </span>
         </div>
@@ -543,8 +543,6 @@
       
   
   
-    
-  
   
   
     
@@ -557,11 +555,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -582,7 +580,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -625,37 +623,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ユーザーの種類
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
         
   
   
@@ -671,76 +642,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目次">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目次
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        一般ユーザー
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        APIユーザー
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        デフォルトのAPIユーザー
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="デフォルトのAPIユーザー">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        次にやること / 関連
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -757,8 +658,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -769,11 +672,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
@@ -794,7 +697,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1033,10 +936,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../membership_operations/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    運用・トラブルシュート
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1052,6 +982,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        よくあるエラーと対処
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        公開設定と紐づけチェックリスト
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ログ確認ポイント
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1146,52 +1129,35 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        一般ユーザー
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        APIユーザー
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        デフォルトのAPIユーザー
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="デフォルトのAPIユーザー">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        次にやること / 関連
+        よくあるエラーと対処
       
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        公開設定と紐づけチェックリスト
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ログ確認ポイント
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1212,30 +1178,29 @@
 
 
 
-<h1 id="api">ユーザーについて（一般ユーザーとAPIユーザー）</h1>
-<h2 id="_1">一般ユーザー</h2>
+<h1 id="_1">運用・トラブルシュート</h1>
+<p>会員機能の運用で頻出する確認ポイントと対処方法をまとめます。</p>
+<h2 id="_2">よくあるエラーと対処</h2>
 <ul>
-<li>役割: 管理画面での運用（アップロード/公開/期限付きURL発行など）</li>
-<li>要件: メール必須（重複チェックあり）</li>
+<li>認証コードが届かない: メールアドレス誤入力、迷惑メール、連続リクエストの間隔を確認。</li>
+<li>認証エラー/期限切れ: 再ログインまたはページ再読込を試す。</li>
+<li>視聴権エラー: 対象会員に正しいSKU/視聴プラン視聴権が付与されているか、期限切れでないか確認。</li>
+<li>再生不可: Mediafileが公開状態か、視聴プランが非公開になっていないか、紐づけ漏れがないかを確認。</li>
 </ul>
-<h2 id="api_1">APIユーザー</h2>
+<h2 id="_3">公開設定と紐づけチェックリスト</h2>
 <ul>
-<li>役割: 外部サイト/システム連携のためのAPI利用</li>
-<li>特徴: APIキー保有、API種類（<code>readonly</code>/<code>fullaccess</code>）、アクセス許可ドメインで制限</li>
-<li>作成/変更: 一般→APIへ変更時にAPIキー自動発行。API設定は別画面で編集</li>
-<li>注意: <code>fullaccess</code> は強力。キーの保護とローテーションを徹底</li>
+<li>Mediafile: 公開 ON / 期限内 / 対象解像度が有効</li>
+<li>視聴プラン: 公開 ON</li>
+<li>SKU: 対象Mediafileが紐づいている</li>
+<li>視聴権: SKU/視聴プランが正しく付与され、期限切れではない</li>
+<li>表示挙動: SKU権限の場合はSKUに紐づく動画（ダウンロード配信も含む）、視聴プラン/ショップ権限の場合は親Mediafileのストリーミングのみ表示される</li>
+<li>会員: 有効状態でログインできる</li>
 </ul>
-<h2 id="api_2">デフォルトのAPIユーザー</h2>
+<h2 id="_4">ログ確認ポイント</h2>
 <ul>
-<li>初期アカウント発行時に自動作成されます</li>
-<li>埋め込みHTML でもこのユーザーの「アクセス許可ドメイン」設定が必要です</li>
-<li>設定場所: <code>/filmaadmin/apisettings/edit/:user_id</code></li>
-</ul>
-<hr />
-<h3 id="_2">次にやること / 関連</h3>
-<ul>
-<li>埋め込みHTMLの準備: <a href="../embed_html/">埋め込みHTML</a></li>
-<li>API埋め込みの実装: <a href="../embed_api/">APIを使った埋め込み</a></li>
+<li>管理画面/会員ログイン: 認証コード送信、JWT発行失敗時のログを確認。</li>
+<li>再生系: JWT検証エラー、視聴権エラー時のレスポンスやサーバーログを確認。</li>
+<li>期限付きURL（特例使用時）: 発行・アクセス回数のログを確認し、不要になったURLは無効化する。</li>
 </ul>
 
 

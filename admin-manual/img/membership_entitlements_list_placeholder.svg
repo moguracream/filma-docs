@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620">
+  <rect width="100%" height="100%" fill="#f8fafc"/>
+  <text x="480" y="28" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#1f2937">会員詳細: 視聴権カードのイメージ</text>
+
+  <rect x="40" y="50" width="880" height="460" rx="12" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="70" y="82" font-family="sans-serif" font-size="16" font-weight="600" fill="#0f172a">視聴権</text>
+  <text x="70" y="104" font-family="sans-serif" font-size="12" fill="#475569">会員に付与済みの視聴権を最新50件まで表示します。</text>
+
+  <rect x="70" y="122" width="820" height="32" rx="8" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="90" y="142" font-family="sans-serif" font-size="12" fill="#475569">ID</text>
+  <text x="150" y="142" font-family="sans-serif" font-size="12" fill="#475569">スコープ</text>
+  <text x="360" y="142" font-family="sans-serif" font-size="12" fill="#475569">状態</text>
+  <text x="440" y="142" font-family="sans-serif" font-size="12" fill="#475569">視聴期間</text>
+  <text x="600" y="142" font-family="sans-serif" font-size="12" fill="#475569">source</text>
+  <text x="690" y="142" font-family="sans-serif" font-size="12" fill="#475569">メモ</text>
+  <text x="805" y="142" font-family="sans-serif" font-size="12" fill="#475569">操作</text>
+
+  <rect x="70" y="158" width="820" height="52" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="90" y="189" font-family="sans-serif" font-size="12" fill="#475569">120</text>
+  <text x="150" y="176" font-family="sans-serif" font-size="12" fill="#0ea5e9" text-decoration="underline">SKU #402</text>
+  <text x="150" y="194" font-family="sans-serif" font-size="11" fill="#94a3b8">視聴プランA / ストリーミングHD</text>
+  <rect x="330" y="174" width="64" height="24" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="362" y="190" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#166534">active</text>
+  <text x="440" y="176" font-family="sans-serif" font-size="12" fill="#475569">2024-04-01</text>
+  <text x="440" y="194" font-family="sans-serif" font-size="12" fill="#475569">〜 2024-06-30</text>
+  <text x="600" y="189" font-family="sans-serif" font-size="12" fill="#475569">console</text>
+  <text x="690" y="189" font-family="sans-serif" font-size="12" fill="#94a3b8">-</text>
+  <rect x="790" y="161" width="60" height="21" rx="6" fill="#ffffff" stroke="#0ea5e9"/>
+  <text x="820" y="175" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#0ea5e9">編集</text>
+  <rect x="790" y="186" width="60" height="21" rx="6" fill="#fef2f2" stroke="#ef4444"/>
+  <text x="820" y="201" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ef4444">剥奪</text>
+
+  <rect x="70" y="216" width="820" height="52" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="90" y="247" font-family="sans-serif" font-size="12" fill="#475569">119</text>
+  <text x="150" y="234" font-family="sans-serif" font-size="12" fill="#0ea5e9" text-decoration="underline">ITEM</text>
+  <text x="150" y="252" font-family="sans-serif" font-size="11" fill="#94a3b8">視聴プランB</text>
+  <rect x="330" y="232" width="64" height="24" rx="6" fill="#fffbeb" stroke="#f59e0b"/>
+  <text x="362" y="248" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#92400e">pending</text>
+  <text x="440" y="234" font-family="sans-serif" font-size="12" fill="#475569">開始前</text>
+  <text x="600" y="247" font-family="sans-serif" font-size="12" fill="#475569">api</text>
+  <text x="690" y="247" font-family="sans-serif" font-size="12" fill="#94a3b8">トライアル付与</text>
+  <rect x="790" y="219" width="60" height="21" rx="6" fill="#ffffff" stroke="#0ea5e9"/>
+  <text x="820" y="233" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#0ea5e9">編集</text>
+  <rect x="790" y="244" width="60" height="21" rx="6" fill="#fef2f2" stroke="#ef4444"/>
+  <text x="820" y="259" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ef4444">剥奪</text>
+
+  <rect x="70" y="274" width="820" height="52" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="90" y="305" font-family="sans-serif" font-size="12" fill="#475569">118</text>
+  <text x="150" y="292" font-family="sans-serif" font-size="12" fill="#0ea5e9" text-decoration="underline">SHOP</text>
+  <text x="150" y="310" font-family="sans-serif" font-size="11" fill="#94a3b8">ショップ全体</text>
+  <rect x="330" y="290" width="64" height="24" rx="6" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="362" y="306" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#991b1b">revoked</text>
+  <text x="440" y="292" font-family="sans-serif" font-size="12" fill="#475569">2024-01-01</text>
+  <text x="440" y="310" font-family="sans-serif" font-size="12" fill="#475569">〜 2024-02-28</text>
+  <text x="600" y="305" font-family="sans-serif" font-size="12" fill="#475569">console</text>
+  <text x="690" y="305" font-family="sans-serif" font-size="12" fill="#94a3b8">期限超過</text>
+  <text x="820" y="306" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#94a3b8">-</text>
+
+  <text x="70" y="350" font-family="sans-serif" font-size="11" fill="#94a3b8">最新50件のみ表示しています (全80件)。</text>
+  <rect x="70" y="370" width="120" height="30" rx="6" fill="#0ea5e9"/>
+  <text x="130" y="390" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">視聴権を付与</text>
+
+  <text x="480" y="600" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
+</svg>

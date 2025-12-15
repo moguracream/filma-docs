@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://moguracream.github.io/filma-docs/admin-manual/users/">
+        <link rel="canonical" href="https://moguracream.github.io/filma-docs/admin-manual/membership_paypal_ipn/">
       
       
-        <link rel="prev" href="../unpublish_delete/">
+        <link rel="prev" href="../membership_operations/">
       
       
-        <link rel="next" href="../membership_overview/">
+        <link rel="next" href="../routes_flow/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>ユーザーの種類 - Filma Admin Manual</title>
+        <title>PayPal IPN連携で視聴権を付与する - Filma Admin Manual</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#api" class="md-skip">
+        <a href="#paypal-ipn" class="md-skip">
           コンテンツにスキップ
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ユーザーの種類
+              PayPal IPN連携で視聴権を付与する
             
           </span>
         </div>
@@ -543,8 +543,6 @@
       
   
   
-    
-  
   
   
     
@@ -557,11 +555,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -582,7 +580,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -625,37 +623,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ユーザーの種類
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
         
   
   
@@ -671,76 +642,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目次">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目次
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        一般ユーザー
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        APIユーザー
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        デフォルトのAPIユーザー
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="デフォルトのAPIユーザー">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        次にやること / 関連
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -757,8 +658,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -769,11 +672,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
@@ -794,7 +697,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1061,10 +964,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../membership_paypal_ipn/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PayPal IPN連携
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1080,6 +1010,181 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ipn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IPNとは（初心者向け）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全体の流れ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        事前に決めること
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="事前に決めること">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) どのスコープで付与するか
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-paypalfilma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) PayPalの商品とFilmaの付与対象をどう対応させるか
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paypal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PayPal側の設定（単発決済ボタン）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ipn_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        受信サーバー側でやること（IPNリスナー）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filma-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filma APIの利用方法
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filma APIの利用方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWT認証（推奨）の準備
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payer_email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員の検索（payer_emailで照合）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員が存在しない場合の作成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴権の付与
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        運用チェックリスト
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1146,10 +1251,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#ipn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IPNとは（初心者向け）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        一般ユーザー
+        全体の流れ
       
     </span>
   </a>
@@ -1157,33 +1273,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#api_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        APIユーザー
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        デフォルトのAPIユーザー
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="デフォルトのAPIユーザー">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        次にやること / 関連
+        事前に決めること
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="事前に決めること">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) どのスコープで付与するか
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-paypalfilma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) PayPalの商品とFilmaの付与対象をどう対応させるか
       
     </span>
   </a>
@@ -1192,6 +1308,100 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paypal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PayPal側の設定（単発決済ボタン）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ipn_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        受信サーバー側でやること（IPNリスナー）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filma-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filma APIの利用方法
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filma APIの利用方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWT認証（推奨）の準備
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payer_email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員の検索（payer_emailで照合）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員が存在しない場合の作成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴権の付与
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        運用チェックリスト
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1212,30 +1422,148 @@
 
 
 
-<h1 id="api">ユーザーについて（一般ユーザーとAPIユーザー）</h1>
-<h2 id="_1">一般ユーザー</h2>
+<h1 id="paypal-ipn">PayPal IPN連携で視聴権を付与する</h1>
+<p>PayPalの単発決済ボタンで購入が完了したタイミングに合わせて、Filmaの会員へ自動で視聴権を付与するためのガイドです。</p>
+<p>この連携は <strong>PayPal →（あなたのサーバー）→ Filma API</strong> の順で動きます。Filma管理画面だけで完結する設定ではないため、受信サーバー側の準備が必要です。</p>
+<h2 id="ipn">IPNとは（初心者向け）</h2>
+<p>IPN（Instant Payment Notification）は、PayPalが「決済結果」をあなたのサーバーへ自動通知する仕組みです。</p>
 <ul>
-<li>役割: 管理画面での運用（アップロード/公開/期限付きURL発行など）</li>
-<li>要件: メール必須（重複チェックあり）</li>
+<li>通知は購入者のブラウザ経由ではなく、<strong>PayPalからサーバーへ直接POST</strong>されます。</li>
+<li>通知は複数回届くことがあります（再送/リトライ）。そのため<strong>二重付与防止</strong>が必要です。</li>
 </ul>
-<h2 id="api_1">APIユーザー</h2>
+<h2 id="_1">全体の流れ</h2>
+<ol>
+<li>購入者がPayPalの決済ボタンで支払いを完了。</li>
+<li>PayPalがIPN通知を、あなたのサーバーの受信URL（IPNリスナー）へ送信。</li>
+<li>受信サーバーが通知を検証し、購入者の会員を特定/作成して、Filmaの視聴権付与APIを呼び出す。</li>
+</ol>
+<h2 id="_2">事前に決めること</h2>
+<h3 id="1">1) どのスコープで付与するか</h3>
+<p>通常は <strong>ITEM（視聴プラン単位）または SHOP（ショップ全体）</strong> を推奨します。SKUは特殊用途（特定解像度/配信種別だけ許可したい場合）です。</p>
+<h3 id="2-paypalfilma">2) PayPalの商品とFilmaの付与対象をどう対応させるか</h3>
+<p>商品数が増える可能性があるため、PayPal側には <strong>「商品コード」だけを埋め込み、対応表はサーバー側で管理</strong>する運用を推奨します。</p>
+<p>例:
+- PayPalボタンに <code>item_number=plan_basic</code> を設定
+- 受信サーバーで <code>plan_basic → { scope_type: "item", item_id: 123 }</code> と対応づける</p>
+<h2 id="paypal">PayPal側の設定（単発決済ボタン）</h2>
+<p>決済ボタン作成時に、以下の値を設定してください（ボタン作成担当者に依頼してもOKです）。</p>
 <ul>
-<li>役割: 外部サイト/システム連携のためのAPI利用</li>
-<li>特徴: APIキー保有、API種類（<code>readonly</code>/<code>fullaccess</code>）、アクセス許可ドメインで制限</li>
-<li>作成/変更: 一般→APIへ変更時にAPIキー自動発行。API設定は別画面で編集</li>
-<li>注意: <code>fullaccess</code> は強力。キーの保護とローテーションを徹底</li>
+<li>
+<p><strong>IPN通知先URL（notify_url）</strong>
+  IPNを受け取るあなたのサーバーのURL。ここにPayPalから通知が届きます。</p>
+</li>
+<li>
+<p><strong>商品コード（item_number）</strong>
+  どの商品が購入されたかを識別するコード。Filmaの付与対象を決めるために使います。</p>
+</li>
+<li>
+<p><strong>購入者識別用（custom）</strong>
+  会員が事前登録されていない場合に備えて、少なくとも <strong>購入者のメールアドレス</strong> を取得できるようにします。
+  PayPalのIPNには <code>payer_email</code> が含まれるため、customにIDを入れなくても運用可能です。</p>
+</li>
 </ul>
-<h2 id="api_2">デフォルトのAPIユーザー</h2>
+<h2 id="ipn_1">受信サーバー側でやること（IPNリスナー）</h2>
+<p>IPNを受け取るサーバー側処理は、最低限次を行います。</p>
+<ol>
+<li><strong>IPNの検証</strong>（PayPal推奨の再POST検証）</li>
+<li>PayPalへ同じデータを <code>cmd=_notify-validate</code> を付けて再POST</li>
+<li>PayPalから <code>VERIFIED</code> が返ったものだけを処理</li>
+<li><strong>支払いの妥当性確認</strong></li>
+<li><code>payment_status=Completed</code></li>
+<li>受取アカウント（<code>receiver_email</code> など）が自分のPayPalアカウントと一致</li>
+<li>金額（<code>mc_gross</code>）・通貨（<code>mc_currency</code>）が想定と一致</li>
+<li><strong>二重付与防止</strong></li>
+<li><code>txn_id</code>（取引ID）をキーに「処理済みか」を保存し、同じtxn_idは再処理しない</li>
+<li><strong>購入者をFilma会員に紐づけ</strong></li>
+<li>IPNの <code>payer_email</code> でFilma会員を検索</li>
+<li><strong>存在しなければ会員を作成</strong></li>
+<li><strong>Filmaの視聴権付与APIを呼ぶ</strong></li>
+</ol>
+<h2 id="filma-api">Filma APIの利用方法</h2>
+<p>Filma APIは <strong>JWT認証（推奨）</strong> と <strong>APIキー認証</strong> の両方に対応しています。<br />
+以下では、わかりやすさのためAPIキーの例に加えて、JWTの例も併記します。</p>
+<h3 id="jwt">JWT認証（推奨）の準備</h3>
+<p>まずAPIキーでJWTトークンを発行し、そのトークンを以後のAPI呼び出しで利用します。</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://filma.biz/filmaapi/token&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;X-API-KEY: &lt;APIキー&gt;&quot;</span>
+</code></pre></div>
+<p>レスポンスの <code>token</code> を取り出し、以降のリクエストで以下のように渡します。</p>
+<div class="highlight"><pre><span></span><code>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer &lt;JWTトークン&gt;&quot;</span>
+</code></pre></div>
+<h3 id="payer_email">会員の検索（payer_emailで照合）</h3>
+<p>まず、IPNで受け取った <code>payer_email</code> に一致するFilma会員が既に存在するかを確認します。<br />
+会員一覧APIはメールアドレスの部分一致検索に対応しているため、完全一致させたい場合は <code>query</code> にメール全体を渡します。</p>
+<p><strong>APIキー認証の例（簡易）</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;https://filma.biz/filmaapi/customers?status=enabled&amp;query=buyer%40example.com&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;X-API-KEY: &lt;APIキー&gt;&quot;</span>
+</code></pre></div></p>
+<p><strong>JWT認証の例（推奨）</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;https://filma.biz/filmaapi/customers?status=enabled&amp;query=buyer%40example.com&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer &lt;JWTトークン&gt;&quot;</span>
+</code></pre></div></p>
 <ul>
-<li>初期アカウント発行時に自動作成されます</li>
-<li>埋め込みHTML でもこのユーザーの「アクセス許可ドメイン」設定が必要です</li>
-<li>設定場所: <code>/filmaadmin/apisettings/edit/:user_id</code></li>
+<li><code>query</code>: 検索文字列（メールアドレスはURLエンコードします）</li>
+<li><code>status=enabled</code>: 無効会員を除外したい場合に指定</li>
 </ul>
-<hr />
-<h3 id="_2">次にやること / 関連</h3>
+<p>レスポンスの <code>records</code> に一致する会員が入ります。<br />
+該当会員がいればその <code>id</code> を次の「視聴権の付与」で <code>:customer_id</code> として使用します。<br />
+該当会員がいなければ、次の手順で会員を作成します。</p>
+<h3 id="_3">会員が存在しない場合の作成</h3>
+<p>Filma会員作成APIを使います（現行仕様では <code>email</code> と <code>name</code> が必須です。氏名を運用しない場合はメールアドレスなどを代入してください）。</p>
+<p><strong>APIキー認証の例（簡易）</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://filma.biz/filmaapi/customers&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;X-API-KEY: &lt;APIキー&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;email=buyer@example.com&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;name=buyer@example.com&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;notes=PayPal購入で自動作成&quot;</span>
+</code></pre></div></p>
+<p><strong>JWT認証の例（推奨）</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://filma.biz/filmaapi/customers&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer &lt;JWTトークン&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;email=buyer@example.com&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;name=buyer@example.com&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;notes=PayPal購入で自動作成&quot;</span>
+</code></pre></div></p>
+<p>レスポンスの <code>customer.id</code> がFilma会員IDです。</p>
+<h3 id="_4">視聴権の付与</h3>
+<p>作成/検索した会員IDに対して、スコープに応じたエンドポイントを呼びます。</p>
 <ul>
-<li>埋め込みHTMLの準備: <a href="../embed_html/">埋め込みHTML</a></li>
-<li>API埋め込みの実装: <a href="../embed_api/">APIを使った埋め込み</a></li>
+<li>shopスコープ
+  <code>POST https://filma.biz/filmaapi/customers/entitlements/:customer_id?scope_type=shop&amp;shop_id=&lt;shop_id&gt;</code></li>
+<li>itemスコープ
+  <code>POST https://filma.biz/filmaapi/customers/entitlements/:customer_id?scope_type=item&amp;item_id=&lt;item_id&gt;</code></li>
+<li>skuスコープ（特殊用途）<br />
+<code>POST https://filma.biz/filmaapi/customers/entitlements/:customer_id?scope_type=sku&amp;sku_id=&lt;sku_id&gt;</code></li>
+</ul>
+<p><strong>APIキー認証の例（簡易）</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;https://filma.biz/filmaapi/customers/entitlements/1234?scope_type=item&amp;item_id=5678&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;X-API-KEY: &lt;APIキー&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;starts_at=&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;expires_at=&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;status=active&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;source=paypal&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;notes=PayPal IPN&quot;</span>
+</code></pre></div></p>
+<p><strong>JWT認証の例（推奨）</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;https://filma.biz/filmaapi/customers/entitlements/1234?scope_type=item&amp;item_id=5678&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer &lt;JWTトークン&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;starts_at=&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;expires_at=&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;status=active&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;source=paypal&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;notes=PayPal IPN&quot;</span>
+</code></pre></div></p>
+<h2 id="_5">運用チェックリスト</h2>
+<ul>
+<li>PayPalのIPN履歴で通知が <code>VERIFIED</code> になっているか</li>
+<li>受信サーバーのログで <code>txn_id</code> の二重処理が起きていないか</li>
+<li>Filma管理画面の会員詳細 → 視聴権一覧に付与が反映されているか</li>
+<li>再生できない場合</li>
+<li>付与対象（shop/item/skuとID）が正しいか</li>
+<li>視聴プラン・SKU・Mediafileが有効/公開状態か</li>
+<li>APIが <code>item_disabled</code> / <code>sku_disabled</code> を返していないか</li>
 </ul>
 
 

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+  <text x="480" y="32" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#334155">会員情報編集イメージ</text>
+
+  <!-- 外枠カード -->
+  <rect x="40" y="56" width="880" height="520" rx="12" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="70" y="84" font-family="sans-serif" font-size="14" font-weight="600" fill="#0f172a">会員情報の編集</text>
+
+  <!-- フォームテーブル -->
+  <rect x="60" y="100" width="840" height="320" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="80" y="130" font-family="sans-serif" font-size="12" fill="#475569">番号</text>
+  <text x="200" y="130" font-family="sans-serif" font-size="12" fill="#475569">#101</text>
+
+  <text x="80" y="170" font-family="sans-serif" font-size="12" fill="#475569">e-mail</text>
+  <rect x="200" y="152" width="320" height="28" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="210" y="169" font-family="sans-serif" font-size="12" fill="#475569">user@example.com</text>
+
+  <text x="80" y="210" font-family="sans-serif" font-size="12" fill="#475569">状態</text>
+  <rect x="200" y="192" width="100" height="24" rx="12" fill="#22c55e"/>
+  <text x="250" y="209" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">有効</text>
+
+  <text x="80" y="250" font-family="sans-serif" font-size="12" fill="#475569">作成日</text>
+  <text x="200" y="250" font-family="sans-serif" font-size="12" fill="#94a3b8">2025/11/01</text>
+
+  <text x="80" y="290" font-family="sans-serif" font-size="12" fill="#475569">最終更新日</text>
+  <text x="200" y="290" font-family="sans-serif" font-size="12" fill="#94a3b8">2025/11/24</text>
+
+  <!-- ボタン -->
+  <rect x="60" y="440" width="840" height="48" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <rect x="80" y="452" width="140" height="28" rx="8" fill="#0ea5e9"/>
+  <text x="150" y="471" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">保存する</text>
+  <rect x="230" y="452" width="140" height="28" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="300" y="471" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">キャンセル</text>
+
+  <text x="480" y="604" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
+</svg>
