@@ -10,8 +10,9 @@
   <text x="80" y="110" font-family="sans-serif" font-size="12" fill="#64748b">名称: training_2024_intro.mp4 ／ 公開状態: 公開 ／ 公開期限: 期限なし</text>
 
   <!-- 派生メディアカード 見出し -->
-  <rect x="60" y="148" width="840" height="36" rx="6" fill="#e5e7eb" stroke="#cbd5e1"/>
+  <rect x="60" y="148" width="840" height="36" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
   <text x="80" y="171" font-family="sans-serif" font-size="14" fill="#334155">派生メディア</text>
+  <text x="880" y="171" text-anchor="end" font-family="sans-serif" font-size="12" fill="#94a3b8">クリックで開閉できます</text>
 
   <!-- 派生メディアカード 本体 -->
   <rect x="60" y="184" width="840" height="300" rx="6" fill="#ffffff" stroke="#cbd5e1"/>

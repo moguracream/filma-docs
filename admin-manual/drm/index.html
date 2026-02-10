@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://moguracream.github.io/filma-docs/admin-manual/membership_operations/">
+        <link rel="canonical" href="https://moguracream.github.io/filma-docs/admin-manual/drm/">
       
       
-        <link rel="prev" href="../membership_playback_jwt/">
+        <link rel="prev" href="../upload/">
       
       
-        <link rel="next" href="../membership_paypal_ipn/">
+        <link rel="next" href="../publish/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>運用・トラブルシュート（会員機能） - Filma Admin Manual</title>
+        <title>DRM化（コピーガード） - Filma Admin Manual</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#drm" class="md-skip">
           コンテンツにスキップ
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              運用・トラブルシュート（会員機能）
+              DRM化（コピーガード）
             
           </span>
         </div>
@@ -257,8 +257,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -269,11 +271,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -294,7 +296,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -337,10 +339,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../drm/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DRM化（コピーガード）
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -356,6 +385,109 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#drm_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRMとは
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        画面URL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drm_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        アップロード時にDRM化する
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drm_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        既存ファイルをDRM化する
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表示と確認ポイント
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drm_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRM化できないケース
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DRM化できないケース">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        関連
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -686,8 +818,6 @@
       
   
   
-    
-  
   
   
     
@@ -700,11 +830,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
@@ -725,7 +855,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -964,37 +1094,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    運用・トラブルシュート
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../membership_operations/" class="md-nav__link">
         
   
   
@@ -1010,59 +1113,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目次">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目次
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        よくあるエラーと対処
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        公開設定と紐づけチェックリスト
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ログ確認ポイント
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1157,35 +1207,85 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#drm_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRMとは
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        画面URL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drm_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        アップロード時にDRM化する
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drm_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        既存ファイルをDRM化する
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表示と確認ポイント
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drm_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRM化できないケース
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DRM化できないケース">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        よくあるエラーと対処
+        関連
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        公開設定と紐づけチェックリスト
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ログ確認ポイント
-      
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1206,29 +1306,61 @@
 
 
 
-<h1 id="_1">運用・トラブルシュート</h1>
-<p>会員機能の運用で頻出する確認ポイントと対処方法をまとめます。</p>
-<h2 id="_2">よくあるエラーと対処</h2>
+<h1 id="drm">DRM化（コピーガード）</h1>
+<h2 id="drm_1">DRMとは</h2>
+<p>DRM（Digital Rights Management）は、動画コンテンツの不正コピーや無断配布を抑止するための保護技術です。
+再生時にライセンス認証を行い、許可された環境でのみ復号して再生します。</p>
+<p>Filmaにおける「許可された環境」とは、Filmaの再生ページ・再生API経由で、
+有効な認証情報（会員セッションやJWT付きURLなど）を使って再生している状態を指します。</p>
+<p>Filmaでは、DRMは「配信時の保護」を目的として利用します。
+そのため、<strong>ストリーミング再生のみ</strong>が対象で、ダウンロードファイルは対象外です。</p>
+<blockquote>
+<p>重要: DRM化したファイルは元に戻せません。</p>
+</blockquote>
+<h2 id="url">画面URL</h2>
 <ul>
-<li>認証コードが届かない: メールアドレス誤入力、迷惑メール、連続リクエストの間隔を確認。</li>
-<li>認証エラー/期限切れ: 再ログインまたはページ再読込を試す。</li>
-<li>視聴権エラー: 対象会員に正しいSKU/視聴プラン視聴権が付与されているか、期限切れでないか確認。</li>
-<li>再生不可: Mediafileが公開状態か、視聴プランが非公開になっていないか、紐づけ漏れがないかを確認。</li>
+<li>ファイル一覧: <code>/filmaadmin/file</code></li>
+<li>ファイル詳細: <code>/filmaadmin/file/detail/:file_id</code></li>
+<li>アップロード: <code>/filmaadmin/file/upload/:folder_id</code></li>
 </ul>
-<h2 id="_3">公開設定と紐づけチェックリスト</h2>
+<h2 id="drm_2">アップロード時にDRM化する</h2>
+<ol>
+<li>アップロード画面でファイルを選択</li>
+<li>「<strong>DRM化する</strong>」にチェック</li>
+<li>「アップロード」を押下</li>
+</ol>
+<p>アップロード完了後、DRM付きのエンコードタスクが登録されます。</p>
+<p><img alt="アップロード画面（DRM化するチェック）" src="../img/upload_screen_placeholder.svg" /></p>
+<h2 id="drm_3">既存ファイルをDRM化する</h2>
+<ol>
+<li>ファイル詳細 <code>/filmaadmin/file/detail/:file_id</code> を開く</li>
+<li>「操作」カードの <strong>DRM化する</strong> をクリック</li>
+<li>確認画面で内容を確認し、実行</li>
+</ol>
+<p>DRM化対象:
+- 親メディアファイル
+- エンコード済みの派生メディア</p>
+<p><img alt="ファイル編集（操作カード）" src="../img/file_edit_publish_placeholder.svg" /></p>
+<h2 id="_1">表示と確認ポイント</h2>
 <ul>
-<li>Mediafile: 公開 ON / 期限内 / 対象解像度が有効</li>
-<li>視聴プラン: 公開 ON</li>
-<li>SKU: 対象Mediafileが紐づいている</li>
-<li>視聴権: SKU/視聴プランが正しく付与され、期限切れではない</li>
-<li>表示挙動: SKU権限の場合はSKUに紐づく動画（ダウンロード配信も含む）、視聴プラン/ショップ権限の場合は親Mediafileのストリーミングのみ表示される</li>
-<li>会員: 有効状態でログインできる</li>
+<li>ファイル一覧/詳細の <strong>DRM</strong> 欄に「DRMあり」バッジが表示されます</li>
+<li>「メディアファイル情報」の <strong>ダウンロード</strong> には注意書きが表示されます
+  （DRMはダウンロードに適用されません）</li>
+<li>「ファイル処理状況」に <strong>DRM</strong> の進行状況が表示されます</li>
 </ul>
-<h2 id="_4">ログ確認ポイント</h2>
+<p><img alt="ファイル一覧（DRM列）" src="../img/file_list_bulk_publish_placeholder.svg" /></p>
+<h2 id="drm_4">DRM化できないケース</h2>
+<p>以下の場合はボタンが表示されない、または実行できません:</p>
 <ul>
-<li>管理画面/会員ログイン: 認証コード送信、JWT発行失敗時のログを確認。</li>
-<li>再生系: JWT検証エラー、視聴権エラー時のレスポンスやサーバーログを確認。</li>
-<li>期限付きURL（特例使用時）: 発行・アクセス回数のログを確認し、不要になったURLは無効化する。</li>
+<li>すでにDRM化済み</li>
+<li>エンコード処理中</li>
+<li>ファイル処理が失敗している</li>
+</ul>
+<hr />
+<h3 id="_2">関連</h3>
+<ul>
+<li>動画のアップロード: <a href="../upload/">動画のアップロード</a></li>
+<li>動画の公開: <a href="../publish/">動画の公開</a></li>
 </ul>
 
 

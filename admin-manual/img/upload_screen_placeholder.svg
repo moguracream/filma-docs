@@ -15,8 +15,12 @@
   <text x="80" y="155" font-family="sans-serif" font-size="12" fill="#0369a1">ⓘ 注意: アップロード後にファイルを公開するには、編集画面で「公開する」をONにして保存してください。</text>
 
   <!-- ドラッグ&ドロップ領域（solid border grey, min-height相当） -->
-  <rect x="60" y="184" width="840" height="200" rx="4" fill="#ffffff" stroke="#9ca3af"/>
+  <rect x="60" y="184" width="840" height="180" rx="4" fill="#ffffff" stroke="#9ca3af"/>
   <text x="480" y="250" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#475569">こちらをクリックするか、アップロードするファイルをドラッグしてください</text>
+
+  <!-- DRMチェックボックス -->
+  <rect x="60" y="372" width="14" height="14" rx="2" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="82" y="384" font-family="sans-serif" font-size="12" fill="#334155">DRM化する</text>
 
   <!-- 操作ボタン（primary x2：横並び・左寄せ） -->
   <rect x="60" y="396" width="180" height="36" rx="6" fill="#3b82f6"/>

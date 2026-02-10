@@ -37,9 +37,10 @@
   <text x="120" y="222" font-family="sans-serif" font-size="12" fill="#334155">番号</text>
   <text x="200" y="222" font-family="sans-serif" font-size="12" fill="#334155">名称</text>
   <text x="380" y="222" font-family="sans-serif" font-size="12" fill="#334155">公開状態</text>
-  <text x="470" y="222" font-family="sans-serif" font-size="12" fill="#334155">処理状況</text>
-  <text x="560" y="222" font-family="sans-serif" font-size="12" fill="#334155">タグ</text>
-  <text x="640" y="222" font-family="sans-serif" font-size="12" fill="#334155">カテゴリ</text>
+  <text x="460" y="222" font-family="sans-serif" font-size="12" fill="#334155">処理状況</text>
+  <text x="550" y="222" font-family="sans-serif" font-size="12" fill="#334155">DRM</text>
+  <text x="615" y="222" font-family="sans-serif" font-size="12" fill="#334155">タグ</text>
+  <text x="660" y="222" font-family="sans-serif" font-size="12" fill="#334155">カテゴリ</text>
   <text x="720" y="222" font-family="sans-serif" font-size="12" fill="#334155">作成日</text>
   <text x="820" y="222" font-family="sans-serif" font-size="12" fill="#334155">編集</text>
 
@@ -49,9 +50,10 @@
   <text x="120" y="258" font-family="sans-serif" font-size="12" fill="#111827">101</text>
   <text x="200" y="258" font-family="sans-serif" font-size="12" fill="#111827">training_2024_intro.mp4</text>
   <text x="380" y="258" font-family="sans-serif" font-size="12" fill="#16a34a">公開</text>
-  <text x="470" y="258" font-family="sans-serif" font-size="12" fill="#6b7280">エンコード完了</text>
-  <text x="560" y="258" font-family="sans-serif" font-size="12" fill="#6b7280">guide</text>
-  <text x="640" y="258" font-family="sans-serif" font-size="12" fill="#6b7280">一般</text>
+  <text x="460" y="258" font-family="sans-serif" font-size="12" fill="#6b7280">エンコード完了</text>
+  <text x="550" y="258" font-family="sans-serif" font-size="12" fill="#16a34a">DRMあり</text>
+  <text x="615" y="258" font-family="sans-serif" font-size="12" fill="#6b7280">guide</text>
+  <text x="660" y="258" font-family="sans-serif" font-size="12" fill="#6b7280">一般</text>
   <text x="720" y="258" font-family="sans-serif" font-size="12" fill="#6b7280">2024/09/01</text>
   <rect x="804" y="244" width="48" height="24" rx="6" fill="#2563eb"/>
   <text x="828" y="260" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">編集</text>
@@ -62,9 +64,10 @@
   <text x="120" y="294" font-family="sans-serif" font-size="12" fill="#111827">102</text>
   <text x="200" y="294" font-family="sans-serif" font-size="12" fill="#111827">webinar_oct.mp4</text>
   <text x="380" y="294" font-family="sans-serif" font-size="12" fill="#ca8a04">公開期限切れ</text>
-  <text x="470" y="294" font-family="sans-serif" font-size="12" fill="#6b7280">エンコード完了</text>
-  <text x="560" y="294" font-family="sans-serif" font-size="12" fill="#6b7280">event</text>
-  <text x="640" y="294" font-family="sans-serif" font-size="12" fill="#6b7280">社外</text>
+  <text x="460" y="294" font-family="sans-serif" font-size="12" fill="#6b7280">エンコード完了</text>
+  <text x="550" y="294" font-family="sans-serif" font-size="12" fill="#9ca3af">-</text>
+  <text x="615" y="294" font-family="sans-serif" font-size="12" fill="#6b7280">event</text>
+  <text x="660" y="294" font-family="sans-serif" font-size="12" fill="#6b7280">社外</text>
   <text x="720" y="294" font-family="sans-serif" font-size="12" fill="#6b7280">2024/09/10</text>
   <rect x="804" y="280" width="48" height="24" rx="6" fill="#2563eb"/>
   <text x="828" y="296" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">編集</text>
@@ -75,9 +78,10 @@
   <text x="120" y="330" font-family="sans-serif" font-size="12" fill="#111827">103</text>
   <text x="200" y="330" font-family="sans-serif" font-size="12" fill="#111827">promo_teaser.mp4</text>
   <text x="380" y="330" font-family="sans-serif" font-size="12" fill="#dc2626">非公開</text>
-  <text x="470" y="330" font-family="sans-serif" font-size="12" fill="#6b7280">エンコード中</text>
-  <text x="560" y="330" font-family="sans-serif" font-size="12" fill="#6b7280">promo</text>
-  <text x="640" y="330" font-family="sans-serif" font-size="12" fill="#6b7280">社内</text>
+  <text x="460" y="330" font-family="sans-serif" font-size="12" fill="#6b7280">エンコード中</text>
+  <text x="550" y="330" font-family="sans-serif" font-size="12" fill="#9ca3af">-</text>
+  <text x="615" y="330" font-family="sans-serif" font-size="12" fill="#6b7280">promo</text>
+  <text x="660" y="330" font-family="sans-serif" font-size="12" fill="#6b7280">社内</text>
   <text x="720" y="330" font-family="sans-serif" font-size="12" fill="#6b7280">2024/09/12</text>
   <rect x="804" y="316" width="48" height="24" rx="6" fill="#2563eb"/>
   <text x="828" y="332" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">編集</text>
@@ -88,4 +92,3 @@
   <!-- キャプション -->
   <text x="480" y="610" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
 </svg>
-
