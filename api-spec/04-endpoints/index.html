@@ -1857,25 +1857,31 @@
 </tr>
 </tbody>
 </table>
-<p><strong>メディアファイル固有JWT:</strong>
-- <code>mediafile_id</code>を指定してJWTを発行した場合、そのJWTは指定されたメディアファイルのみアクセス可能
-- ストリーミングやプレイヤーアクセス時に、JWTのmediafile_idとリクエストされたファイルIDが一致しない場合は基本的に403エラー
-- 例外として、DASHストリーミングでは「同一親メディア配下の音声」「同一解像度の動画」に限り別IDのアクセスを許可
-- セキュリティ強化により不正なアクセスを防止</p>
+<p><strong>メディアファイル固有JWT:</strong></p>
+<ul>
+<li><code>mediafile_id</code>を指定してJWTを発行した場合、そのJWTは指定されたメディアファイルのみアクセス可能</li>
+<li>ストリーミングやプレイヤーアクセス時に、JWTのmediafile_idとリクエストされたファイルIDが一致しない場合は基本的に403エラー</li>
+<li>例外として、DASHストリーミングでは「同一親メディア配下の音声」「同一解像度の動画」に限り別IDのアクセスを許可</li>
+<li>セキュリティ強化により不正なアクセスを防止</li>
+</ul>
 <p><strong>JWTトークンCookie設定（HTTPS環境でのみ）:</strong></p>
 <pre><code>Set-Cookie: filmajwt=eyJhbGciOiJIUzI1NiJ9...; Expires=Mon, 01 Jan 2024 12:00:00 GMT; Path=/; Secure; HttpOnly; SameSite=Lax
 </code></pre>
-<p><strong>Cookieの特徴:</strong>
-- <strong>自動設定</strong>: JWTトークン発行時にHTTPS環境で自動的にCookieが設定される
-- <strong>セキュリティ</strong>: <code>HttpOnly</code>でJavaScriptからのアクセスを防止
-- <strong>SameSite=Lax</strong>: 外部サイトからのGETリクエストを許可、POSTリクエストを保護
-- <strong>期限</strong>: JWTトークンと同じ有効期限
-- <strong>利便性</strong>: 次回以降のAPIアクセスでCookie認証が利用可能</p>
-<p><strong>SameSite=Laxの動作:</strong>
-- <strong>同一サイト</strong>: 全てのリクエストでCookieが送信される
-- <strong>外部サイト（GET）</strong>: 動画プレイヤーや埋め込みコンテンツでCookieが送信される
-- <strong>外部サイト（POST）</strong>: CSRF攻撃を防止するため、Cookieは送信されない
-- <strong>スクリプトからのアクセス</strong>: curl、Python、Node.js等では制限なし</p>
+<p><strong>Cookieの特徴:</strong></p>
+<ul>
+<li><strong>自動設定</strong>: JWTトークン発行時にHTTPS環境で自動的にCookieが設定される</li>
+<li><strong>セキュリティ</strong>: <code>HttpOnly</code>でJavaScriptからのアクセスを防止</li>
+<li><strong>SameSite=Lax</strong>: 外部サイトからのGETリクエストを許可、POSTリクエストを保護</li>
+<li><strong>期限</strong>: JWTトークンと同じ有効期限</li>
+<li><strong>利便性</strong>: 次回以降のAPIアクセスでCookie認証が利用可能</li>
+</ul>
+<p><strong>SameSite=Laxの動作:</strong></p>
+<ul>
+<li><strong>同一サイト</strong>: 全てのリクエストでCookieが送信される</li>
+<li><strong>外部サイト（GET）</strong>: 動画プレイヤーや埋め込みコンテンツでCookieが送信される</li>
+<li><strong>外部サイト（POST）</strong>: CSRF攻撃を防止するため、Cookieは送信されない</li>
+<li><strong>スクリプトからのアクセス</strong>: curl、Python、Node.js等では制限なし</li>
+</ul>
 <p><strong>エラー時（HTTP 401）:</strong></p>
 <pre><code class="language-json">{
   &quot;error&quot;: &quot;api_key_authentication_failed&quot;,
@@ -2010,15 +2016,19 @@
 curl -H &quot;X-Api-Key: your_api_key&quot; \
   &quot;https://filma.biz/filmaapi/storage/12345?jwt_expires_at=2024-12-31T23:59:59Z&quot;
 </code></pre>
-<p><strong>動作:</strong>
-- 指定された日時まで有効なJWTトークンが自動生成される
-- 生成されたJWTは該当メディアファイル専用（mediafile_id付き）
-- プレイヤーURLと埋め込みコードに含まれるすべてのJWTトークンに適用
-- 無効な日時形式の場合は400エラー</p>
-<p><strong>注意事項:</strong>
-- 過去の日時を指定した場合、即座に期限切れとなる
-- 最大有効期限は7日間（システム制限）
-- JWTトークンの有効期限はストリーミング再生時間を考慮して設定することを推奨</p>
+<p><strong>動作:</strong></p>
+<ul>
+<li>指定された日時まで有効なJWTトークンが自動生成される</li>
+<li>生成されたJWTは該当メディアファイル専用（mediafile_id付き）</li>
+<li>プレイヤーURLと埋め込みコードに含まれるすべてのJWTトークンに適用</li>
+<li>無効な日時形式の場合は400エラー</li>
+</ul>
+<p><strong>注意事項:</strong></p>
+<ul>
+<li>過去の日時を指定した場合、即座に期限切れとなる</li>
+<li>最大有効期限は7日間（システム制限）</li>
+<li>JWTトークンの有効期限はストリーミング再生時間を考慮して設定することを推奨</li>
+</ul>
 <h4 id="_4">共通レスポンス項目</h4>
 <h5 id="_5">ユーザーメタデータ</h5>
 <p>Filma APIでは、管理画面で入力されたカスタムメタデータを <code>user_metadata</code> フィールドとして取得できます。</p>
@@ -2131,17 +2141,27 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 </tbody>
 </table>
 <p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
-<p><strong>注意:</strong>
-- デフォルトでは公開されたファイルのみ取得
-- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルも含めて全ファイル取得</p>
-<p><strong>フィルタリング機能:</strong>
-- <strong>タグフィルタリング</strong>: <code>tags</code>パラメータで指定されたタグのいずれかを含むファイルを取得
-  - 単一タグ: <code>?tags=製品紹介</code>
-  - 複数タグ: <code>?tags[]=製品紹介&amp;tags[]=プロモーション</code>
-- <strong>カテゴリフィルタリング</strong>: <code>category</code>パラメータで指定されたカテゴリのファイルを取得
-  - 例: <code>?category=マーケティング</code>
-- <strong>複合フィルタリング</strong>: タグとカテゴリを組み合わせてフィルタリング可能
-  - 例: <code>?tags=製品紹介&amp;category=マーケティング</code></p>
+<p><strong>注意:</strong></p>
+<ul>
+<li>デフォルトでは公開されたファイルのみ取得</li>
+<li><code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルも含めて全ファイル取得</li>
+</ul>
+<p><strong>フィルタリング機能:</strong></p>
+<ul>
+<li><strong>タグフィルタリング</strong>: <code>tags</code>パラメータで指定されたタグのいずれかを含むファイルを取得<ul>
+<li>単一タグ: <code>?tags=製品紹介</code></li>
+<li>複数タグ: <code>?tags[]=製品紹介&amp;tags[]=プロモーション</code></li>
+</ul>
+</li>
+<li><strong>カテゴリフィルタリング</strong>: <code>category</code>パラメータで指定されたカテゴリのファイルを取得<ul>
+<li>例: <code>?category=マーケティング</code></li>
+</ul>
+</li>
+<li><strong>複合フィルタリング</strong>: タグとカテゴリを組み合わせてフィルタリング可能<ul>
+<li>例: <code>?tags=製品紹介&amp;category=マーケティング</code></li>
+</ul>
+</li>
+</ul>
 <p><strong>レスポンス例:</strong></p>
 <pre><code class="language-json">{
   &quot;items&quot;: [
@@ -2364,9 +2384,11 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 </tbody>
 </table>
 <p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
-<p><strong>注意:</strong>
-- デフォルトでは公開されたファイルのみアクセス可能
-- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</p>
+<p><strong>注意:</strong></p>
+<ul>
+<li>デフォルトでは公開されたファイルのみアクセス可能</li>
+<li><code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</li>
+</ul>
 <p><strong>レスポンス例:</strong></p>
 <pre><code class="language-json">{
   &quot;url&quot;: &quot;https://example.com/filmaapi/player/12345?jwt=eyJhbGciOiJIUzI1NiJ9...&quot;,
@@ -2440,18 +2462,12 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 <td>string | null</td>
 <td>カテゴリ（未設定時は <code>null</code>）</td>
 </tr>
-<tr>
-<td><strong>補足:</strong></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>- <code>url</code> / <code>embed_code</code> / <code>simple_embed_code</code> に含まれるJWTは <strong>mediafile_id付き</strong> で発行されます</td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
+<p><strong>補足:</strong></p>
+<ul>
+<li><code>url</code> / <code>embed_code</code> / <code>simple_embed_code</code> に含まれるJWTは <strong>mediafile_id付き</strong> で発行されます</li>
+</ul>
 <p><strong>完全な埋め込みコード（embed_code）</strong>: スクリプトとCSSが含まれているため、そのままページに貼り付けるだけで動作します。</p>
 <p><strong>シンプルな埋め込みコード（simple_embed_code）</strong>: HTMLの<code>&lt;div&gt;</code>要素のみです。以下のJavaScriptとCSSを別途HTMLに読み込む必要があります：</p>
 <pre><code class="language-html">&lt;script src=&quot;https://filma.biz/dash_player/js/xcream_player.min.js&quot;&gt;&lt;/script&gt;
@@ -2517,9 +2533,11 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 </tbody>
 </table>
 <p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
-<p><strong>注意:</strong>
-- デフォルトでは公開されたファイルのみアクセス可能
-- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</p>
+<p><strong>注意:</strong></p>
+<ul>
+<li>デフォルトでは公開されたファイルのみアクセス可能</li>
+<li><code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</li>
+</ul>
 <p><strong>レスポンス例:</strong></p>
 <pre><code class="language-json">{
   &quot;id&quot;: 12345,
@@ -2716,11 +2734,13 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 </tr>
 </tbody>
 </table>
-<p><strong>player_dataについて:</strong>
-- <code>player_data[].player_url</code> / <code>player_data[].player_embedding_html</code> に含まれるJWTは <strong>mediafile_id付き</strong> で発行されます
-- 音声のみのファイルは含まれません
-- 動画ファイルのみが対象となります
-- 解像度の低い順から配列に格納されます</p>
+<p><strong>player_dataについて:</strong></p>
+<ul>
+<li><code>player_data[].player_url</code> / <code>player_data[].player_embedding_html</code> に含まれるJWTは <strong>mediafile_id付き</strong> で発行されます</li>
+<li>音声のみのファイルは含まれません</li>
+<li>動画ファイルのみが対象となります</li>
+<li>解像度の低い順から配列に格納されます</li>
+</ul>
 <h4 id="_9">ストレージ情報取得</h4>
 <pre><code>GET /filmaapi/storage/metadata
 </code></pre>
@@ -2796,10 +2816,12 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 </tbody>
 </table>
 <p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
-<p><strong>注意:</strong>
-- デフォルトでは公開されたファイルのみ対象
-- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルも含めて全ファイル対象
-- メタデータが設定されているファイルのみを対象として集計</p>
+<p><strong>注意:</strong></p>
+<ul>
+<li>デフォルトでは公開されたファイルのみ対象</li>
+<li><code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルも含めて全ファイル対象</li>
+<li>メタデータが設定されているファイルのみを対象として集計</li>
+</ul>
 <p><strong>レスポンス例:</strong></p>
 <pre><code class="language-json">{
   &quot;total_files_with_metadata&quot;: 25,
@@ -3161,9 +3183,11 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 </tr>
 </tbody>
 </table>
-<p><strong>削除について:</strong>
-- 削除されたファイルは、通常のAPI呼び出しでは取得できなくなります
-- 削除されたファイルは、配信対象外として扱われます</p>
+<p><strong>削除について:</strong></p>
+<ul>
+<li>削除されたファイルは、通常のAPI呼び出しでは取得できなくなります</li>
+<li>削除されたファイルは、配信対象外として扱われます</li>
+</ul>
 <h3 id="encode-api">Encode API</h3>
 <p>動画エンコーディングの管理を行います。</p>
 <p><em>注: 以下のエンドポイントは現在未実装です。</em></p>
@@ -3227,14 +3251,20 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 </tbody>
 </table>
 <p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
-<p><strong>エンコードファイルIDについて:</strong>
-- <code>GET /filmaapi/storage/{id}</code>の<code>mediafile_id</code>フィールドで取得可能
-- ファイルメタデータ取得の<code>player_data[].player_url</code>からも確認可能</p>
-<p><strong>レスポンス:</strong>
-- HTMLプレイヤー画面</p>
-<p><strong>注意:</strong>
-- デフォルトでは公開されたファイルのみアクセス可能
-- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</p>
+<p><strong>エンコードファイルIDについて:</strong></p>
+<ul>
+<li><code>GET /filmaapi/storage/{id}</code>の<code>mediafile_id</code>フィールドで取得可能</li>
+<li>ファイルメタデータ取得の<code>player_data[].player_url</code>からも確認可能</li>
+</ul>
+<p><strong>レスポンス:</strong></p>
+<ul>
+<li>HTMLプレイヤー画面</li>
+</ul>
+<p><strong>注意:</strong></p>
+<ul>
+<li>デフォルトでは公開されたファイルのみアクセス可能</li>
+<li><code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</li>
+</ul>
 <h3 id="dash-api">DASH API</h3>
 <p>DASH形式での動画配信を行います。</p>
 <h4 id="dash">DASH配信</h4>
@@ -3283,12 +3313,16 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 </tbody>
 </table>
 <p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
-<p><strong>エンコードファイルIDについて:</strong>
-- <code>GET /filmaapi/storage/{id}</code>の<code>mediafile_id</code>フィールドで取得可能
-- ファイルメタデータ取得の<code>player_data[].player_url</code>からも確認可能</p>
-<p><strong>注意:</strong>
-- デフォルトでは公開されたファイルのみアクセス可能
-- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</p>
+<p><strong>エンコードファイルIDについて:</strong></p>
+<ul>
+<li><code>GET /filmaapi/storage/{id}</code>の<code>mediafile_id</code>フィールドで取得可能</li>
+<li>ファイルメタデータ取得の<code>player_data[].player_url</code>からも確認可能</li>
+</ul>
+<p><strong>注意:</strong></p>
+<ul>
+<li>デフォルトでは公開されたファイルのみアクセス可能</li>
+<li><code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</li>
+</ul>
 <h3 id="hls-api">HLS API</h3>
 <p>HLS形式での動画配信を行います。</p>
 <h4 id="hls">HLS配信</h4>
@@ -3429,19 +3463,25 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 </tbody>
 </table>
 <p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
-<p><strong>エンコードファイルIDについて（HLS API共通）:</strong>
-- <code>GET /filmaapi/storage/{id}</code>の<code>mediafile_id</code>フィールドで取得可能
-- ファイルメタデータ取得の<code>player_data[].player_url</code>からも確認可能</p>
-<p><strong>注意（HLS API共通）:</strong>
-- デフォルトでは公開されたファイルのみアクセス可能
-- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</p>
+<p><strong>エンコードファイルIDについて（HLS API共通）:</strong></p>
+<ul>
+<li><code>GET /filmaapi/storage/{id}</code>の<code>mediafile_id</code>フィールドで取得可能</li>
+<li>ファイルメタデータ取得の<code>player_data[].player_url</code>からも確認可能</li>
+</ul>
+<p><strong>注意（HLS API共通）:</strong></p>
+<ul>
+<li>デフォルトでは公開されたファイルのみアクセス可能</li>
+<li><code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</li>
+</ul>
 <h3 id="drm-api">DRMライセンス API</h3>
 <p>DRM（Widevine/FairPlay/PlayReady）ライセンスの取得を行います。
 Filma APIキー認証またはJWT認証が必要です。</p>
-<p><strong>JWTのmediafile_idについて（DRMライセンス共通）:</strong>
-- JWTに<code>mediafile_id</code>が含まれている場合は、原則として同一IDのメディアのみ許可されます
-- ただし、親メディアのJWTは同一親配下のDASH子メディアに限り許可されます
-- 子メディアのJWTは音声トラックは常に許可され、動画は同一解像度のみ許可されます</p>
+<p><strong>JWTのmediafile_idについて（DRMライセンス共通）:</strong></p>
+<ul>
+<li>JWTに<code>mediafile_id</code>が含まれている場合は、原則として同一IDのメディアのみ許可されます</li>
+<li>ただし、親メディアのJWTは同一親配下のDASH子メディアに限り許可されます</li>
+<li>子メディアのJWTは音声トラックは常に許可され、動画は同一解像度のみ許可されます</li>
+</ul>
 <h4 id="widevine">Widevineライセンス</h4>
 <pre><code>POST /filmaapi/license/widevine
 </code></pre>
@@ -3473,13 +3513,19 @@ Filma APIキー認証またはJWT認証が必要です。</p>
 </tr>
 </tbody>
 </table>
-<p><strong>リクエストボディ:</strong>
-- Widevineライセンス要求（バイナリ）
-- 証明書要求も同じエンドポイントで処理されます</p>
-<p><strong>レスポンス:</strong>
-- ライセンス（バイナリ）</p>
-<p><strong>注意:</strong>
-- 認証情報（api_key / jwt）を付与しない場合は401になります</p>
+<p><strong>リクエストボディ:</strong></p>
+<ul>
+<li>Widevineライセンス要求（バイナリ）</li>
+<li>証明書要求も同じエンドポイントで処理されます</li>
+</ul>
+<p><strong>レスポンス:</strong></p>
+<ul>
+<li>ライセンス（バイナリ）</li>
+</ul>
+<p><strong>注意:</strong></p>
+<ul>
+<li>認証情報（api_key / jwt）を付与しない場合は401になります</li>
+</ul>
 <h4 id="fairplayfps">FairPlayライセンス（FPS）</h4>
 <pre><code>POST /filmaapi/license/fps
 </code></pre>
@@ -3518,13 +3564,19 @@ Filma APIキー認証またはJWT認証が必要です。</p>
 </tr>
 </tbody>
 </table>
-<p><strong>リクエストボディ:</strong>
-- <code>spc</code>（フォーム形式）を送信します</p>
-<p><strong>レスポンス:</strong>
-- CKC（バイナリ）</p>
-<p><strong>注意:</strong>
-- 認証情報（api_key / jwt）を付与しない場合は401になります
-- KID未指定の場合は400になります</p>
+<p><strong>リクエストボディ:</strong></p>
+<ul>
+<li><code>spc</code>（フォーム形式）を送信します</li>
+</ul>
+<p><strong>レスポンス:</strong></p>
+<ul>
+<li>CKC（バイナリ）</li>
+</ul>
+<p><strong>注意:</strong></p>
+<ul>
+<li>認証情報（api_key / jwt）を付与しない場合は401になります</li>
+<li>KID未指定の場合は400になります</li>
+</ul>
 <h4 id="playready">PlayReadyライセンス</h4>
 <pre><code>GET /filmaapi/license/playready
 </code></pre>
@@ -3563,12 +3615,16 @@ Filma APIキー認証またはJWT認証が必要です。</p>
 </tr>
 </tbody>
 </table>
-<p><strong>レスポンス:</strong>
-- ライセンス情報（XML）
-- <code>Content-Type: text/xml; charset=UTF-8</code></p>
-<p><strong>注意:</strong>
-- 認証情報（api_key / jwt）を付与しない場合は401になります
-- <code>key_id</code> 未指定の場合はXML形式のエラー（HTTP 400）を返します</p>
+<p><strong>レスポンス:</strong></p>
+<ul>
+<li>ライセンス情報（XML）</li>
+<li><code>Content-Type: text/xml; charset=UTF-8</code></li>
+</ul>
+<p><strong>注意:</strong></p>
+<ul>
+<li>認証情報（api_key / jwt）を付与しない場合は401になります</li>
+<li><code>key_id</code> 未指定の場合はXML形式のエラー（HTTP 400）を返します</li>
+</ul>
 <h3 id="customers-api">Customers API</h3>
 <h4 id="_19">会員一覧取得</h4>
 <pre><code>GET /filmaapi/customers
