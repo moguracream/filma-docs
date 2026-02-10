@@ -1,0 +1,4662 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Filma API 仕様書">
+      
+      
+      
+        <link rel="canonical" href="https://moguracream.github.io/filma-docs/api-spec/04-endpoints/">
+      
+      
+        <link rel="prev" href="../03-api-key-management/">
+      
+      
+        <link rel="next" href="../05-api-usage-notes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>エンドポイント - Filma API Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href=".." title="Filma API Specification" class="md-header__button md-logo" aria-label="Filma API Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Filma API Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              エンドポイント
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Filma API Specification" class="md-nav__button md-logo" aria-label="Filma API Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Filma API Specification
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API仕様書
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概要
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    認証
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-api-key-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    APIキーの発行方法
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    エンドポイント
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    エンドポイント
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        パラメーター表記について
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwtapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWT認証API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JWT認証API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWTトークン発行
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWTトークン情報取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWTトークンリフレッシュ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        共通パラメータ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        共通レスポンス項目
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="共通レスポンス項目">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ユーザーメタデータ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ファイル一覧取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ファイル再生情報取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ファイルメタデータ取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ストレージ情報取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        メタデータオプション取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        フォルダ一覧取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        フォルダ詳細取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ファイルアップロード
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ファイル削除
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encode-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encode API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Encode API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        エンコード状況取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        エンコード開始
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        エンコード削除
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#player-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Player API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Player API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プレイヤー表示
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dash-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DASH API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DASH API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DASH配信
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hls-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HLS API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HLS API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HLS配信
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hls_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HLSメディア配信
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hls_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HLSヘッダー取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drm-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRMライセンス API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DRMライセンス API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#widevine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Widevineライセンス
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairplayfps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FairPlayライセンス（FPS）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playready" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PlayReadyライセンス
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customers-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customers API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Customers API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員一覧取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員詳細取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員作成（デフォルトショップ所属）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員向け視聴権一覧
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴権の手動付与
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entitlements-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entitlements API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Entitlements API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴プラン一覧検索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sku" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SKU一覧検索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴権の詳細取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴権の更新
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴権の剥奪
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-api-usage-notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API利用時の重要事項
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-error-responses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    エラーレスポンス
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    使用例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-cautions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    注意事項
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-implementation-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    実装ステータス
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        パラメーター表記について
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwtapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWT認証API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JWT認証API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWTトークン発行
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWTトークン情報取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWTトークンリフレッシュ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        共通パラメータ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        共通レスポンス項目
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="共通レスポンス項目">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ユーザーメタデータ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ファイル一覧取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ファイル再生情報取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ファイルメタデータ取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ストレージ情報取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        メタデータオプション取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        フォルダ一覧取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        フォルダ詳細取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ファイルアップロード
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ファイル削除
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encode-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encode API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Encode API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        エンコード状況取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        エンコード開始
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        エンコード削除
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#player-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Player API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Player API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プレイヤー表示
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dash-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DASH API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DASH API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DASH配信
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hls-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HLS API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HLS API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HLS配信
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hls_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HLSメディア配信
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hls_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HLSヘッダー取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drm-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRMライセンス API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DRMライセンス API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#widevine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Widevineライセンス
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairplayfps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FairPlayライセンス（FPS）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#playready" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PlayReadyライセンス
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customers-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customers API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Customers API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員一覧取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員詳細取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員作成（デフォルトショップ所属）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会員向け視聴権一覧
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴権の手動付与
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entitlements-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entitlements API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Entitlements API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴プラン一覧検索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sku" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SKU一覧検索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴権の詳細取得
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴権の更新
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        視聴権の剥奪
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">エンドポイント</h1>
+<h3 id="_2">パラメーター表記について</h3>
+<p>各エンドポイントのパラメーターテーブルで使用される記号の意味：</p>
+<table>
+<thead>
+<tr>
+<th>記号</th>
+<th>意味</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✓</td>
+<td>必須</td>
+<td>必ず指定が必要なパラメーター</td>
+</tr>
+<tr>
+<td>*</td>
+<td>認証必須</td>
+<td>認証のため必要だが、複数の認証方法のうちいずれか1つを指定</td>
+</tr>
+<tr>
+<td>-</td>
+<td>任意</td>
+<td>省略可能なパラメーター</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証パラメーターについて:</strong></p>
+<ul>
+<li><code>api_key</code>と<code>jwt</code>は両方とも「*」（認証必須）ですが、<strong>どちらか一方のみ</strong>指定すれば認証されます</li>
+<li>両方を同時に指定した場合は、<a href="../02-authentication/">認証方法の優先順位</a>に従って処理されます</li>
+<li>認証ヘッダーまたはCookieを使用する場合は、対応するクエリパラメーターは不要です：<ul>
+<li><code>Authorization: Bearer</code>ヘッダー使用時 → <code>jwt</code>パラメーター不要</li>
+<li><code>X-Api-Key</code>ヘッダー使用時 → <code>api_key</code>パラメーター不要</li>
+<li><code>filmajwt</code> Cookie使用時 → <code>jwt</code>パラメーター不要</li>
+</ul>
+</li>
+</ul>
+<h3 id="jwtapi">JWT認証API</h3>
+<p>JWTトークンの発行・情報取得・更新を行います。</p>
+<h4 id="jwt">JWTトークン発行</h4>
+<pre><code>POST /filmaapi/token
+</code></pre>
+<p>APIキーを使用してJWTトークンを発行します。発行されたJWTトークンは、JSONレスポンスで返却されると同時に、HTTPS環境では自動的にCookieとしても設定されます。</p>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（X-Api-Keyヘッダーまたはクエリパラメータで指定）</td>
+</tr>
+<tr>
+<td>expires_in</td>
+<td>integer</td>
+<td>-</td>
+<td>3600</td>
+<td>JWT有効期限（秒）。最大7日間（604800秒）</td>
+</tr>
+<tr>
+<td>jwt_expires_at</td>
+<td>string</td>
+<td>-</td>
+<td>-</td>
+<td>JWT有効期限をISO 8601形式で指定（expires_inより優先）</td>
+</tr>
+<tr>
+<td>mediafile_id</td>
+<td>integer</td>
+<td>-</td>
+<td>-</td>
+<td>特定のメディアファイルに限定したJWT発行（セキュリティ強化）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証（X-Api-Keyヘッダーまたは<code>api_key</code>クエリ）</p>
+<p><strong>リクエスト例:</strong></p>
+<p><strong>ヘッダー認証（推奨）</strong></p>
+<pre><code class="language-bash">curl -X POST &quot;https://filma.biz/filmaapi/token&quot; \
+  -H &quot;X-Api-Key: e47aad55d7fb4f152603b91b&quot; \
+  -H &quot;Content-Type: application/json&quot;
+</code></pre>
+<p><strong>クエリパラメータ認証</strong></p>
+<pre><code class="language-bash">curl -X POST &quot;https://filma.biz/filmaapi/token?api_key=e47aad55d7fb4f152603b91b&quot; \
+  -H &quot;Content-Type: application/json&quot;
+</code></pre>
+<p><strong>メディアファイル固有JWT発行</strong></p>
+<pre><code class="language-bash">curl -X POST &quot;https://filma.biz/filmaapi/token&quot; \
+  -H &quot;X-Api-Key: e47aad55d7fb4f152603b91b&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;mediafile_id&quot;: 12345, &quot;expires_in&quot;: 7200}'
+</code></pre>
+<p><strong>レスポンス例:</strong></p>
+<p><strong>成功時（HTTP 200）</strong></p>
+<pre><code class="language-json">{
+  &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MDQwMDcyMDAsImlhdCI6MTcwMzkyMDgwMCwibWVkaWFmaWxlX2lkIjoxMjM0NX0.signature&quot;,
+  &quot;token_type&quot;: &quot;Bearer&quot;,
+  &quot;expires_in&quot;: 86400,
+  &quot;expires_at&quot;: 1704007200,
+  &quot;user_id&quot;: 1,
+  &quot;organization_id&quot;: 1,
+  &quot;api_type&quot;: &quot;readonly&quot;,
+  &quot;mediafile_id&quot;: 12345
+}
+</code></pre>
+<p><strong>JWTペイロード構造:</strong></p>
+<p>発行されたJWTトークンには以下の情報が含まれます：</p>
+<pre><code class="language-json">{
+  &quot;user_id&quot;: 1,
+  &quot;api_type&quot;: &quot;readonly&quot;,
+  &quot;auth_method&quot;: &quot;api_key&quot;,
+  &quot;mediafile_id&quot;: 12345,
+  &quot;iat&quot;: 1703920800,
+  &quot;exp&quot;: 1704007200
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user_id</td>
+<td>integer</td>
+<td>ユーザーID</td>
+</tr>
+<tr>
+<td>api_type</td>
+<td>string</td>
+<td>API権限レベル（readonly, fullaccess）</td>
+</tr>
+<tr>
+<td>auth_method</td>
+<td>string</td>
+<td>認証方法（api_key, session_login, jwt_refresh等）</td>
+</tr>
+<tr>
+<td>mediafile_id</td>
+<td>integer | null</td>
+<td>メディアファイル固有JWT時のファイルID。指定時はそのファイルのみアクセス可能</td>
+</tr>
+<tr>
+<td>iat</td>
+<td>integer</td>
+<td>トークン発行時刻（UnixTimestamp）</td>
+</tr>
+<tr>
+<td>exp</td>
+<td>integer</td>
+<td>トークン有効期限（UnixTimestamp）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>メディアファイル固有JWT:</strong>
+- <code>mediafile_id</code>を指定してJWTを発行した場合、そのJWTは指定されたメディアファイルのみアクセス可能
+- ストリーミングやプレイヤーアクセス時に、JWTのmediafile_idとリクエストされたファイルIDが一致しない場合は基本的に403エラー
+- 例外として、DASHストリーミングでは「同一親メディア配下の音声」「同一解像度の動画」に限り別IDのアクセスを許可
+- セキュリティ強化により不正なアクセスを防止</p>
+<p><strong>JWTトークンCookie設定（HTTPS環境でのみ）:</strong></p>
+<pre><code>Set-Cookie: filmajwt=eyJhbGciOiJIUzI1NiJ9...; Expires=Mon, 01 Jan 2024 12:00:00 GMT; Path=/; Secure; HttpOnly; SameSite=Lax
+</code></pre>
+<p><strong>Cookieの特徴:</strong>
+- <strong>自動設定</strong>: JWTトークン発行時にHTTPS環境で自動的にCookieが設定される
+- <strong>セキュリティ</strong>: <code>HttpOnly</code>でJavaScriptからのアクセスを防止
+- <strong>SameSite=Lax</strong>: 外部サイトからのGETリクエストを許可、POSTリクエストを保護
+- <strong>期限</strong>: JWTトークンと同じ有効期限
+- <strong>利便性</strong>: 次回以降のAPIアクセスでCookie認証が利用可能</p>
+<p><strong>SameSite=Laxの動作:</strong>
+- <strong>同一サイト</strong>: 全てのリクエストでCookieが送信される
+- <strong>外部サイト（GET）</strong>: 動画プレイヤーや埋め込みコンテンツでCookieが送信される
+- <strong>外部サイト（POST）</strong>: CSRF攻撃を防止するため、Cookieは送信されない
+- <strong>スクリプトからのアクセス</strong>: curl、Python、Node.js等では制限なし</p>
+<p><strong>エラー時（HTTP 401）:</strong></p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;api_key_authentication_failed&quot;,
+  &quot;message&quot;: &quot;API認証に失敗しました&quot;
+}
+</code></pre>
+<h4 id="jwt_1">JWTトークン情報取得</h4>
+<pre><code>GET /filmaapi/token
+</code></pre>
+<p>現在のJWTトークンの情報を取得します。</p>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（Authorizationヘッダー、Cookie、またはクエリで指定）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> JWT認証、またはCookie認証</p>
+<p><strong>リクエスト例:</strong></p>
+<pre><code class="language-bash">curl -H &quot;Authorization: Bearer &lt;jwt_token&gt;&quot; \
+  &quot;https://filma.biz/filmaapi/token&quot;
+</code></pre>
+<p><strong>レスポンス例:</strong></p>
+<p><strong>成功時（HTTP 200）</strong></p>
+<pre><code class="language-json">{
+  &quot;user_id&quot;: 1,
+  &quot;organization_id&quot;: 1,
+  &quot;api_type&quot;: &quot;readonly&quot;,
+  &quot;expires_at&quot;: 1704007200,
+  &quot;issued_at&quot;: 1703920800,
+  &quot;is_valid&quot;: true,
+  &quot;time_remaining&quot;: 86400
+}
+</code></pre>
+<h4 id="jwt_2">JWTトークンリフレッシュ</h4>
+<pre><code>POST /filmaapi/token/refresh
+</code></pre>
+<p>有効なJWTトークンを使用して新しいトークンを発行します。</p>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>現在のJWTトークン（Authorizationヘッダー、Cookie、またはクエリで指定）</td>
+</tr>
+<tr>
+<td>expires_in</td>
+<td>integer</td>
+<td>-</td>
+<td>3600</td>
+<td>新しいJWT有効期限（秒）。最大7日間（604800秒）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> JWT認証、またはCookie認証</p>
+<p><strong>リクエスト例:</strong></p>
+<pre><code class="language-bash">curl -X POST &quot;https://filma.biz/filmaapi/token/refresh&quot; \
+  -H &quot;Authorization: Bearer &lt;current_jwt_token&gt;&quot; \
+  -H &quot;Content-Type: application/json&quot;
+</code></pre>
+<p><strong>レスポンス例:</strong></p>
+<p><strong>成功時（HTTP 200）</strong></p>
+<pre><code class="language-json">{
+  &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJvcmdhbml6YXRpb25faWQiOjEsImV4cCI6MTcwNDAwNzIwMCwiaWF0IjoxNzAzOTIwODAwfQ.new_signature&quot;,
+  &quot;token_type&quot;: &quot;Bearer&quot;,
+  &quot;expires_in&quot;: 86400,
+  &quot;expires_at&quot;: 1704093600,
+  &quot;user_id&quot;: 1,
+  &quot;organization_id&quot;: 1,
+  &quot;api_type&quot;: &quot;readonly&quot;
+}
+</code></pre>
+<h3 id="storage-api">Storage API</h3>
+<p>ファイルの管理と配信を行います。</p>
+<h4 id="_3">共通パラメータ</h4>
+<p><strong>jwt_expires_at パラメータについて:</strong></p>
+<p><code>jwt_expires_at</code>パラメータは、API応答で返されるプレイヤーURLや埋め込みコードに使用されるJWTトークンの有効期限を指定するためのパラメータです。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>形式</strong></td>
+<td>ISO 8601形式の日時文字列（例：<code>2024-12-31T23:59:59Z</code>）</td>
+</tr>
+<tr>
+<td><strong>目的</strong></td>
+<td>生成されるJWTトークンの有効期限を制御</td>
+</tr>
+<tr>
+<td><strong>デフォルト値</strong></td>
+<td>未指定時は現在時刻+1時間</td>
+</tr>
+<tr>
+<td><strong>使用場面</strong></td>
+<td>プレイヤーURL、埋め込みコード生成時</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用例:</strong></p>
+<pre><code class="language-bash"># 2024年12月31日 23:59:59 UTC まで有効なJWTを含むプレイヤーURLを生成
+curl -H &quot;X-Api-Key: your_api_key&quot; \
+  &quot;https://filma.biz/filmaapi/storage/12345?jwt_expires_at=2024-12-31T23:59:59Z&quot;
+</code></pre>
+<p><strong>動作:</strong>
+- 指定された日時まで有効なJWTトークンが自動生成される
+- 生成されたJWTは該当メディアファイル専用（mediafile_id付き）
+- プレイヤーURLと埋め込みコードに含まれるすべてのJWTトークンに適用
+- 無効な日時形式の場合は400エラー</p>
+<p><strong>注意事項:</strong>
+- 過去の日時を指定した場合、即座に期限切れとなる
+- 最大有効期限は7日間（システム制限）
+- JWTトークンの有効期限はストリーミング再生時間を考慮して設定することを推奨</p>
+<h4 id="_4">共通レスポンス項目</h4>
+<h5 id="_5">ユーザーメタデータ</h5>
+<p>Filma APIでは、管理画面で入力されたカスタムメタデータを <code>user_metadata</code> フィールドとして取得できます。</p>
+<p><strong>メタデータの構造:</strong></p>
+<pre><code class="language-json">// メタデータが設定されている場合
+{
+  &quot;user_metadata&quot;: {
+    &quot;tags&quot;: [&quot;製品紹介&quot;, &quot;プロモーション&quot;, &quot;2024年春&quot;],
+    &quot;category&quot;: &quot;マーケティング&quot;
+  }
+}
+
+// 一部のメタデータのみ設定されている場合
+{
+  &quot;user_metadata&quot;: {
+    &quot;tags&quot;: [&quot;企業紹介&quot;],
+    &quot;category&quot;: null
+  }
+}
+
+// メタデータが未設定の場合
+{
+  &quot;user_metadata&quot;: {}
+}
+</code></pre>
+<p><strong>基本フィールド:</strong></p>
+<ul>
+<li><strong><code>tags</code></strong>: タグの配列（未設定時は <code>null</code>）</li>
+<li><strong><code>category</code></strong>: カテゴリ（未設定時は <code>null</code>）</li>
+</ul>
+<p><strong>未設定時の動作:</strong></p>
+<ul>
+<li><strong><code>user_metadata</code> 自体が未設定の場合</strong>: 空のオブジェクト <code>{}</code> を返す</li>
+<li><strong><code>tags</code> が未設定の場合</strong>: <code>null</code> を返す</li>
+<li><strong><code>category</code> が未設定の場合</strong>: <code>null</code> を返す</li>
+</ul>
+<p><strong>拡張性:</strong></p>
+<p><code>user_metadata</code> は管理画面で追加されたすべてのカスタムメタデータを自動的に含むため、将来的に新しいメタデータフィールドが追加されても、APIコードの変更なしに自動的に対応されます。</p>
+<h4 id="_6">ファイル一覧取得</h4>
+<pre><code>GET /filmaapi/storage
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>page</td>
+<td>integer</td>
+<td>-</td>
+<td>1</td>
+<td>ページ番号</td>
+</tr>
+<tr>
+<td>per_page</td>
+<td>integer</td>
+<td>-</td>
+<td>20</td>
+<td>1ページあたりの件数（最大100）</td>
+</tr>
+<tr>
+<td>folder_id</td>
+<td>integer</td>
+<td>-</td>
+<td>-</td>
+<td>フォルダID（指定時は該当フォルダのファイルのみ取得）</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>string | array</td>
+<td>-</td>
+<td>-</td>
+<td>タグフィルタリング（指定時は該当タグを含むファイルのみ取得）</td>
+</tr>
+<tr>
+<td>category</td>
+<td>string</td>
+<td>-</td>
+<td>-</td>
+<td>カテゴリフィルタリング（指定時は該当カテゴリのファイルのみ取得）</td>
+</tr>
+<tr>
+<td>show_all</td>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>全ファイル表示フラグ（fullaccess権限のみ有効）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<p><strong>注意:</strong>
+- デフォルトでは公開されたファイルのみ取得
+- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルも含めて全ファイル取得</p>
+<p><strong>フィルタリング機能:</strong>
+- <strong>タグフィルタリング</strong>: <code>tags</code>パラメータで指定されたタグのいずれかを含むファイルを取得
+  - 単一タグ: <code>?tags=製品紹介</code>
+  - 複数タグ: <code>?tags[]=製品紹介&amp;tags[]=プロモーション</code>
+- <strong>カテゴリフィルタリング</strong>: <code>category</code>パラメータで指定されたカテゴリのファイルを取得
+  - 例: <code>?category=マーケティング</code>
+- <strong>複合フィルタリング</strong>: タグとカテゴリを組み合わせてフィルタリング可能
+  - 例: <code>?tags=製品紹介&amp;category=マーケティング</code></p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;items&quot;: [
+    {
+      &quot;id&quot;: 12345,
+      &quot;filename&quot;: &quot;sample_video.mp4&quot;,
+      &quot;mediafile_id&quot;: 12345,
+      &quot;folder_id&quot;: 100,
+      &quot;folder_name&quot;: &quot;動画フォルダ&quot;,
+      &quot;created_at&quot;: &quot;2024-01-01T10:00:00Z&quot;,
+      &quot;updated_at&quot;: &quot;2024-01-01T10:00:00Z&quot;,
+      &quot;creator&quot;: &quot;山田太郎&quot;,
+      &quot;updater&quot;: &quot;山田太郎&quot;,
+      &quot;published&quot;: true,
+      &quot;published_until&quot;: &quot;2024-12-31T23:59:00Z&quot;,
+      &quot;published_with_expiry&quot;: true,
+      &quot;published_status_text&quot;: &quot;公開（2024/12/31 23:59まで）&quot;,
+      &quot;drm&quot;: true,
+      &quot;screen_shots&quot;: [
+        &quot;https://example.com/storage/screenshot1.jpg&quot;,
+        &quot;https://example.com/storage/screenshot2.jpg&quot;,
+        &quot;https://example.com/storage/screenshot3.jpg&quot;
+      ],
+      &quot;user_metadata&quot;: {
+        &quot;tags&quot;: [&quot;製品紹介&quot;, &quot;プロモーション&quot;, &quot;2024年春&quot;],
+        &quot;category&quot;: &quot;マーケティング&quot;
+      }
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;current_page&quot;: 1,
+    &quot;per_page&quot;: 20,
+    &quot;total_count&quot;: 150,
+    &quot;total_pages&quot;: 8
+  }
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>items</td>
+<td>array</td>
+<td>ファイル情報の配列</td>
+</tr>
+<tr>
+<td>items[].id</td>
+<td>integer</td>
+<td>ファイルの一意識別子</td>
+</tr>
+<tr>
+<td>items[].filename</td>
+<td>string</td>
+<td>ファイル名</td>
+</tr>
+<tr>
+<td>items[].mediafile_id</td>
+<td>integer</td>
+<td>メディアファイルID（プレイヤーやストリーミングで使用）</td>
+</tr>
+<tr>
+<td>items[].folder_id</td>
+<td>integer</td>
+<td>所属フォルダのID</td>
+</tr>
+<tr>
+<td>items[].folder_name</td>
+<td>string</td>
+<td>所属フォルダの名前</td>
+</tr>
+<tr>
+<td>items[].created_at</td>
+<td>string</td>
+<td>ファイル作成日時（ISO 8601形式）</td>
+</tr>
+<tr>
+<td>items[].updated_at</td>
+<td>string</td>
+<td>ファイル更新日時（ISO 8601形式）</td>
+</tr>
+<tr>
+<td>items[].creator</td>
+<td>string</td>
+<td>ファイル作成者名</td>
+</tr>
+<tr>
+<td>items[].updater</td>
+<td>string</td>
+<td>ファイル更新者名</td>
+</tr>
+<tr>
+<td>items[].published</td>
+<td>boolean</td>
+<td>公開状態（true: 公開設定, false: 非公開設定）</td>
+</tr>
+<tr>
+<td>items[].published_until</td>
+<td>string | null</td>
+<td>公開期限（ISO 8601形式、nullの場合は期限なし）</td>
+</tr>
+<tr>
+<td>items[].published_with_expiry</td>
+<td>boolean</td>
+<td>公開期限を考慮した実際の公開状態</td>
+</tr>
+<tr>
+<td>items[].published_status_text</td>
+<td>string</td>
+<td>公開状態の表示文字列（「公開」「公開（期限付き）」「公開期限切れ」「非公開」）</td>
+</tr>
+<tr>
+<td>items[].drm</td>
+<td>boolean</td>
+<td>DRM有無（メディアファイルまたは派生ファイルにDRMが含まれる場合はtrue）</td>
+</tr>
+<tr>
+<td>items[].screen_shots</td>
+<td>array</td>
+<td>スクリーンショット画像のURL配列</td>
+</tr>
+<tr>
+<td>items[].user_metadata</td>
+<td>object</td>
+<td>管理画面で入力されたカスタムメタデータ（未設定時は空オブジェクト <code>{}</code>）</td>
+</tr>
+<tr>
+<td>items[].user_metadata.tags</td>
+<td>array | null</td>
+<td>タグの配列（未設定時は <code>null</code>）</td>
+</tr>
+<tr>
+<td>items[].user_metadata.category</td>
+<td>string | null</td>
+<td>カテゴリ（未設定時は <code>null</code>）</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td>object</td>
+<td>ページング情報</td>
+</tr>
+<tr>
+<td>pagination.current_page</td>
+<td>integer</td>
+<td>現在のページ番号</td>
+</tr>
+<tr>
+<td>pagination.per_page</td>
+<td>integer</td>
+<td>1ページあたりの件数</td>
+</tr>
+<tr>
+<td>pagination.total_count</td>
+<td>integer</td>
+<td>総ファイル数</td>
+</tr>
+<tr>
+<td>pagination.total_pages</td>
+<td>integer</td>
+<td>総ページ数</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_7">ファイル再生情報取得</h4>
+<pre><code>GET /filmaapi/storage/{id}
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>ファイルID</td>
+</tr>
+<tr>
+<td>show_all</td>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>全ファイル表示フラグ（fullaccess権限のみ有効）</td>
+</tr>
+<tr>
+<td>jwt_expires_at</td>
+<td>string</td>
+<td>-</td>
+<td>現在時刻+1時間</td>
+<td>生成されるJWTトークンの有効期限をISO 8601形式で指定</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<p><strong>注意:</strong>
+- デフォルトでは公開されたファイルのみアクセス可能
+- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;url&quot;: &quot;https://example.com/filmaapi/player/12345?jwt=eyJhbGciOiJIUzI1NiJ9...&quot;,
+  &quot;embed_code&quot;: &quot;&lt;script src=\&quot;https://example.com/dash_player/js/xcream_player.min.js\&quot;&gt;&lt;/script&gt;\n&lt;link rel=\&quot;stylesheet\&quot; type=\&quot;text/css\&quot; href=\&quot;https://example.com/dash_player/css/style.css\&quot;&gt;\n&lt;div id=\&quot;video-12345\&quot; class=\&quot;filma-video\&quot; data-drm=\&quot;true\&quot; style=\&quot;width: 100%;\&quot;&gt;&lt;/div&gt;\n&lt;script&gt;\n  document.addEventListener('DOMContentLoaded', function() {\n    let elem = document.getElementById('video-12345');\n    if (elem == null) {\n      return;\n    }\n    if (isSafari()) {\n      elem.dataset.src = 'https://example.com/filmaapi/hls/12345.m3u8?jwt=eyJhbGciOiJIUzI1NiJ9...';\n    } else {\n      elem.dataset.src = 'https://example.com/filmaapi/dash/12345.mpd?jwt=eyJhbGciOiJIUzI1NiJ9...';\n    }\n    init_xcream_player('video-12345');\n  });\n&lt;/script&gt;&quot;,
+  &quot;simple_embed_code&quot;: &quot;&lt;div id=\&quot;video-12345\&quot; class=\&quot;filma-video\&quot; data-drm=\&quot;true\&quot; style=\&quot;width: 100%;\&quot;&gt;&lt;/div&gt;&quot;,
+  &quot;mediafile_id&quot;: 12345,
+  &quot;drm&quot;: true,
+  &quot;screen_shots&quot;: [
+    &quot;https://example.com/storage/screenshot1.jpg&quot;,
+    &quot;https://example.com/storage/screenshot2.jpg&quot;,
+    &quot;https://example.com/storage/screenshot3.jpg&quot;
+  ],
+  &quot;user_metadata&quot;: {
+    &quot;tags&quot;: [&quot;製品紹介&quot;, &quot;プロモーション&quot;, &quot;2024年春&quot;],
+    &quot;category&quot;: &quot;マーケティング&quot;
+  }
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td>string</td>
+<td>プレイヤーページのURL（JWTトークン付き）</td>
+</tr>
+<tr>
+<td>embed_code</td>
+<td>string</td>
+<td>完全なHTMLプレイヤー埋め込みコード（JS/CSS込み）</td>
+</tr>
+<tr>
+<td>simple_embed_code</td>
+<td>string</td>
+<td>シンプルなHTML埋め込みコード（JS/CSSは別途読み込みが必要）</td>
+</tr>
+<tr>
+<td>mediafile_id</td>
+<td>integer</td>
+<td>エンコード済みファイルの識別子</td>
+</tr>
+<tr>
+<td>drm</td>
+<td>boolean</td>
+<td>DRM有無（メディアファイルまたは派生ファイルにDRMが含まれる場合はtrue）</td>
+</tr>
+<tr>
+<td>screen_shots</td>
+<td>array</td>
+<td>スクリーンショット画像のURL配列</td>
+</tr>
+<tr>
+<td>user_metadata</td>
+<td>object</td>
+<td>管理画面で入力されたカスタムメタデータ（未設定時は空オブジェクト <code>{}</code>）</td>
+</tr>
+<tr>
+<td>user_metadata.tags</td>
+<td>array | null</td>
+<td>タグの配列（未設定時は <code>null</code>）</td>
+</tr>
+<tr>
+<td>user_metadata.category</td>
+<td>string | null</td>
+<td>カテゴリ（未設定時は <code>null</code>）</td>
+</tr>
+<tr>
+<td><strong>補足:</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>- <code>url</code> / <code>embed_code</code> / <code>simple_embed_code</code> に含まれるJWTは <strong>mediafile_id付き</strong> で発行されます</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>完全な埋め込みコード（embed_code）</strong>: スクリプトとCSSが含まれているため、そのままページに貼り付けるだけで動作します。</p>
+<p><strong>シンプルな埋め込みコード（simple_embed_code）</strong>: HTMLの<code>&lt;div&gt;</code>要素のみです。以下のJavaScriptとCSSを別途HTMLに読み込む必要があります：</p>
+<pre><code class="language-html">&lt;script src=&quot;https://filma.biz/dash_player/js/xcream_player.min.js&quot;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://filma.biz/dash_player/css/style.css&quot;&gt;
+&lt;script&gt;
+  // 初期化処理
+  document.addEventListener('DOMContentLoaded', function() {
+    init_xcream_player('video-12345'); // video-{mediafile_id}を指定
+  });
+&lt;/script&gt;
+</code></pre>
+<p><strong>JWT認証について</strong>: 生成されるプレイヤーURLと埋め込みコードには、リクエストした時点でのユーザー権限に基づいた専用JWTトークンが含まれます。このJWTは該当メディアファイルのみアクセス可能で、セキュリティが強化されています。</p>
+<h4 id="_8">ファイルメタデータ取得</h4>
+<pre><code>GET /filmaapi/storage/metadata/{id}
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>ファイルID</td>
+</tr>
+<tr>
+<td>show_all</td>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>全ファイル表示フラグ（fullaccess権限のみ有効）</td>
+</tr>
+<tr>
+<td>jwt_expires_at</td>
+<td>string</td>
+<td>-</td>
+<td>現在時刻+1時間</td>
+<td>生成されるJWTトークンの有効期限をISO 8601形式で指定</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<p><strong>注意:</strong>
+- デフォルトでは公開されたファイルのみアクセス可能
+- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 12345,
+  &quot;mediafile_id&quot;: 12345,
+  &quot;name&quot;: &quot;sample_video.mp4&quot;,
+  &quot;folder_id&quot;: 100,
+  &quot;folder_name&quot;: &quot;動画フォルダ&quot;,
+  &quot;created_at&quot;: &quot;2024-01-01T10:00:00Z&quot;,
+  &quot;updated_at&quot;: &quot;2024-01-01T10:00:00Z&quot;,
+  &quot;creator&quot;: &quot;山田太郎&quot;,
+  &quot;updater&quot;: &quot;山田太郎&quot;,
+  &quot;published&quot;: true,
+  &quot;published_until&quot;: &quot;2024-12-31T23:59:00Z&quot;,
+  &quot;published_with_expiry&quot;: true,
+  &quot;published_status_text&quot;: &quot;公開（2024/12/31 23:59まで）&quot;,
+  &quot;drm&quot;: true,
+  &quot;screen_shots&quot;: [
+    &quot;https://example.com/storage/screenshot1.jpg&quot;,
+    &quot;https://example.com/storage/screenshot2.jpg&quot;,
+    &quot;https://example.com/storage/screenshot3.jpg&quot;
+  ],
+  &quot;user_metadata&quot;: {
+    &quot;tags&quot;: [&quot;製品紹介&quot;, &quot;プロモーション&quot;, &quot;2024年春&quot;],
+    &quot;category&quot;: &quot;マーケティング&quot;
+  },
+  &quot;player_data&quot;: [
+     {
+       &quot;mediafile_id&quot;: 67890,
+       &quot;resolution_string&quot;: &quot;HD 1280x720&quot;,
+       &quot;filesize_megabyte&quot;: 150.5,
+       &quot;bitrate_human&quot;: &quot;2.5 Mbps&quot;,
+       &quot;drm&quot;: true,
+       &quot;player_url&quot;: &quot;https://example.com/filmaapi/player/67890?jwt=eyJhbGciOiJIUzI1NiJ9...&quot;,
+       &quot;player_embedding_html&quot;: &quot;&lt;script src=\&quot;https://example.com/dash_player/js/xcream_player.min.js\&quot;&gt;&lt;/script&gt;\n&lt;link rel=\&quot;stylesheet\&quot; type=\&quot;text/css\&quot; href=\&quot;https://example.com/dash_player/css/style.css\&quot;&gt;\n&lt;div id=\&quot;video-67890\&quot; class=\&quot;filma-video\&quot; data-drm=\&quot;true\&quot; style=\&quot;width: 100%;\&quot;&gt;&lt;/div&gt;\n&lt;script&gt;\n  document.addEventListener('DOMContentLoaded', function() {\n    let elem = document.getElementById('video-67890');\n    if (elem == null) {\n      return;\n    }\n    if (isSafari()) {\n      elem.dataset.src = 'https://example.com/filmaapi/hls/67890.m3u8?jwt=eyJhbGciOiJIUzI1NiJ9...';\n    } else {\n      elem.dataset.src = 'https://example.com/filmaapi/dash/67890.mpd?jwt=eyJhbGciOiJIUzI1NiJ9...';\n    }\n    init_xcream_player('video-67890');\n  });\n&lt;/script&gt;&quot;,
+       &quot;player_embedding_html_simple&quot;: &quot;&lt;div id=\&quot;video-67890\&quot; class=\&quot;filma-video\&quot; data-drm=\&quot;true\&quot; style=\&quot;width: 100%;\&quot;&gt;&lt;/div&gt;&quot;,
+       &quot;screen_shots&quot;: [
+         &quot;https://example.com/storage/screenshot1.jpg&quot;,
+         &quot;https://example.com/storage/screenshot2.jpg&quot;,
+         &quot;https://example.com/storage/screenshot3.jpg&quot;
+       ]
+     }
+   ]
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>ファイルの一意識別子</td>
+</tr>
+<tr>
+<td>mediafile_id</td>
+<td>integer</td>
+<td>メディアファイルID（プレイヤーやストリーミングで使用）</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>ファイル名</td>
+</tr>
+<tr>
+<td>folder_id</td>
+<td>integer</td>
+<td>所属フォルダのID</td>
+</tr>
+<tr>
+<td>folder_name</td>
+<td>string</td>
+<td>所属フォルダの名前</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>string</td>
+<td>ファイル作成日時（ISO 8601形式）</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>string</td>
+<td>ファイル更新日時（ISO 8601形式）</td>
+</tr>
+<tr>
+<td>creator</td>
+<td>string</td>
+<td>ファイル作成者名</td>
+</tr>
+<tr>
+<td>updater</td>
+<td>string</td>
+<td>ファイル更新者名</td>
+</tr>
+<tr>
+<td>published</td>
+<td>boolean</td>
+<td>公開状態（true: 公開設定, false: 非公開設定）</td>
+</tr>
+<tr>
+<td>published_until</td>
+<td>string | null</td>
+<td>公開期限（ISO 8601形式、nullの場合は期限なし）</td>
+</tr>
+<tr>
+<td>published_with_expiry</td>
+<td>boolean</td>
+<td>公開期限を考慮した実際の公開状態</td>
+</tr>
+<tr>
+<td>published_status_text</td>
+<td>string</td>
+<td>公開状態の表示文字列（「公開」「公開（期限付き）」「公開期限切れ」「非公開」）</td>
+</tr>
+<tr>
+<td>drm</td>
+<td>boolean</td>
+<td>DRM有無（メディアファイルまたは派生ファイルにDRMが含まれる場合はtrue）</td>
+</tr>
+<tr>
+<td>screen_shots</td>
+<td>array</td>
+<td>ファイル全体のスクリーンショット画像URL配列</td>
+</tr>
+<tr>
+<td>user_metadata</td>
+<td>object</td>
+<td>管理画面で入力されたカスタムメタデータ（未設定時は空オブジェクト <code>{}</code>）</td>
+</tr>
+<tr>
+<td>user_metadata.tags</td>
+<td>array | null</td>
+<td>タグの配列（未設定時は <code>null</code>）</td>
+</tr>
+<tr>
+<td>user_metadata.category</td>
+<td>string | null</td>
+<td>カテゴリ（未設定時は <code>null</code>）</td>
+</tr>
+<tr>
+<td>player_data</td>
+<td>array</td>
+<td>エンコード済みファイル（解像度別）の情報配列</td>
+</tr>
+<tr>
+<td>player_data[].mediafile_id</td>
+<td>integer</td>
+<td>エンコード済みファイルのメディアファイルID</td>
+</tr>
+<tr>
+<td>player_data[].resolution_string</td>
+<td>string</td>
+<td>解像度の表示文字列（例：「HD 1280x720」）</td>
+</tr>
+<tr>
+<td>player_data[].filesize_megabyte</td>
+<td>number</td>
+<td>ファイルサイズ（MB）</td>
+</tr>
+<tr>
+<td>player_data[].bitrate_human</td>
+<td>string</td>
+<td>ビットレートの人間が読める形式（例：「2.5 Mbps」）</td>
+</tr>
+<tr>
+<td>player_data[].drm</td>
+<td>boolean</td>
+<td>DRM有無（該当メディアファイルのDRM状態）</td>
+</tr>
+<tr>
+<td>player_data[].player_url</td>
+<td>string</td>
+<td>該当解像度ファイルのプレイヤーページURL（JWTトークン付き）</td>
+</tr>
+<tr>
+<td>player_data[].player_embedding_html</td>
+<td>string</td>
+<td>該当解像度ファイル用の完全な埋め込みHTMLコード（JS/CSS込み）</td>
+</tr>
+<tr>
+<td>player_data[].player_embedding_html_simple</td>
+<td>string</td>
+<td>該当解像度ファイル用のシンプルな埋め込みHTMLコード（JS/CSSは別途読み込みが必要）</td>
+</tr>
+<tr>
+<td>player_data[].screen_shots</td>
+<td>array</td>
+<td>該当解像度ファイルのスクリーンショット画像URL配列</td>
+</tr>
+</tbody>
+</table>
+<p><strong>player_dataについて:</strong>
+- <code>player_data[].player_url</code> / <code>player_data[].player_embedding_html</code> に含まれるJWTは <strong>mediafile_id付き</strong> で発行されます
+- 音声のみのファイルは含まれません
+- 動画ファイルのみが対象となります
+- 解像度の低い順から配列に格納されます</p>
+<h4 id="_9">ストレージ情報取得</h4>
+<pre><code>GET /filmaapi/storage/metadata
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<p><strong>レスポンス:</strong></p>
+<pre><code class="language-json">[]
+</code></pre>
+<p><em>注: 現在は空の配列を返します。</em></p>
+<h4 id="_10">メタデータオプション取得</h4>
+<pre><code>GET /filmaapi/storage/metadata_options
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>show_all</td>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>全ファイル表示フラグ（fullaccess権限のみ有効）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<p><strong>注意:</strong>
+- デフォルトでは公開されたファイルのみ対象
+- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルも含めて全ファイル対象
+- メタデータが設定されているファイルのみを対象として集計</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;total_files_with_metadata&quot;: 25,
+  &quot;metadata_keys&quot;: {
+    &quot;tags&quot;: {
+      &quot;count&quot;: 15,
+      &quot;unique_values&quot;: [&quot;製品紹介&quot;, &quot;プロモーション&quot;, &quot;企業紹介&quot;, &quot;2024年春&quot;, &quot;マーケティング&quot;],
+      &quot;total_unique_values&quot;: 5
+    },
+    &quot;category&quot;: {
+      &quot;count&quot;: 12,
+      &quot;unique_values&quot;: [&quot;マーケティング&quot;, &quot;教育&quot;, &quot;エンターテイメント&quot;, &quot;技術&quot;],
+      &quot;total_unique_values&quot;: 4
+    },
+    &quot;priority&quot;: {
+      &quot;count&quot;: 8,
+      &quot;unique_values&quot;: [&quot;高&quot;, &quot;中&quot;, &quot;低&quot;],
+      &quot;total_unique_values&quot;: 3
+    },
+    &quot;department&quot;: {
+      &quot;count&quot;: 6,
+      &quot;unique_values&quot;: [&quot;営業部&quot;, &quot;マーケティング部&quot;, &quot;開発部&quot;],
+      &quot;total_unique_values&quot;: 3
+    }
+  }
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>total_files_with_metadata</td>
+<td>integer</td>
+<td>メタデータが設定されているファイルの総数</td>
+</tr>
+<tr>
+<td>metadata_keys</td>
+<td>object</td>
+<td>動的に収集されたメタデータキーの詳細情報</td>
+</tr>
+<tr>
+<td>metadata_keys.{key}</td>
+<td>object</td>
+<td>各メタデータキーの詳細情報</td>
+</tr>
+<tr>
+<td>metadata_keys.{key}.count</td>
+<td>integer</td>
+<td>そのキーが使用されているファイル数</td>
+</tr>
+<tr>
+<td>metadata_keys.{key}.unique_values</td>
+<td>array</td>
+<td>そのキーのユニークな値の配列（アルファベット順）</td>
+</tr>
+<tr>
+<td>metadata_keys.{key}.total_unique_values</td>
+<td>integer</td>
+<td>そのキーのユニークな値の総数</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_11">フォルダ一覧取得</h4>
+<pre><code>GET /filmaapi/storage/folders
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: 100,
+    &quot;name&quot;: &quot;動画フォルダ&quot;,
+    &quot;created_at&quot;: &quot;2024-01-01T10:00:00Z&quot;,
+    &quot;updated_at&quot;: &quot;2024-01-01T10:00:00Z&quot;,
+    &quot;creator&quot;: &quot;山田太郎&quot;,
+    &quot;updater&quot;: &quot;山田太郎&quot;
+  },
+  {
+    &quot;id&quot;: 101,
+    &quot;name&quot;: &quot;教育動画&quot;,
+    &quot;created_at&quot;: &quot;2024-01-02T11:00:00Z&quot;,
+    &quot;updated_at&quot;: &quot;2024-01-02T11:00:00Z&quot;,
+    &quot;creator&quot;: &quot;佐藤花子&quot;,
+    &quot;updater&quot;: &quot;佐藤花子&quot;
+  }
+]
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>フォルダの一意識別子</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>フォルダ名</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>string</td>
+<td>フォルダ作成日時（ISO 8601形式）</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>string</td>
+<td>フォルダ更新日時（ISO 8601形式）</td>
+</tr>
+<tr>
+<td>creator</td>
+<td>string</td>
+<td>フォルダ作成者名</td>
+</tr>
+<tr>
+<td>updater</td>
+<td>string</td>
+<td>フォルダ更新者名</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_12">フォルダ詳細取得</h4>
+<pre><code>GET /filmaapi/storage/folders/{id}
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>フォルダID</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 100,
+  &quot;name&quot;: &quot;動画フォルダ&quot;,
+  &quot;created_at&quot;: &quot;2024-01-01T10:00:00Z&quot;,
+  &quot;updated_at&quot;: &quot;2024-01-01T10:00:00Z&quot;,
+  &quot;creator&quot;: &quot;山田太郎&quot;,
+  &quot;updater&quot;: &quot;山田太郎&quot;
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>フォルダの一意識別子</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>フォルダ名</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>string</td>
+<td>フォルダ作成日時（ISO 8601形式）</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>string</td>
+<td>フォルダ更新日時（ISO 8601形式）</td>
+</tr>
+<tr>
+<td>creator</td>
+<td>string</td>
+<td>フォルダ作成者名</td>
+</tr>
+<tr>
+<td>updater</td>
+<td>string</td>
+<td>フォルダ更新者名</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_13">ファイルアップロード</h4>
+<pre><code>POST /filmaapi/storage
+</code></pre>
+<p><strong>権限:</strong> fullaccess権限が必要</p>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+</tbody>
+</table>
+<p><em>注: 現在未実装です。</em></p>
+<h4 id="_14">ファイル削除</h4>
+<pre><code>DELETE /filmaapi/storage/{id}
+</code></pre>
+<p><strong>権限:</strong> fullaccess権限が必要</p>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>ファイルID</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 12345,
+  &quot;status&quot;: &quot;deleted&quot;,
+  &quot;filename&quot;: &quot;sample_video.mp4&quot;
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>削除されたファイルの識別子</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>削除ステータス（常に「deleted」）</td>
+</tr>
+<tr>
+<td>filename</td>
+<td>string</td>
+<td>削除されたファイル名</td>
+</tr>
+</tbody>
+</table>
+<p><strong>削除について:</strong>
+- 削除されたファイルは、通常のAPI呼び出しでは取得できなくなります
+- 削除されたファイルは、配信対象外として扱われます</p>
+<h3 id="encode-api">Encode API</h3>
+<p>動画エンコーディングの管理を行います。</p>
+<p><em>注: 以下のエンドポイントは現在未実装です。</em></p>
+<h4 id="_15">エンコード状況取得</h4>
+<pre><code>GET /filmaapi/encode/{id}
+</code></pre>
+<p><strong>権限:</strong> fullaccess権限が必要</p>
+<h4 id="_16">エンコード開始</h4>
+<pre><code>POST /filmaapi/encode
+</code></pre>
+<p><strong>権限:</strong> fullaccess権限が必要</p>
+<h4 id="_17">エンコード削除</h4>
+<pre><code>DELETE /filmaapi/encode/{id}
+</code></pre>
+<p><strong>権限:</strong> fullaccess権限が必要</p>
+<h3 id="player-api">Player API</h3>
+<p>動画プレイヤーの表示を行います。</p>
+<h4 id="_18">プレイヤー表示</h4>
+<pre><code>GET /filmaapi/player/{id}
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>エンコードファイルID</td>
+</tr>
+<tr>
+<td>show_all</td>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>全ファイル表示フラグ（fullaccess権限のみ有効）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<p><strong>エンコードファイルIDについて:</strong>
+- <code>GET /filmaapi/storage/{id}</code>の<code>mediafile_id</code>フィールドで取得可能
+- ファイルメタデータ取得の<code>player_data[].player_url</code>からも確認可能</p>
+<p><strong>レスポンス:</strong>
+- HTMLプレイヤー画面</p>
+<p><strong>注意:</strong>
+- デフォルトでは公開されたファイルのみアクセス可能
+- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</p>
+<h3 id="dash-api">DASH API</h3>
+<p>DASH形式での動画配信を行います。</p>
+<h4 id="dash">DASH配信</h4>
+<pre><code>GET /filmaapi/dash/{id}.mpd
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>エンコードファイルID</td>
+</tr>
+<tr>
+<td>show_all</td>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>全ファイル表示フラグ（fullaccess権限のみ有効）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<p><strong>エンコードファイルIDについて:</strong>
+- <code>GET /filmaapi/storage/{id}</code>の<code>mediafile_id</code>フィールドで取得可能
+- ファイルメタデータ取得の<code>player_data[].player_url</code>からも確認可能</p>
+<p><strong>注意:</strong>
+- デフォルトでは公開されたファイルのみアクセス可能
+- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</p>
+<h3 id="hls-api">HLS API</h3>
+<p>HLS形式での動画配信を行います。</p>
+<h4 id="hls">HLS配信</h4>
+<pre><code>GET /filmaapi/hls/{id}.m3u8
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>エンコードファイルID</td>
+</tr>
+<tr>
+<td>show_all</td>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>全ファイル表示フラグ（fullaccess権限のみ有効）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<h4 id="hls_1">HLSメディア配信</h4>
+<pre><code>GET /filmaapi/hls/media/{id}.m3u8
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>エンコードファイルID</td>
+</tr>
+<tr>
+<td>show_all</td>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>全ファイル表示フラグ（fullaccess権限のみ有効）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<h4 id="hls_2">HLSヘッダー取得</h4>
+<pre><code>HEAD /filmaapi/hls/{id}.m3u8
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>エンコードファイルID</td>
+</tr>
+<tr>
+<td>show_all</td>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+<td>全ファイル表示フラグ（fullaccess権限のみ有効）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証、JWT認証、またはCookie認証のいずれか</p>
+<p><strong>エンコードファイルIDについて（HLS API共通）:</strong>
+- <code>GET /filmaapi/storage/{id}</code>の<code>mediafile_id</code>フィールドで取得可能
+- ファイルメタデータ取得の<code>player_data[].player_url</code>からも確認可能</p>
+<p><strong>注意（HLS API共通）:</strong>
+- デフォルトでは公開されたファイルのみアクセス可能
+- <code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</p>
+<h3 id="drm-api">DRMライセンス API</h3>
+<p>DRM（Widevine/FairPlay/PlayReady）ライセンスの取得を行います。
+Filma APIキー認証またはJWT認証が必要です。</p>
+<p><strong>JWTのmediafile_idについて（DRMライセンス共通）:</strong>
+- JWTに<code>mediafile_id</code>が含まれている場合は、原則として同一IDのメディアのみ許可されます
+- ただし、親メディアのJWTは同一親配下のDASH子メディアに限り許可されます
+- 子メディアのJWTは音声トラックは常に許可され、動画は同一解像度のみ許可されます</p>
+<h4 id="widevine">Widevineライセンス</h4>
+<pre><code>POST /filmaapi/license/widevine
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>リクエストボディ:</strong>
+- Widevineライセンス要求（バイナリ）
+- 証明書要求も同じエンドポイントで処理されます</p>
+<p><strong>レスポンス:</strong>
+- ライセンス（バイナリ）</p>
+<p><strong>注意:</strong>
+- 認証情報（api_key / jwt）を付与しない場合は401になります</p>
+<h4 id="fairplayfps">FairPlayライセンス（FPS）</h4>
+<pre><code>POST /filmaapi/license/fps
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KID</td>
+<td>string</td>
+<td>✓</td>
+<td>-</td>
+<td>キーID</td>
+</tr>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>リクエストボディ:</strong>
+- <code>spc</code>（フォーム形式）を送信します</p>
+<p><strong>レスポンス:</strong>
+- CKC（バイナリ）</p>
+<p><strong>注意:</strong>
+- 認証情報（api_key / jwt）を付与しない場合は401になります
+- KID未指定の場合は400になります</p>
+<h4 id="playready">PlayReadyライセンス</h4>
+<pre><code>GET /filmaapi/license/playready
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>key_id</td>
+<td>string</td>
+<td>✓</td>
+<td>-</td>
+<td>メディアファイルのキーID</td>
+</tr>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>レスポンス:</strong>
+- ライセンス情報（XML）
+- <code>Content-Type: text/xml; charset=UTF-8</code></p>
+<p><strong>注意:</strong>
+- 認証情報（api_key / jwt）を付与しない場合は401になります
+- <code>key_id</code> 未指定の場合はXML形式のエラー（HTTP 400）を返します</p>
+<h3 id="customers-api">Customers API</h3>
+<h4 id="_19">会員一覧取得</h4>
+<pre><code>GET /filmaapi/customers
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>page</td>
+<td>integer</td>
+<td>-</td>
+<td>1</td>
+<td>ページ番号</td>
+</tr>
+<tr>
+<td>per_page</td>
+<td>integer</td>
+<td>-</td>
+<td>20</td>
+<td>1ページあたりの件数（最大100）</td>
+</tr>
+<tr>
+<td>query</td>
+<td>string</td>
+<td>-</td>
+<td>-</td>
+<td>氏名・メールアドレスでの部分一致検索</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>-</td>
+<td>-</td>
+<td><code>enabled</code> / <code>disabled</code> などの状態</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証または管理者JWT認証</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;records&quot;: [
+    {
+      &quot;id&quot;: 123,
+      &quot;email&quot;: &quot;user@example.com&quot;,
+      &quot;name&quot;: &quot;田中 太郎&quot;,
+      &quot;status&quot;: &quot;enabled&quot;,
+      &quot;created_at&quot;: &quot;2025-11-10T12:00:00Z&quot;,
+      &quot;updated_at&quot;: &quot;2025-11-12T09:30:00Z&quot;
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;current_page&quot;: 1,
+    &quot;per_page&quot;: 20,
+    &quot;total_count&quot;: 52,
+    &quot;total_pages&quot;: 3
+  }
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>records</td>
+<td>array</td>
+<td>会員レコードの配列</td>
+</tr>
+<tr>
+<td>records[].id</td>
+<td>integer</td>
+<td>会員ID</td>
+</tr>
+<tr>
+<td>records[].email</td>
+<td>string</td>
+<td>メールアドレス</td>
+</tr>
+<tr>
+<td>records[].name</td>
+<td>string</td>
+<td>氏名</td>
+</tr>
+<tr>
+<td>records[].status</td>
+<td>string</td>
+<td><code>enabled</code> / <code>disabled</code> などの状態</td>
+</tr>
+<tr>
+<td>records[].created_at</td>
+<td>string</td>
+<td>作成日時（ISO8601）</td>
+</tr>
+<tr>
+<td>records[].updated_at</td>
+<td>string</td>
+<td>更新日時（ISO8601）</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td>object</td>
+<td>ページング情報</td>
+</tr>
+<tr>
+<td>pagination.current_page</td>
+<td>integer</td>
+<td>現在のページ番号</td>
+</tr>
+<tr>
+<td>pagination.per_page</td>
+<td>integer</td>
+<td>1ページあたりの件数</td>
+</tr>
+<tr>
+<td>pagination.total_count</td>
+<td>integer</td>
+<td>全件数</td>
+</tr>
+<tr>
+<td>pagination.total_pages</td>
+<td>integer</td>
+<td>総ページ数</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_20">会員詳細取得</h4>
+<pre><code>GET /filmaapi/customers/{id}
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>対象会員ID</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証または管理者JWT認証</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 123,
+  &quot;email&quot;: &quot;user@example.com&quot;,
+  &quot;name&quot;: &quot;田中 太郎&quot;,
+  &quot;status&quot;: &quot;enabled&quot;,
+  &quot;created_at&quot;: &quot;2025-11-10T12:00:00Z&quot;,
+  &quot;updated_at&quot;: &quot;2025-11-12T09:30:00Z&quot;,
+  &quot;notes&quot;: &quot;VIP顧客&quot;,
+  &quot;shop_memberships&quot;: [
+    {
+      &quot;shop_id&quot;: 1,
+      &quot;shop_name&quot;: &quot;Filmaショップ&quot;,
+      &quot;expires_at&quot;: null
+    }
+  ]
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>会員ID</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>メールアドレス</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>氏名</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td><code>enabled</code> / <code>disabled</code> などの状態</td>
+</tr>
+<tr>
+<td>created_at / updated_at</td>
+<td>string</td>
+<td>作成・更新日時（ISO8601）</td>
+</tr>
+<tr>
+<td>notes</td>
+<td>string</td>
+<td>メモ</td>
+</tr>
+<tr>
+<td>shop_memberships</td>
+<td>array</td>
+<td>所属ショップ情報</td>
+</tr>
+<tr>
+<td>shop_memberships[].shop_id</td>
+<td>integer</td>
+<td>ショップID</td>
+</tr>
+<tr>
+<td>shop_memberships[].shop_name</td>
+<td>string</td>
+<td>ショップ名</td>
+</tr>
+<tr>
+<td>shop_memberships[].expires_at</td>
+<td>string</td>
+<td>所属期限（ISO8601 / null）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_21">会員作成（デフォルトショップ所属）</h4>
+<pre><code>POST /filmaapi/customers
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>パラメータ（JSON Body）:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>必須</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>✓</td>
+<td>会員のメールアドレス（組織内で一意）</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>✓</td>
+<td>会員名</td>
+</tr>
+<tr>
+<td>notes</td>
+<td>string</td>
+<td>-</td>
+<td>管理用メモ</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証または管理者JWT認証</p>
+<p><strong>処理内容:</strong></p>
+<ul>
+<li>指定されたメールアドレス・氏名で会員を作成（既存メールはエラー）</li>
+<li>組織のデフォルトショップに会員を所属させる（設定がない場合はエラー）</li>
+<li>会員向けマイページのURLを生成して返却</li>
+</ul>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;customer&quot;: {
+    &quot;id&quot;: 789,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;name&quot;: &quot;田中 太郎&quot;,
+    &quot;status&quot;: &quot;enabled&quot;,
+    &quot;created_at&quot;: &quot;2025-11-12T03:00:00Z&quot;,
+    &quot;shop_memberships&quot;: [
+      { &quot;shop_id&quot;: 45, &quot;shop_name&quot;: &quot;Tokyo Shop&quot;, &quot;expires_at&quot;: null }
+    ]
+  },
+  &quot;customer_portal_url&quot;: &quot;https:/filma.biz/filmacustomer?shop_id=45&quot;
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>customer</td>
+<td>object</td>
+<td>生成された会員情報（会員詳細取得と同じフィールド）</td>
+</tr>
+<tr>
+<td>customer_portal_url</td>
+<td>string</td>
+<td>会員がログインするためのマイページURL</td>
+</tr>
+</tbody>
+</table>
+<p><strong>エラーレスポンス例:</strong></p>
+<table>
+<thead>
+<tr>
+<th>ステータス</th>
+<th>メッセージ</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>400</td>
+<td><code>default_shop_required</code></td>
+<td>組織にデフォルトショップが設定されていない</td>
+</tr>
+<tr>
+<td>422</td>
+<td><code>email_taken</code></td>
+<td>同じメールアドレスの会員が既に存在</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_22">会員向け視聴権一覧</h4>
+<pre><code>GET /filmaapi/customers/entitlements/{id}
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>対象会員ID</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証または管理者JWT認証</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;records&quot;: [
+    {
+      &quot;id&quot;: 789,
+      &quot;scope_type&quot;: &quot;item&quot;,
+      &quot;item_id&quot;: 123,
+      &quot;status&quot;: &quot;active&quot;,
+      &quot;starts_at&quot;: &quot;2025-11-12T00:00:00Z&quot;,
+      &quot;expires_at&quot;: null,
+      &quot;source&quot;: &quot;manual&quot;
+    }
+  ]
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>視聴権ID</td>
+</tr>
+<tr>
+<td>scope_type</td>
+<td>string</td>
+<td><code>sku</code> / <code>item</code> / <code>shop</code> のいずれか</td>
+</tr>
+<tr>
+<td>item_id / sku_id / shop_id</td>
+<td>integer</td>
+<td>対象ID（scopeに応じてセット）</td>
+</tr>
+<tr>
+<td>customer_id</td>
+<td>integer</td>
+<td>対象会員ID</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>視聴権の状態</td>
+</tr>
+<tr>
+<td>starts_at / expires_at</td>
+<td>string</td>
+<td>開始・終了日時（ISO8601）</td>
+</tr>
+<tr>
+<td>source</td>
+<td>string</td>
+<td>付与理由</td>
+</tr>
+<tr>
+<td>notes</td>
+<td>string</td>
+<td>メモ</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_23">視聴権の手動付与</h4>
+<pre><code>POST /filmaapi/customers/entitlements/{id}
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>対象会員ID</td>
+</tr>
+</tbody>
+</table>
+<p><strong>パラメータ（JSON Body）:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>必須</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>scope_type</td>
+<td>string</td>
+<td>✓</td>
+<td><code>sku</code> / <code>item</code> / <code>shop</code></td>
+</tr>
+<tr>
+<td>sku_id / item_id / shop_id</td>
+<td>integer</td>
+<td>scopeに応じて</td>
+<td>付与対象ID</td>
+</tr>
+<tr>
+<td>starts_at</td>
+<td>string</td>
+<td>-</td>
+<td>ISO8601形式の開始日時</td>
+</tr>
+<tr>
+<td>expires_at</td>
+<td>string</td>
+<td>-</td>
+<td>ISO8601形式の終了日時</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>-</td>
+<td>初期状態（デフォルト: <code>active</code>）</td>
+</tr>
+<tr>
+<td>source</td>
+<td>string</td>
+<td>-</td>
+<td>付与理由（デフォルト: <code>manual</code>）</td>
+</tr>
+<tr>
+<td>notes</td>
+<td>string</td>
+<td>-</td>
+<td>メモ</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証または管理者JWT認証</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 790,
+  &quot;scope_type&quot;: &quot;item&quot;,
+  &quot;item_id&quot;: 123,
+  &quot;sku_id&quot;: null,
+  &quot;shop_id&quot;: null,
+  &quot;customer_id&quot;: 456,
+  &quot;status&quot;: &quot;active&quot;,
+  &quot;starts_at&quot;: &quot;2025-11-12T00:00:00Z&quot;,
+  &quot;expires_at&quot;: null,
+  &quot;source&quot;: &quot;manual&quot;,
+  &quot;notes&quot;: &quot;テスト付与&quot;
+}
+</code></pre>
+<p>※ レスポンスは「視聴権の詳細取得」と同じフィールドを返却します。</p>
+<h3 id="entitlements-api">Entitlements API</h3>
+<h4 id="_24">視聴プラン一覧検索</h4>
+<pre><code>GET /filmaapi/entitlements/items
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>q</td>
+<td>string</td>
+<td>-</td>
+<td>-</td>
+<td>視聴プラン名またはIDでの検索文字列</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証または管理者JWT認証</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;records&quot;: [
+    {
+      &quot;id&quot;: 123,
+      &quot;label&quot;: &quot;夏のドキュメンタリー&quot;,
+      &quot;detail&quot;: &quot;状態: enabled / SKU数: 2 / 更新: 2025/11/12 14:35&quot;
+    }
+  ]
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>視聴プランID</td>
+</tr>
+<tr>
+<td>label</td>
+<td>string</td>
+<td>視聴プラン名</td>
+</tr>
+<tr>
+<td>detail</td>
+<td>string</td>
+<td>状態・SKU数・更新日時を含む説明テキスト</td>
+</tr>
+</tbody>
+</table>
+<h4 id="sku">SKU一覧検索</h4>
+<pre><code>GET /filmaapi/entitlements/skus
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>item_id</td>
+<td>integer</td>
+<td>-</td>
+<td>-</td>
+<td>絞り込み対象の視聴プランID</td>
+</tr>
+<tr>
+<td>q</td>
+<td>string</td>
+<td>-</td>
+<td>-</td>
+<td>SKU名またはIDでの検索文字列</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証または管理者JWT認証</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;records&quot;: [
+    {
+      &quot;id&quot;: 456,
+      &quot;label&quot;: &quot;HD 1080p&quot;,
+      &quot;detail&quot;: &quot;夏のドキュメンタリー / 1200 JPY / 状態: enabled&quot;
+    }
+  ]
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>SKU ID</td>
+</tr>
+<tr>
+<td>label</td>
+<td>string</td>
+<td>SKU名</td>
+</tr>
+<tr>
+<td>detail</td>
+<td>string</td>
+<td>対象視聴プラン名、価格、状態などを含む説明テキスト</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_25">視聴権の詳細取得</h4>
+<pre><code>GET /filmaapi/entitlements/{id}
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>対象視聴権ID</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証または管理者JWT認証</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 790,
+  &quot;scope_type&quot;: &quot;item&quot;,
+  &quot;item_id&quot;: 123,
+  &quot;status&quot;: &quot;active&quot;,
+  &quot;starts_at&quot;: &quot;2025-11-12T00:00:00Z&quot;,
+  &quot;expires_at&quot;: null,
+  &quot;source&quot;: &quot;manual&quot;,
+  &quot;notes&quot;: &quot;テスト付与&quot;
+}
+</code></pre>
+<p><strong>レスポンスフィールド詳細:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>視聴権ID</td>
+</tr>
+<tr>
+<td>scope_type</td>
+<td>string</td>
+<td><code>sku</code> / <code>item</code> / <code>shop</code></td>
+</tr>
+<tr>
+<td>item_id / sku_id / shop_id</td>
+<td>integer</td>
+<td>対象ID（scopeに応じて）</td>
+</tr>
+<tr>
+<td>customer_id</td>
+<td>integer</td>
+<td>対象会員ID</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>視聴権の状態</td>
+</tr>
+<tr>
+<td>starts_at / expires_at</td>
+<td>string</td>
+<td>開始・終了日時（ISO8601）</td>
+</tr>
+<tr>
+<td>source</td>
+<td>string</td>
+<td>付与元</td>
+</tr>
+<tr>
+<td>notes</td>
+<td>string</td>
+<td>メモ</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_26">視聴権の更新</h4>
+<pre><code>PUT /filmaapi/entitlements/{id}
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>視聴権ID</td>
+</tr>
+</tbody>
+</table>
+<p><strong>パラメータ（JSON Body）:</strong></p>
+<table>
+<thead>
+<tr>
+<th>フィールド名</th>
+<th>型</th>
+<th>必須</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>starts_at</td>
+<td>string</td>
+<td>-</td>
+<td>開始日時（省略時は変更なし）</td>
+</tr>
+<tr>
+<td>expires_at</td>
+<td>string</td>
+<td>-</td>
+<td>終了日時</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>-</td>
+<td><code>active</code> / <code>pending</code> / <code>revoked</code> など</td>
+</tr>
+<tr>
+<td>source</td>
+<td>string</td>
+<td>-</td>
+<td>付与理由</td>
+</tr>
+<tr>
+<td>notes</td>
+<td>string</td>
+<td>-</td>
+<td>メモ</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証または管理者JWT認証</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 790,
+  &quot;scope_type&quot;: &quot;item&quot;,
+  &quot;item_id&quot;: 123,
+  &quot;sku_id&quot;: null,
+  &quot;shop_id&quot;: null,
+  &quot;customer_id&quot;: 456,
+  &quot;status&quot;: &quot;active&quot;,
+  &quot;starts_at&quot;: &quot;2025-11-12T00:00:00Z&quot;,
+  &quot;expires_at&quot;: &quot;2025-12-31T23:59:59Z&quot;,
+  &quot;source&quot;: &quot;manual&quot;,
+  &quot;notes&quot;: &quot;メモ&quot;
+}
+</code></pre>
+<p>※ レスポンスは「視聴権の詳細取得」と同じフィールドを返却します。</p>
+<h4 id="_27">視聴権の剥奪</h4>
+<pre><code>DELETE /filmaapi/entitlements/{id}
+</code></pre>
+<p><strong>パラメータ:</strong></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ名</th>
+<th>型</th>
+<th>必須</th>
+<th>デフォルト</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>APIキー（JWT認証時は不要）</td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>string</td>
+<td>*</td>
+<td>-</td>
+<td>JWTトークン（APIキー認証時は不要）</td>
+</tr>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>✓</td>
+<td>-</td>
+<td>視聴権ID</td>
+</tr>
+</tbody>
+</table>
+<p><strong>認証:</strong> APIキー認証または管理者JWT認証</p>
+<p><strong>レスポンス例:</strong></p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 790,
+  &quot;scope_type&quot;: &quot;item&quot;,
+  &quot;item_id&quot;: 123,
+  &quot;sku_id&quot;: null,
+  &quot;shop_id&quot;: null,
+  &quot;customer_id&quot;: 456,
+  &quot;status&quot;: &quot;revoked&quot;,
+  &quot;starts_at&quot;: &quot;2025-11-12T00:00:00Z&quot;,
+  &quot;expires_at&quot;: null,
+  &quot;source&quot;: &quot;manual&quot;,
+  &quot;notes&quot;: &quot;オペレーター剥奪&quot;
+}
+</code></pre>
+<p>※ レスポンスは「視聴権の詳細取得」と同じフィールドを返却します。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
