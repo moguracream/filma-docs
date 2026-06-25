@@ -18,6 +18,5 @@ title: Filma Docs
 - [認証無しサンプル](template-no-auth/)
 
 ## その他のファイル
-- [Filma API 仕様書](api_specification.html)
 - [Filma サービスレベルアグリーメント](service_level_agreement.html)
 - [Filma 利用規約](terms_of_service_template.html)
