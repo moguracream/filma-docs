@@ -46,4 +46,4 @@ title: はじめに
 - 動画を非公開/削除したい: [非公開化・削除](unpublish_delete.md)
 - ユーザーを管理したい: [ユーザーの種類](users.md)
 - 画面URLと遷移を確認したい: [画面URLと遷移](routes_flow.md)
-- API仕様を画面で確認したい: [Filma API仕様書（Web版）](https://moguracream.github.io/filma-docs/api-spec/)
+- API仕様を画面で確認したい: [Filma API仕様書（Web版）](https://docs.filma.biz/api-spec/)
