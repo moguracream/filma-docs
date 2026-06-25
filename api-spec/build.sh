@@ -82,6 +82,7 @@ sync_source() {
   # MkDocs用の nav を含む設定ファイルを自動生成
   cp -f "$CONFIG_PATH" "$GENERATED_CONFIG_PATH"
   {
+    echo
     echo "nav:"
     echo "  - API仕様書: index.md"
     while IFS=$'\t' read -r title rel_path; do
