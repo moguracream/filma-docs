@@ -1,6 +1,6 @@
 site_name: Filma Admin Manual
 site_description: Filma 管理画面 運用マニュアル
-site_url: https://moguracream.github.io/filma-docs/admin-manual/
+site_url: https://docs.filma.biz/admin-manual/
 theme:
   name: material
   language: ja
