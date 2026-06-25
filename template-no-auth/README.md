@@ -17,7 +17,7 @@ title: 認証無しサンプルコード解説
 | `style.css` | サンプルの最小限のスタイル定義。サムネイルの比率調整やモーダル表示のレイアウト調整を行います。|
 
 ## 以下で実際に動作が確認できます
-https://moguracream.github.io/filma-docs/template-no-auth/index.html
+https://docs.filma.biz/template-no-auth/index.html
 
 ## 使い方
 
