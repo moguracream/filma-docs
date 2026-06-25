@@ -1,0 +1,64 @@
+name: Build and Deploy Filma Docs
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'admin-manual/**'
+      - 'api-spec/**'
+      - '.github/workflows/pages.yml'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'admin-manual/**'
+      - 'api-spec/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install MkDocs Material
+        run: |
+          pip install mkdocs-material
+
+      - name: Build Admin Manual
+        run: |
+          mkdocs build --strict -f admin-manual/mkdocs.yml
+
+      - name: Generate split API specification docs
+        run: |
+          bash api-spec/build.sh generate
+
+      - name: Build API Specification Site
+        run: |
+          mkdocs build --strict -f api-spec/mkdocs.generated.yml
+
+      - name: Prepare publish directory
+        run: |
+          set -euo pipefail
+          rm -rf publish
+          mkdir -p publish/admin-manual publish/api-spec
+          cp -a admin-manual/site/. publish/admin-manual/
+          cp -a api-spec/site/. publish/api-spec/
+
+      - name: Deploy docs to GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./publish
+          publish_branch: gh-pages
+          keep_files: true
