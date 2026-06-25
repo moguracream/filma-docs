@@ -85,7 +85,10 @@ jobs:
             cp -f _config.yml publish/_config.yml
           fi
 
-          find . -maxdepth 1 -type f -name '*.md' ! -name 'README.md' -exec cp -f {} publish/ \;
+          find . -maxdepth 1 -type f -name '*.md' \
+            ! -name 'README.md' \
+            ! -name 'api_specification.md' \
+            -exec cp -f {} publish/ \;
 
           if [ -d template-jwt ]; then
             cp -a template-jwt publish/template-jwt
@@ -125,7 +128,7 @@ jobs:
 
           for file in publish/*.md; do
             name="$(basename "$file")"
-            if [ "$name" = "index.md" ] || [ "$name" = "README.md" ]; then
+            if [ "$name" = "index.md" ] || [ "$name" = "README.md" ] || [ "$name" = "api_specification.md" ]; then
               continue
             fi
 
