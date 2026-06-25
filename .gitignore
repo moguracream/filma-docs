@@ -1,0 +1,12 @@
+# MkDocs build output
+/admin-manual/site/
+/api-spec/site/
+/publish/
+
+# Generated API spec MkDocs config
+/api-spec/mkdocs.generated.yml
+
+# Local Python environments
+.venv/
+/admin-manual/.venv/
+/api-spec/.venv/
