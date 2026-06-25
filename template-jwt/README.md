@@ -13,4 +13,4 @@ title: JWT 認証付きサンプル
 GitHub Pages など静的ホスティング環境でも動作確認できるよう、クライアント側のみで JWT を生成しています。
 
 ## 以下で実際に動作が確認できます
-https://moguracream.github.io/filma-docs/template-jwt/index.html
+https://docs.filma.biz/template-jwt/index.html
