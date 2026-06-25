@@ -1,6 +1,6 @@
 site_name: Filma API Specification
 site_description: Filma API 仕様書
-site_url: https://moguracream.github.io/filma-docs/api-spec/
+site_url: https://docs.filma.biz/api-spec/
 theme:
   name: material
   language: ja
