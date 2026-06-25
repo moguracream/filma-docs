@@ -8,9 +8,8 @@ on:
       - 'api-spec/**'
       - 'template-jwt/**'
       - 'template-no-auth/**'
-      - 'api_specification.md'
-      - 'service_level_agreement.md'
-      - 'terms_of_service_template.md'
+      - '*.md'
+      - '_config.yml'
       - '.github/workflows/pages.yml'
   pull_request:
     branches: [ master ]
@@ -19,9 +18,8 @@ on:
       - 'api-spec/**'
       - 'template-jwt/**'
       - 'template-no-auth/**'
-      - 'api_specification.md'
-      - 'service_level_agreement.md'
-      - 'terms_of_service_template.md'
+      - '*.md'
+      - '_config.yml'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -79,20 +77,17 @@ jobs:
           rm -rf publish
           mkdir -p publish
 
+          if [ -f _config.yml ]; then
+            cp -f _config.yml publish/_config.yml
+          fi
+
+          find . -maxdepth 1 -type f -name '*.md' ! -name 'README.md' -exec cp -f {} publish/ \;
+
           if [ -d template-jwt ]; then
             cp -a template-jwt publish/template-jwt
           fi
           if [ -d template-no-auth ]; then
             cp -a template-no-auth publish/template-no-auth
-          fi
-          if [ -f api_specification.md ]; then
-            cp -f api_specification.md publish/api_specification.md
-          fi
-          if [ -f service_level_agreement.md ]; then
-            cp -f service_level_agreement.md publish/service_level_agreement.md
-          fi
-          if [ -f terms_of_service_template.md ]; then
-            cp -f terms_of_service_template.md publish/terms_of_service_template.md
           fi
 
           if [ "${{ steps.docs-source.outputs.exists }}" = "true" ]; then
@@ -109,3 +104,4 @@ jobs:
           publish_dir: ./publish
           publish_branch: gh-pages
           keep_files: true
+          enable_jekyll: true
