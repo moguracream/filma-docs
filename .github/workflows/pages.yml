@@ -6,12 +6,22 @@ on:
     paths:
       - 'admin-manual/**'
       - 'api-spec/**'
+      - 'template-jwt/**'
+      - 'template-no-auth/**'
+      - 'api_specification.md'
+      - 'service_level_agreement.md'
+      - 'terms_of_service_template.md'
       - '.github/workflows/pages.yml'
   pull_request:
     branches: [ master ]
     paths:
       - 'admin-manual/**'
       - 'api-spec/**'
+      - 'template-jwt/**'
+      - 'template-no-auth/**'
+      - 'api_specification.md'
+      - 'service_level_agreement.md'
+      - 'terms_of_service_template.md'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -33,7 +43,7 @@ jobs:
              [ -f api-spec/mkdocs.yml ] && [ -f api-spec/build.sh ] && [ -d api-spec/docs ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
-            echo "Docs source is not ready yet. Skipping build."
+            echo "Docs source is not ready yet. Skipping MkDocs build."
             echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
 
@@ -64,16 +74,35 @@ jobs:
           mkdocs build --strict -f api-spec/mkdocs.generated.yml
 
       - name: Prepare publish directory
-        if: steps.docs-source.outputs.exists == 'true'
         run: |
           set -euo pipefail
           rm -rf publish
-          mkdir -p publish/admin-manual publish/api-spec
-          cp -a admin-manual/site/. publish/admin-manual/
-          cp -a api-spec/site/. publish/api-spec/
+          mkdir -p publish
+
+          if [ -d template-jwt ]; then
+            cp -a template-jwt publish/template-jwt
+          fi
+          if [ -d template-no-auth ]; then
+            cp -a template-no-auth publish/template-no-auth
+          fi
+          if [ -f api_specification.md ]; then
+            cp -f api_specification.md publish/api_specification.md
+          fi
+          if [ -f service_level_agreement.md ]; then
+            cp -f service_level_agreement.md publish/service_level_agreement.md
+          fi
+          if [ -f terms_of_service_template.md ]; then
+            cp -f terms_of_service_template.md publish/terms_of_service_template.md
+          fi
+
+          if [ "${{ steps.docs-source.outputs.exists }}" = "true" ]; then
+            mkdir -p publish/admin-manual publish/api-spec
+            cp -a admin-manual/site/. publish/admin-manual/
+            cp -a api-spec/site/. publish/api-spec/
+          fi
 
       - name: Deploy docs to GitHub Pages
-        if: steps.docs-source.outputs.exists == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
