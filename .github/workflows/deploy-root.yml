@@ -1,46 +1,18 @@
-# 目的: master の内容（template-* ディレクトリ等）を gh-pages ルートへ同期
-# 特徴: 他リポジトリからのデプロイを保持（keep_files: true）
+# 無効化済み
+#
+# 以前は master の内容（template-* ディレクトリ等）を gh-pages ルートへ同期していた。
+# 現在は .github/workflows/pages.yml で MkDocs のHTML生成と gh-pages 更新を行うため、
+# master 全体を gh-pages へ同期しない。
 
-name: Deploy existing HTML (master -> gh-pages)
+name: Deploy existing HTML (disabled)
 
 on:
-  push:
-    branches: [ master ]
-    paths:
-      - '**'
   workflow_dispatch:
 
 jobs:
-  deploy-root:
+  disabled:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      # ここで静的サイトのビルドが必要なら追加
-      # - name: Build
-      #   run: |
-      #     npm ci
-      #     npm run build
-
-      - name: Prepare publish dir
+      - name: Disabled
         run: |
-          mkdir -p public
-          rsync -av --delete \
-            --exclude '.git/' \
-            --exclude '.gitignore' \
-            --exclude '.github/' \
-            --exclude '.gitattributes' \
-            --exclude 'README*' \
-            --exclude 'LICENSE*' \
-            ./ public/
-
-      - name: Deploy to gh-pages root
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./public
-          keep_files: true
-          # enable_jekyll: true        # 必要なら有効化
-          # cname: docs.example.com     # カスタムドメイン使用時
+          echo "This workflow is disabled. Use .github/workflows/pages.yml for GitHub Pages deployment."
