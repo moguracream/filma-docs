@@ -38,7 +38,7 @@ MPEG-DASHによるアダプティブストリーミング配信を、Windows, Ma
 
 本リポジトリでは、Filmaをより深く理解し、スムーズに導入していただくための技術情報を提供しています。
 
-  * **[APIリファレンス](https://moguracream.github.io/filma-docs/api-spec/)**: 詳細なAPI仕様をご確認いただけます。
+  * **[APIリファレンス](https://docs.filma.biz/api-spec/)**: 詳細なAPI仕様をご確認いただけます。
   * **サンプルコード**: すぐに試せる実装例をご用意しています。
     * **[認証無し動画サンプル](/template-no-auth)**: 認証なしで誰でも見られる動画再生のサンプルコードです。
     * **[JWT 認証付き動画サンプル](/template-jwt)**: JWT を使った再生のサンプルです。GitHub Pages 上ではデモのためフロントエンドで JWT を発行しています。
