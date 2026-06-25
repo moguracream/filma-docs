@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+
+  <!-- タイトル -->
+  <text x="480" y="44" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#334155">期限付きURL一覧</text>
+
+  <!-- 操作カード: 新規発行 + ファイル詳細（簡略） -->
+  <rect x="60" y="64" width="840" height="52" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <rect x="80" y="78" width="200" height="28" rx="6" fill="#10b981"/>
+  <text x="180" y="96" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">新しい期限付きURLを発行</text>
+  <rect x="292" y="78" width="120" height="28" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="352" y="96" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#334155">ファイル詳細</text>
+
+  <!-- フィルタ/検索 -->
+  <rect x="60" y="124" width="840" height="60" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="80" y="150" font-family="sans-serif" font-size="12" fill="#475569">表示:</text>
+  <rect x="120" y="134" width="90" height="28" rx="6" fill="#2563eb"/>
+  <text x="165" y="152" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">有効なURL</text>
+  <rect x="216" y="134" width="100" height="28" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="266" y="152" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#334155">すべてのURL</text>
+  <rect x="322" y="134" width="110" height="28" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="377" y="152" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#334155">無効なURL</text>
+  <rect x="560" y="134" width="220" height="28" rx="4" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="568" y="152" font-family="sans-serif" font-size="11" fill="#94a3b8">メモで検索...</text>
+  <rect x="784" y="134" width="96" height="28" rx="6" fill="#2563eb"/>
+  <text x="832" y="152" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">検索</text>
+
+  <!-- 一覧テーブル -->
+  <rect x="60" y="192" width="840" height="320" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <!-- ヘッダ -->
+  <rect x="60" y="192" width="840" height="40" fill="#e5e7eb"/>
+  <text x="80" y="213" font-family="sans-serif" font-size="11" fill="#334155">トークン(途中…)</text>
+  <text x="220" y="203" font-family="sans-serif" font-size="10" fill="#334155">発行日時</text>
+  <text x="220" y="213" font-family="sans-serif" font-size="10" fill="#334155">有効期限</text>
+  <text x="220" y="224" font-family="sans-serif" font-size="10" fill="#334155">更新日時</text>
+  <text x="330" y="213" font-family="sans-serif" font-size="11" fill="#334155">URLタイプ</text>
+  <text x="430" y="208" font-family="sans-serif" font-size="11" fill="#334155">解像度/サイズ/</text>
+  <text x="430" y="220" font-family="sans-serif" font-size="11" fill="#334155">平均ビットレート</text>
+  <text x="550" y="213" font-family="sans-serif" font-size="11" fill="#334155">アクセス数</text>
+  <text x="620" y="213" font-family="sans-serif" font-size="11" fill="#334155">状態</text>
+  <text x="650" y="213" font-family="sans-serif" font-size="11" fill="#334155">メモ</text>
+  <text x="730" y="213" font-family="sans-serif" font-size="11" fill="#334155">操作</text>
+
+  <!-- 行1 -->
+  <rect x="60" y="228" width="840" height="50" fill="#ffffff"/>
+  <text x="80" y="246" font-family="monospace" font-size="11" fill="#111827">eyJhbGciOiJ...XVCJ9</text>
+  <text x="220" y="244" font-family="sans-serif" font-size="10" fill="#6b7280">2024/09/12 10:02</text>
+  <text x="220" y="256" font-family="sans-serif" font-size="10" fill="#6b7280">2024/12/31 23:59</text>
+  <text x="330" y="246" font-family="sans-serif" font-size="11" fill="#6b7280">ストリーミング</text>
+  <text x="430" y="246" font-family="sans-serif" font-size="10" fill="#6b7280">1920x1080 / 850MB /</text>
+  <text x="430" y="260" font-family="sans-serif" font-size="10" fill="#6b7280">6.5Mbps</text>
+  <text x="555" y="246" font-family="sans-serif" font-size="11" fill="#6b7280">12</text>
+  <text x="620" y="246" font-family="sans-serif" font-size="11" fill="#16a34a">有効</text>
+  <text x="650" y="246" font-family="sans-serif" font-size="10" fill="#6b7280">ウェビナー配布</text>
+  <!-- 操作: 行1（上段: コピー/再発行, 下段: 詳細/無効にする） -->
+  <rect x="730" y="236" width="84" height="20" rx="6" fill="#2563eb"/>
+  <text x="772" y="250" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">URLをコピー</text>
+  <rect x="816" y="236" width="84" height="20" rx="6" fill="#0ea5e9"/>
+  <text x="858" y="250" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">再発行</text>
+  <rect x="730" y="256" width="84" height="20" rx="6" fill="#6b7280"/>
+  <text x="772" y="270" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">詳細</text>
+  <rect x="816" y="256" width="84" height="20" rx="6" fill="#ef4444"/>
+  <text x="858" y="270" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">無効にする</text>
+
+  <!-- 行2 -->
+  <rect x="60" y="276" width="840" height="50" fill="#f9fafb"/>
+  <text x="80" y="294" font-family="monospace" font-size="11" fill="#111827">eyJhbGciOiJ...1NiIsInR</text>
+  <text x="220" y="292" font-family="sans-serif" font-size="10" fill="#6b7280">2024/08/30 14:21</text>
+  <text x="220" y="304" font-family="sans-serif" font-size="10" fill="#6b7280">2024/09/30 23:59</text>
+  <text x="330" y="294" font-family="sans-serif" font-size="11" fill="#6b7280">ダウンロード</text>
+  <text x="430" y="294" font-family="sans-serif" font-size="10" fill="#6b7280">1280x720 / 420MB /</text>
+  <text x="430" y="308" font-family="sans-serif" font-size="10" fill="#6b7280">3.2Mbps</text>
+  <text x="555" y="294" font-family="sans-serif" font-size="11" fill="#6b7280">34</text>
+  <text x="620" y="294" font-family="sans-serif" font-size="11" fill="#dc2626">無効</text>
+  <text x="650" y="294" font-family="sans-serif" font-size="10" fill="#6b7280">社外共有済</text>
+  <!-- 操作: 行2（上段: コピー/再発行, 下段: 詳細/無効にする） -->
+  <rect x="730" y="280" width="84" height="20" rx="6" fill="#2563eb"/>
+  <text x="772" y="294" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">URLをコピー</text>
+  <rect x="816" y="280" width="84" height="20" rx="6" fill="#0ea5e9"/>
+  <text x="858" y="294" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">再発行</text>
+  <rect x="730" y="300" width="84" height="20" rx="6" fill="#6b7280"/>
+  <text x="772" y="314" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">詳細</text>
+  <rect x="816" y="300" width="84" height="20" rx="6" fill="#ef4444"/>
+  <text x="858" y="314" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">無効にする</text>
+
+  <!-- 行3 -->
+  <rect x="60" y="324" width="840" height="50" fill="#ffffff"/>
+  <text x="80" y="342" font-family="monospace" font-size="11" fill="#111827">eyJhbGciOiJ...0eXAiOiJK</text>
+  <text x="220" y="340" font-family="sans-serif" font-size="10" fill="#6b7280">2024/08/01 09:10</text>
+  <text x="220" y="352" font-family="sans-serif" font-size="10" fill="#6b7280">2025/08/01 09:10</text>
+  <text x="330" y="342" font-family="sans-serif" font-size="11" fill="#6b7280">ストリーミング</text>
+  <text x="430" y="342" font-family="sans-serif" font-size="10" fill="#6b7280">854x480 / 220MB /</text>
+  <text x="430" y="356" font-family="sans-serif" font-size="10" fill="#6b7280">1.6Mbps</text>
+  <text x="555" y="342" font-family="sans-serif" font-size="11" fill="#6b7280">5</text>
+  <text x="620" y="342" font-family="sans-serif" font-size="11" fill="#16a34a">有効</text>
+  <text x="650" y="342" font-family="sans-serif" font-size="10" fill="#6b7280">販促資料</text>
+  <!-- 操作: 行3（上段: コピー/再発行, 下段: 詳細/無効にする） -->
+  <rect x="730" y="332" width="84" height="20" rx="6" fill="#2563eb"/>
+  <text x="772" y="346" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">URLをコピー</text>
+  <rect x="816" y="332" width="84" height="20" rx="6" fill="#0ea5e9"/>
+  <text x="858" y="346" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">再発行</text>
+  <rect x="730" y="352" width="84" height="20" rx="6" fill="#6b7280"/>
+  <text x="772" y="366" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">詳細</text>
+  <rect x="816" y="352" width="84" height="20" rx="6" fill="#ef4444"/>
+  <text x="858" y="366" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#ffffff">無効にする</text>
+
+  <!-- キャプション -->
+  <text x="480" y="536" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
+</svg>
