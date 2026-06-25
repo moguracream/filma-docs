@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
+  <rect width="100%" height="100%" fill="#f5f7fa"/>
+
+  <!-- タイトル -->
+  <text x="480" y="44" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#334155">API設定編集</text>
+
+  <!-- カード見出し -->
+  <rect x="60" y="80" width="840" height="36" rx="6" fill="#e5e7eb" stroke="#cbd5e1"/>
+  <text x="80" y="103" font-family="sans-serif" font-size="14" fill="#334155">API設定編集（ユーザー）</text>
+
+  <!-- カード本体 -->
+  <rect x="60" y="116" width="840" height="320" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+
+  <!-- 行: ユーザー番号/ユーザー名/APIキー -->
+  <text x="80" y="148" font-family="sans-serif" font-size="13" fill="#475569">ユーザー番号</text>
+  <text x="220" y="148" font-family="sans-serif" font-size="13" fill="#111827">1024</text>
+
+  <text x="80" y="178" font-family="sans-serif" font-size="13" fill="#475569">ユーザー名</text>
+  <text x="220" y="178" font-family="sans-serif" font-size="13" fill="#111827">API_READ_ONLY</text>
+
+  <text x="80" y="208" font-family="sans-serif" font-size="13" fill="#475569">APIキー</text>
+  <rect x="220" y="192" width="440" height="28" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="232" y="210" font-family="monospace" font-size="12" fill="#334155">sk_live_xxx_abcdef1234567890</text>
+
+  <!-- 行: API種類 -->
+  <text x="80" y="238" font-family="sans-serif" font-size="13" fill="#475569">API種類</text>
+  <rect x="220" y="222" width="320" height="28" rx="4" fill="#eef2f7" stroke="#cbd5e1"/>
+  <text x="232" y="240" font-family="sans-serif" font-size="12" fill="#334155">読み取り専用 (readonly) ※デフォルト</text>
+  <polygon points="528,232 536,232 532,240" fill="#64748b"/>
+
+  <!-- 行: アクセス許可ドメイン -->
+  <text x="80" y="272" font-family="sans-serif" font-size="13" fill="#475569">アクセス許可ドメイン</text>
+  <rect x="220" y="252" width="580" height="120" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="232" y="272" font-family="monospace" font-size="12" fill="#94a3b8">例:
+example.com
+app.example.com</text>
+
+  <!-- ボタン行 -->
+  <rect x="80" y="388" width="96" height="36" rx="6" fill="#2563eb"/>
+  <text x="128" y="410" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffffff">保存</text>
+
+  <!-- 操作（右側の補助リンク例） -->
+  <rect x="188" y="388" width="130" height="36" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="253" y="410" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#334155">ユーザー詳細</text>
+  <rect x="328" y="388" width="130" height="36" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="393" y="410" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#334155">ユーザー一覧</text>
+
+  <!-- キャプション -->
+  <text x="480" y="496" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
+</svg>

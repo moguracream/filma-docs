@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="760" viewBox="0 0 960 760">
+  <rect width="100%" height="100%" fill="#f8fafc"/>
+  <text x="480" y="28" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#1f2937">視聴権を付与する画面イメージ</text>
+
+  <!-- 対象会員カード -->
+  <rect x="40" y="50" width="880" height="140" rx="12" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="70" y="82" font-family="sans-serif" font-size="16" font-weight="600" fill="#0f172a">対象会員</text>
+  <text x="70" y="104" font-family="sans-serif" font-size="12" fill="#475569">会員詳細へのパンくずから遷移します。</text>
+  <rect x="70" y="120" width="380" height="52" rx="8" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="90" y="145" font-family="sans-serif" font-size="12" fill="#475569">番号</text>
+  <text x="150" y="145" font-family="sans-serif" font-size="12" fill="#0ea5e9">1024</text>
+  <rect x="470" y="120" width="380" height="52" rx="8" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="490" y="145" font-family="sans-serif" font-size="12" fill="#475569">e-mail</text>
+  <text x="590" y="145" font-family="sans-serif" font-size="12" fill="#0ea5e9">member@example.com</text>
+
+  <!-- 視聴権の付与カード -->
+  <rect x="40" y="210" width="880" height="510" rx="12" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="70" y="242" font-family="sans-serif" font-size="16" font-weight="600" fill="#0f172a">視聴権の付与</text>
+  <text x="70" y="264" font-family="sans-serif" font-size="12" fill="#475569">スコープを選び、IDと期間を入力します。検索ボタンでSKU/視聴プランを検索できます。</text>
+
+  <text x="70"  y="302" font-family="sans-serif" font-size="12" fill="#475569">スコープ</text>
+  <rect x="170" y="284" width="52" height="28" rx="6" fill="#0ea5e9"/>
+  <text x="196" y="302" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">ITEM</text>
+  <rect x="230" y="284" width="52" height="28" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="256" y="302" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">SHOP</text>
+  <rect x="290" y="284" width="52" height="28" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="316" y="302" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">SKU</text>
+  <text x="170" y="326" font-family="sans-serif" font-size="11" fill="#94a3b8">対象種別を選択し、対応するIDのみ入力します。</text>
+
+  <text x="70"  y="360" font-family="sans-serif" font-size="12" fill="#475569">視聴プランID</text>
+  <rect x="170" y="340" width="120" height="32" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="180" y="360" font-family="sans-serif" font-size="12" fill="#94a3b8">例: 45</text>
+  <rect x="300" y="340" width="80" height="32" rx="6" fill="#ffffff" stroke="#0ea5e9"/>
+  <text x="340" y="360" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0ea5e9">検索</text>
+  <text x="170" y="385" font-family="sans-serif" font-size="11" fill="#94a3b8">scope=ITEM の場合のみ入力します。</text>
+
+  <text x="70"  y="420" font-family="sans-serif" font-size="12" fill="#475569">ショップID</text>
+  <rect x="170" y="400" width="120" height="32" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="180" y="420" font-family="sans-serif" font-size="12" fill="#94a3b8">1 (固定)</text>
+  <text x="170" y="445" font-family="sans-serif" font-size="11" fill="#94a3b8">scope=SHOP の場合のみ入力します。（デフォルトショップ固定）</text>
+
+  <text x="70"  y="480" font-family="sans-serif" font-size="12" fill="#475569">SKU ID</text>
+  <rect x="170" y="460" width="120" height="32" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="180" y="480" font-family="sans-serif" font-size="12" fill="#94a3b8">例: 123</text>
+  <rect x="300" y="460" width="80" height="32" rx="6" fill="#ffffff" stroke="#0ea5e9"/>
+  <text x="340" y="480" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#0ea5e9">検索</text>
+  <text x="170" y="506" font-family="sans-serif" font-size="11" fill="#94a3b8">scope=SKU の場合のみ入力します。</text>
+
+  <text x="70" y="540" font-family="sans-serif" font-size="12" fill="#475569">開始日時</text>
+  <rect x="170" y="520" width="200" height="32" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="180" y="540" font-family="sans-serif" font-size="12" fill="#94a3b8">YYYY-MM-DD hh:mm</text>
+
+  <text x="400" y="540" font-family="sans-serif" font-size="12" fill="#475569">終了日時</text>
+  <rect x="480" y="520" width="200" height="32" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="490" y="540" font-family="sans-serif" font-size="12" fill="#94a3b8">YYYY-MM-DD hh:mm</text>
+
+  <text x="70" y="580" font-family="sans-serif" font-size="12" fill="#475569">status</text>
+  <rect x="140" y="560" width="160" height="32" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="150" y="580" font-family="sans-serif" font-size="12" fill="#94a3b8">active / pending など</text>
+
+  <text x="330" y="580" font-family="sans-serif" font-size="12" fill="#475569">source</text>
+  <rect x="400" y="560" width="160" height="32" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="410" y="580" font-family="sans-serif" font-size="12" fill="#94a3b8">console / api</text>
+
+  <text x="70" y="625" font-family="sans-serif" font-size="12" fill="#475569">メモ</text>
+  <rect x="140" y="603" width="760" height="64" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="160" y="625" font-family="sans-serif" font-size="12" fill="#94a3b8">任意のメモ</text>
+
+  <rect x="140" y="675" width="120" height="34" rx="6" fill="#0ea5e9"/>
+  <text x="200" y="697" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffffff">付与する</text>
+
+  <text x="480" y="742" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#94a3b8">画面イメージ（実際のUIと一部異なる場合があります）</text>
+</svg>

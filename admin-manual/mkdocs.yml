@@ -1,0 +1,54 @@
+site_name: Filma Admin Manual
+site_description: Filma 管理画面 運用マニュアル
+site_url: https://moguracream.github.io/filma-docs/admin-manual/
+theme:
+  name: material
+  language: ja
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - javascripts/mermaid-init.js
+  - javascripts/lightbox.js
+extra_css:
+  - styles/overrides.css
+  - styles/lightbox.css
+nav:
+  - はじめに: index.md
+  - ログイン: login.md
+  - アップロードと公開:
+    - 動画のアップロード: upload.md
+    - DRM化（コピーガード）: drm.md
+    - 動画の公開: publish.md
+  - 埋め込み:
+    - 期限付きURLの発行: signedurl.md
+    - 埋め込みHTML: embed_html.md
+    - API埋め込み: embed_api.md
+    - WordPressへの埋め込み: embed_wordpress.md
+  - 運用:
+    - 非公開化・削除: unpublish_delete.md
+    - ユーザーの種類: users.md
+  - 会員機能:
+    - 概要: membership_overview.md
+    - 管理者・権限の基本: membership_admin.md
+    - メディア/動画の登録・管理: membership_media.md
+    - 視聴プラン・SKU管理(会員向け): membership_item_sku.md
+    - 会員管理: membership_customers.md
+    - 視聴権管理: membership_entitlements.md
+    - 会員機能の設定: membership_settings.md
+    - 再生と認可のポイント: membership_playback_jwt.md
+    - 運用・トラブルシュート: membership_operations.md
+    - PayPal IPN連携: membership_paypal_ipn.md
+  - 画面URLと遷移: routes_flow.md
+docs_dir: docs
