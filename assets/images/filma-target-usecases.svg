@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
+  <title id="title">Filmaのターゲット別ユースケース</title>
+  <desc id="desc">Web制作会社、講座配信企業、IP配信企業の3ターゲットを比較する図</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#12313f" flood-opacity="0.13"/>
+    </filter>
+    <style>
+      .title { font: 700 42px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #102a43; }
+      .subtitle { font: 500 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #486581; }
+      .card-title { font: 700 28px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #102a43; }
+      .body { font: 500 21px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334e68; }
+      .label { font: 700 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f766e; }
+      .footer { font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #102a43; }
+    </style>
+  </defs>
+  <rect width="1440" height="820" fill="#f8fbfc"/>
+  <text x="720" y="78" text-anchor="middle" class="title">3つのBtoB用途に合わせて</text>
+  <text x="720" y="124" text-anchor="middle" class="title">動画配信ページを構築</text>
+  <text x="720" y="166" text-anchor="middle" class="subtitle">制作案件、講座配信、IP配信の「限定視聴」をFilmaで支える</text>
+
+  <g filter="url(#shadow)">
+    <rect x="82" y="205" width="380" height="430" rx="24" fill="#ffffff"/>
+    <rect x="530" y="205" width="380" height="430" rx="24" fill="#ffffff"/>
+    <rect x="978" y="205" width="380" height="430" rx="24" fill="#ffffff"/>
+  </g>
+
+  <g transform="translate(82 205)">
+    <rect width="380" height="92" rx="24" fill="#d9f4ef"/>
+    <circle cx="72" cy="46" r="26" fill="#ffffff"/>
+    <path d="M57 49h30M63 36h52v42H63zM78 64h23" fill="none" stroke="#0f766e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="245" y="40" text-anchor="middle" class="label">Web制作・開発会社</text>
+    <text x="245" y="70" text-anchor="middle" class="card-title">制作案件に組み込む</text>
+    <text x="40" y="150" class="body">クライアント向けに</text>
+    <text x="40" y="190" class="body">会員制動画ページや</text>
+    <text x="40" y="230" class="body">動画教材販売サイトを</text>
+    <text x="40" y="270" class="body">提案しやすくする。</text>
+    <rect x="40" y="318" width="300" height="56" rx="16" fill="#ecfdf5"/>
+    <text x="190" y="353" text-anchor="middle" class="label">フロント制作に集中</text>
+  </g>
+
+  <g transform="translate(530 205)">
+    <rect width="380" height="92" rx="24" fill="#dbeafe"/>
+    <circle cx="72" cy="46" r="26" fill="#ffffff"/>
+    <path d="M55 35h56v44H55zM70 50h26M70 64h18M112 44l35 20l-35 20z" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="245" y="40" text-anchor="middle" class="label">講座・セミナー配信</text>
+    <text x="245" y="70" text-anchor="middle" class="card-title">受講者別に配信</text>
+    <text x="40" y="150" class="body">受講者、購入者、</text>
+    <text x="40" y="190" class="body">法人契約ユーザーごとに</text>
+    <text x="40" y="230" class="body">閲覧できる講座や</text>
+    <text x="40" y="270" class="body">アーカイブを制御する。</text>
+    <rect x="40" y="318" width="300" height="56" rx="16" fill="#eff6ff"/>
+    <text x="190" y="353" text-anchor="middle" class="label">視聴プランで管理</text>
+  </g>
+
+  <g transform="translate(978 205)">
+    <rect width="380" height="92" rx="24" fill="#fef3c7"/>
+    <circle cx="72" cy="46" r="26" fill="#ffffff"/>
+    <path d="M58 42c10-20 42-20 52 0M61 43c-8 24 6 45 23 45s31-21 23-45M126 42l34 20l-34 20z" fill="none" stroke="#b45309" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="245" y="40" text-anchor="middle" class="label">IP・ファン向け配信</text>
+    <text x="245" y="70" text-anchor="middle" class="card-title">自社ブランドで配信</text>
+    <text x="40" y="150" class="body">アニメやイベントなどの</text>
+    <text x="40" y="190" class="body">限定映像を、公式サイトや</text>
+    <text x="40" y="230" class="body">ファン向けページとして</text>
+    <text x="40" y="270" class="body">配信しやすくする。</text>
+    <rect x="40" y="318" width="300" height="56" rx="16" fill="#fffbeb"/>
+    <text x="190" y="353" text-anchor="middle" class="label">DRMで保護を訴求</text>
+  </g>
+
+  <rect x="180" y="700" width="1080" height="66" rx="18" fill="#102a43"/>
+  <text x="720" y="742" text-anchor="middle" class="footer" fill="#ffffff">共通ニーズ: 会員限定・購入者限定・受講者限定の動画配信</text>
+</svg>
