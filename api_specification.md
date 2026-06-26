@@ -1,8 +1,3 @@
----
-layout: default
-title: Filma API 仕様書
----
-
 # Filma API 仕様書（ショートカット）
 
 このファイルは API 仕様書のショートカットです。
