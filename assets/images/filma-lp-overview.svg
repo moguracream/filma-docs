@@ -1,89 +1,74 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
   <title id="title">Filmaを使った動画配信ページの基本構成</title>
-  <desc id="desc">独自フロント、Filma基盤、視聴者をつなぐBtoB向け構成図</desc>
+  <desc id="desc">独自フロント、Filma基盤、視聴者を横並びで示す構成図</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f7fbff"/>
-      <stop offset="1" stop-color="#eef7f4"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#12313f" flood-opacity="0.12"/>
+    <filter id="shadow" x="-16%" y="-16%" width="132%" height="132%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#0f2537" flood-opacity="0.12"/>
     </filter>
-    <marker id="arrow" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto">
-      <path d="M2,2 L12,7 L2,12 Z" fill="#0f766e"/>
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2,2 L14,8 L2,14 Z" fill="#0f766e"/>
     </marker>
     <style>
-      .title { font: 700 42px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #102a43; }
-      .subtitle { font: 500 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #486581; }
-      .card-title { font: 700 28px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #102a43; }
-      .card-sub { font: 600 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f766e; }
-      .item { font: 500 21px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334e68; }
-      .small { font: 600 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #486581; }
+      .h1{font:700 38px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#102a43}
+      .lead{font:600 20px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#486581}
+      .kicker{font:700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0f766e}
+      .card{font:700 30px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#102a43}
+      .body{font:600 22px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#334e68}
+      .note{font:700 24px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#fff}
     </style>
   </defs>
-  <rect width="1440" height="820" fill="url(#bg)"/>
-  <text x="720" y="78" text-anchor="middle" class="title">独自フロント + Filma基盤で</text>
-  <text x="720" y="124" text-anchor="middle" class="title">会員限定の動画配信ページを構築</text>
-  <text x="720" y="166" text-anchor="middle" class="subtitle">事業導線は自由に設計し、動画管理・DRM・視聴権管理はFilmaへ</text>
+  <rect width="1440" height="820" fill="#f7fbfc"/>
+  <text x="720" y="76" text-anchor="middle" class="h1">独自フロント + Filma基盤で</text>
+  <text x="720" y="122" text-anchor="middle" class="h1">会員限定の動画配信ページを構築</text>
+  <text x="720" y="164" text-anchor="middle" class="lead">事業導線は自由に設計し、動画管理・DRM・視聴権管理はFilmaへ</text>
 
   <g filter="url(#shadow)">
-    <rect x="80" y="215" width="345" height="420" rx="24" fill="#ffffff"/>
-    <rect x="548" y="190" width="345" height="470" rx="24" fill="#ffffff"/>
-    <rect x="1015" y="215" width="345" height="420" rx="24" fill="#ffffff"/>
+    <rect x="90" y="235" width="350" height="380" rx="22" fill="#ffffff"/>
+    <rect x="545" y="220" width="350" height="410" rx="22" fill="#ffffff"/>
+    <rect x="1000" y="235" width="350" height="380" rx="22" fill="#ffffff"/>
   </g>
 
-  <g transform="translate(80 215)">
-    <circle cx="70" cy="72" r="36" fill="#d9f4ef"/>
-    <path d="M51 73h38M60 58h58v70H60zM74 94h30" fill="none" stroke="#0f766e" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="172" y="68" text-anchor="middle" class="card-sub">自社・顧客側で設計</text>
-    <text x="172" y="108" text-anchor="middle" class="card-title">独自フロント</text>
-    <g transform="translate(50 170)">
-      <text y="0" class="item">LP・サービスサイト</text>
-      <text y="48" class="item">会員ページ</text>
-      <text y="96" class="item">申込フォーム</text>
-      <text y="144" class="item">決済・契約導線</text>
-      <text y="192" class="item">ブランド体験</text>
-    </g>
+  <g transform="translate(90 235)">
+    <rect x="28" y="28" width="294" height="70" rx="18" fill="#d9f4ef"/>
+    <text x="175" y="56" text-anchor="middle" class="kicker">自社・顧客側で設計</text>
+    <text x="175" y="88" text-anchor="middle" class="card">独自フロント</text>
+    <text x="58" y="150" class="body">LP・サービスサイト</text>
+    <text x="58" y="196" class="body">会員ページ</text>
+    <text x="58" y="242" class="body">申込フォーム</text>
+    <text x="58" y="288" class="body">決済・契約導線</text>
+    <text x="58" y="334" class="body">ブランド体験</text>
   </g>
 
-  <g transform="translate(548 190)">
-    <circle cx="72" cy="74" r="38" fill="#dbeafe"/>
-    <path d="M52 77h42M64 55h84v42H64zM84 122h44M106 97v25" fill="none" stroke="#2563eb" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="172" y="68" text-anchor="middle" class="card-sub">動画配信の土台</text>
-    <text x="172" y="108" text-anchor="middle" class="card-title">Filma基盤</text>
-    <g transform="translate(50 175)">
-      <rect x="0" y="-28" width="245" height="42" rx="12" fill="#eff6ff"/>
-      <text x="18" y="0" class="item">動画管理</text>
-      <rect x="0" y="24" width="245" height="42" rx="12" fill="#ecfdf5"/>
-      <text x="18" y="52" class="item">DRM</text>
-      <rect x="0" y="76" width="245" height="42" rx="12" fill="#eff6ff"/>
-      <text x="18" y="104" class="item">視聴プラン</text>
-      <rect x="0" y="128" width="245" height="42" rx="12" fill="#ecfdf5"/>
-      <text x="18" y="156" class="item">視聴権管理</text>
-      <rect x="0" y="180" width="245" height="42" rx="12" fill="#eff6ff"/>
-      <text x="18" y="208" class="item">API連携</text>
-    </g>
+  <g transform="translate(545 220)">
+    <rect x="28" y="28" width="294" height="76" rx="18" fill="#dbeafe"/>
+    <text x="175" y="58" text-anchor="middle" class="kicker">動画配信の土台</text>
+    <text x="175" y="92" text-anchor="middle" class="card">Filma基盤</text>
+    <rect x="58" y="145" width="234" height="42" rx="12" fill="#eff6ff"/>
+    <text x="175" y="174" text-anchor="middle" class="body">動画管理</text>
+    <rect x="58" y="202" width="234" height="42" rx="12" fill="#ecfdf5"/>
+    <text x="175" y="231" text-anchor="middle" class="body">DRM</text>
+    <rect x="58" y="259" width="234" height="42" rx="12" fill="#eff6ff"/>
+    <text x="175" y="288" text-anchor="middle" class="body">視聴プラン</text>
+    <rect x="58" y="316" width="234" height="42" rx="12" fill="#ecfdf5"/>
+    <text x="175" y="345" text-anchor="middle" class="body">視聴権管理</text>
   </g>
 
-  <g transform="translate(1015 215)">
-    <circle cx="70" cy="72" r="36" fill="#fef3c7"/>
-    <path d="M70 52a18 18 0 1 0 0 36a18 18 0 0 0 0-36zM43 126c8-24 46-24 54 0M119 64l38 22l-38 22z" fill="none" stroke="#b45309" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="172" y="68" text-anchor="middle" class="card-sub">限定配信の利用者</text>
-    <text x="172" y="108" text-anchor="middle" class="card-title">視聴者</text>
-    <g transform="translate(50 170)">
-      <text y="0" class="item">受講者</text>
-      <text y="48" class="item">会員</text>
-      <text y="96" class="item">購入者</text>
-      <text y="144" class="item">ファン</text>
-      <text y="192" class="item">法人契約ユーザー</text>
-    </g>
+  <g transform="translate(1000 235)">
+    <rect x="28" y="28" width="294" height="70" rx="18" fill="#fef3c7"/>
+    <text x="175" y="56" text-anchor="middle" class="kicker">限定配信の利用者</text>
+    <text x="175" y="88" text-anchor="middle" class="card">視聴者</text>
+    <text x="58" y="150" class="body">受講者</text>
+    <text x="58" y="196" class="body">会員</text>
+    <text x="58" y="242" class="body">購入者</text>
+    <text x="58" y="288" class="body">ファン</text>
+    <text x="58" y="334" class="body">法人契約ユーザー</text>
   </g>
 
-  <path d="M440 420 C485 420 500 420 535 420" stroke="#0f766e" stroke-width="9" fill="none" marker-end="url(#arrow)"/>
-  <path d="M905 420 C950 420 965 420 1000 420" stroke="#0f766e" stroke-width="9" fill="none" marker-end="url(#arrow)"/>
-  <text x="488" y="382" text-anchor="middle" class="small">API・埋め込み</text>
-  <text x="952" y="382" text-anchor="middle" class="small">限定視聴</text>
+  <path d="M455 425 H520" stroke="#0f766e" stroke-width="9" fill="none" marker-end="url(#arrow)"/>
+  <text x="488" y="390" text-anchor="middle" class="lead">API連携</text>
+  <path d="M910 425 H975" stroke="#0f766e" stroke-width="9" fill="none" marker-end="url(#arrow)"/>
+  <text x="943" y="390" text-anchor="middle" class="lead">限定視聴</text>
 
-  <rect x="235" y="700" width="970" height="66" rx="18" fill="#102a43"/>
-  <text x="720" y="742" text-anchor="middle" style="font: 700 25px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #fff;">AIや自社開発でページを作り、配信基盤はFilmaに任せる</text>
+  <rect x="260" y="700" width="920" height="64" rx="18" fill="#102a43"/>
+  <text x="720" y="742" text-anchor="middle" class="note">ページは自由に、配信基盤はFilmaに任せる</text>
 </svg>

@@ -1,69 +1,68 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
   <title id="title">Filma API連携構成図</title>
-  <desc id="desc">外部システム、Filma API、動画視聴をつなぐ構成図</desc>
+  <desc id="desc">外部システム、Filma API、Filma管理機能の連携図</desc>
   <defs>
-    <marker id="arrow" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto">
-      <path d="M2,2 L12,7 L2,12 Z" fill="#2563eb"/>
-    </marker>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#12313f" flood-opacity="0.13"/>
+    <filter id="shadow" x="-16%" y="-16%" width="132%" height="132%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#0f2537" flood-opacity="0.12"/>
     </filter>
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto">
+      <path d="M2,2 L14,8 L2,14 Z" fill="#2563eb"/>
+    </marker>
     <style>
-      .title { font: 700 42px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #102a43; }
-      .subtitle { font: 500 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #486581; }
-      .group { font: 700 26px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #102a43; }
-      .label { font: 700 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #102a43; }
-      .small { font: 500 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #486581; }
-      .api { font: 800 38px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #ffffff; }
+      .h1{font:700 38px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#102a43}
+      .lead{font:600 20px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#486581}
+      .group{font:700 27px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#102a43}
+      .label{font:700 21px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#102a43}
+      .api{font:800 36px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#fff}
+      .apiSub{font:700 20px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#d9f4ef}
+      .note{font:700 24px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#fff}
     </style>
   </defs>
   <rect width="1440" height="820" fill="#f8fbfc"/>
-  <text x="720" y="78" text-anchor="middle" class="title">既存システムとFilma APIをつなげて</text>
-  <text x="720" y="124" text-anchor="middle" class="title">動画の視聴権を付与</text>
-  <text x="720" y="166" text-anchor="middle" class="subtitle">EC、LMS、会員DB、CRM、業務システムから動画配信基盤へ連携</text>
+  <text x="720" y="78" text-anchor="middle" class="h1">既存システムとFilma APIをつなげて</text>
+  <text x="720" y="124" text-anchor="middle" class="h1">動画の視聴権を付与</text>
+  <text x="720" y="166" text-anchor="middle" class="lead">EC、LMS、会員DB、CRM、業務システムから動画配信基盤へ連携</text>
 
   <g filter="url(#shadow)">
-    <rect x="70" y="205" width="355" height="430" rx="24" fill="#ffffff"/>
-    <rect x="542" y="245" width="355" height="350" rx="30" fill="#0f766e"/>
-    <rect x="1015" y="205" width="355" height="430" rx="24" fill="#ffffff"/>
+    <rect x="90" y="245" width="340" height="360" rx="22" fill="#ffffff"/>
+    <rect x="550" y="270" width="340" height="310" rx="28" fill="#0f766e"/>
+    <rect x="1010" y="245" width="340" height="360" rx="22" fill="#ffffff"/>
   </g>
 
-  <text x="248" y="265" text-anchor="middle" class="group">外部システム</text>
-  <g transform="translate(115 310)">
-    <rect width="265" height="50" rx="14" fill="#eff6ff"/>
-    <text x="132" y="32" text-anchor="middle" class="label">EC / 決済</text>
-    <rect y="68" width="265" height="50" rx="14" fill="#ecfdf5"/>
-    <text x="132" y="100" text-anchor="middle" class="label">LMS</text>
-    <rect y="136" width="265" height="50" rx="14" fill="#eff6ff"/>
-    <text x="132" y="168" text-anchor="middle" class="label">会員DB</text>
-    <rect y="204" width="265" height="50" rx="14" fill="#ecfdf5"/>
-    <text x="132" y="236" text-anchor="middle" class="label">CRM / 業務システム</text>
+  <text x="260" y="305" text-anchor="middle" class="group">外部システム</text>
+  <g transform="translate(132 345)">
+    <rect width="256" height="48" rx="14" fill="#eff6ff"/>
+    <text x="128" y="31" text-anchor="middle" class="label">EC / 決済</text>
+    <rect y="62" width="256" height="48" rx="14" fill="#ecfdf5"/>
+    <text x="128" y="93" text-anchor="middle" class="label">LMS</text>
+    <rect y="124" width="256" height="48" rx="14" fill="#eff6ff"/>
+    <text x="128" y="155" text-anchor="middle" class="label">会員DB</text>
+    <rect y="186" width="256" height="48" rx="14" fill="#ecfdf5"/>
+    <text x="128" y="217" text-anchor="middle" class="label">CRM / 業務システム</text>
   </g>
 
-  <g transform="translate(542 245)">
-    <circle cx="178" cy="116" r="58" fill="#ffffff" opacity="0.18"/>
-    <path d="M145 116h66M164 86h83v60h-83zM188 146v45M158 191h60" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="178" y="245" text-anchor="middle" class="api">Filma API</text>
-    <text x="178" y="292" text-anchor="middle" style="font: 600 22px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #d9f4ef;">視聴権を外部から制御</text>
+  <g transform="translate(550 270)">
+    <text x="170" y="140" text-anchor="middle" class="api">Filma API</text>
+    <text x="170" y="184" text-anchor="middle" class="apiSub">視聴権を外部から制御</text>
   </g>
 
-  <text x="1192" y="265" text-anchor="middle" class="group">Filmaで管理</text>
-  <g transform="translate(1060 310)">
-    <rect width="265" height="50" rx="14" fill="#eff6ff"/>
-    <text x="132" y="32" text-anchor="middle" class="label">視聴権</text>
-    <rect y="68" width="265" height="50" rx="14" fill="#ecfdf5"/>
-    <text x="132" y="100" text-anchor="middle" class="label">視聴プラン</text>
-    <rect y="136" width="265" height="50" rx="14" fill="#eff6ff"/>
-    <text x="132" y="168" text-anchor="middle" class="label">動画管理</text>
-    <rect y="204" width="265" height="50" rx="14" fill="#ecfdf5"/>
-    <text x="132" y="236" text-anchor="middle" class="label">限定動画再生</text>
+  <text x="1180" y="305" text-anchor="middle" class="group">Filmaで管理</text>
+  <g transform="translate(1052 345)">
+    <rect width="256" height="48" rx="14" fill="#eff6ff"/>
+    <text x="128" y="31" text-anchor="middle" class="label">視聴権</text>
+    <rect y="62" width="256" height="48" rx="14" fill="#ecfdf5"/>
+    <text x="128" y="93" text-anchor="middle" class="label">視聴プラン</text>
+    <rect y="124" width="256" height="48" rx="14" fill="#eff6ff"/>
+    <text x="128" y="155" text-anchor="middle" class="label">動画管理</text>
+    <rect y="186" width="256" height="48" rx="14" fill="#ecfdf5"/>
+    <text x="128" y="217" text-anchor="middle" class="label">限定動画再生</text>
   </g>
 
-  <path d="M450 420 H520" stroke="#2563eb" stroke-width="9" fill="none" marker-end="url(#arrow)"/>
-  <path d="M920 420 H990" stroke="#2563eb" stroke-width="9" fill="none" marker-end="url(#arrow)"/>
-  <text x="485" y="382" text-anchor="middle" class="small">申込・購入・契約</text>
-  <text x="955" y="382" text-anchor="middle" class="small">権限反映</text>
+  <path d="M455 425 H525" stroke="#2563eb" stroke-width="9" fill="none" marker-end="url(#arrow)"/>
+  <path d="M915 425 H985" stroke="#2563eb" stroke-width="9" fill="none" marker-end="url(#arrow)"/>
+  <text x="490" y="390" text-anchor="middle" class="lead">申込・購入</text>
+  <text x="950" y="390" text-anchor="middle" class="lead">権限反映</text>
 
-  <rect x="245" y="700" width="950" height="66" rx="18" fill="#102a43"/>
-  <text x="720" y="742" text-anchor="middle" style="font: 700 25px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #fff;">申込・決済・会員管理と、動画視聴権をつなげる</text>
+  <rect x="300" y="700" width="840" height="64" rx="18" fill="#102a43"/>
+  <text x="720" y="742" text-anchor="middle" class="note">申込・決済・会員管理と視聴権をつなげる</text>
 </svg>
