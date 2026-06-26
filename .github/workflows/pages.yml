@@ -85,6 +85,13 @@ jobs:
             cp -f _config.yml publish/_config.yml
           fi
 
+          if [ -f README.md ]; then
+            cp -f README.md publish/index.md
+          else
+            echo "README.md is required for the GitHub Pages top page." >&2
+            exit 1
+          fi
+
           find . -maxdepth 1 -type f -name '*.md' \
             ! -name 'README.md' \
             ! -name 'api_specification.md' \
@@ -102,47 +109,6 @@ jobs:
             cp -a admin-manual/site/. publish/admin-manual/
             cp -a api-spec/site/. publish/api-spec/
           fi
-
-          cat > publish/index.md <<'EOF'
-          ---
-          layout: default
-          title: Filma Docs
-          ---
-
-          # Filma Docs
-
-          公開ドキュメントとサンプルの一覧です。
-
-          ## ドキュメント
-
-          - [管理マニュアル](admin-manual/)
-          - [API仕様書](api-spec/)
-
-          ## サンプル
-
-          - [JWT認証付きサンプル](template-jwt/)
-          - [認証無しサンプル](template-no-auth/)
-
-          ## その他のファイル
-          EOF
-
-          for file in publish/*.md; do
-            name="$(basename "$file")"
-            if [ "$name" = "index.md" ] || [ "$name" = "README.md" ] || [ "$name" = "api_specification.md" ]; then
-              continue
-            fi
-
-            title="$(sed -n 's/^title:[[:space:]]*//p' "$file" | head -n 1)"
-            if [ -z "$title" ]; then
-              title="$(sed -n 's/^#[[:space:]]*//p' "$file" | head -n 1)"
-            fi
-            if [ -z "$title" ]; then
-              title="$name"
-            fi
-
-            href="${name%.md}.html"
-            printf -- '- [%s](%s)\n' "$title" "$href" >> publish/index.md
-          done
 
       - name: Deploy docs to GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
