@@ -1,0 +1,45 @@
+/* ==========================================================================
+   eラーニング事業者向けLP テーマ
+   lp-common.css の後に読み込む。明るく親しみやすいライトテーマ(グリーン)。
+   非技術者向けのため、堅さより「わかりやすさ・安心感」を優先する。
+   ========================================================================== */
+
+:root {
+  --color-bg: #f7faf9;
+  --color-bg-raised: #ecf4f0;
+  --color-bg-card: #ffffff;
+  --color-border: #d9e5df;
+  --color-text: #22303c;
+  --color-text-muted: #5c6f70;
+  --color-accent: #0e9f6e;
+  --color-accent-strong: #057a55;
+  --color-accent-contrast: #ffffff;
+}
+
+.site-header {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.hero {
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 0%, rgba(14, 159, 110, 0.12), transparent),
+    var(--color-bg);
+}
+
+.card,
+.step {
+  box-shadow: 0 1px 3px rgba(20, 45, 35, 0.06);
+}
+
+.badge {
+  background: #ffffff;
+}
+
+.cta-band {
+  background:
+    radial-gradient(ellipse 50% 80% at 50% 100%, rgba(14, 159, 110, 0.12), transparent),
+    var(--color-bg-raised);
+}
+
+.compare-table .good { color: var(--color-accent-strong); }
+.compare-table .bad { color: #d93025; }

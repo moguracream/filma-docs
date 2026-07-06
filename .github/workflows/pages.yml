@@ -8,6 +8,9 @@ on:
       - 'api-spec/**'
       - 'template-jwt/**'
       - 'template-no-auth/**'
+      - 'index.html'
+      - 'lp/**'
+      - 'CNAME'
       - '*.md'
       - '_config.yml'
       - '.github/workflows/pages.yml'
@@ -18,6 +21,9 @@ on:
       - 'api-spec/**'
       - 'template-jwt/**'
       - 'template-no-auth/**'
+      - 'index.html'
+      - 'lp/**'
+      - 'CNAME'
       - '*.md'
       - '_config.yml'
       - '.github/workflows/pages.yml'
@@ -85,11 +91,23 @@ jobs:
             cp -f _config.yml publish/_config.yml
           fi
 
-          if [ -f README.md ]; then
-            cp -f README.md publish/index.md
+          # Custom domain: kept in the repo so keep_files:false does not drop it.
+          if [ -f CNAME ]; then
+            cp -f CNAME publish/CNAME
+          fi
+
+          # Top page (https://docs.filma.biz/) is the developer landing page.
+          # README.md is intentionally NOT published; it stays as the repo description.
+          if [ -f index.html ]; then
+            cp -f index.html publish/index.html
           else
-            echo "README.md is required for the GitHub Pages top page." >&2
+            echo "index.html is required for the GitHub Pages top page." >&2
             exit 1
+          fi
+
+          # Landing page assets (absolute /lp/... paths in index.html rely on this).
+          if [ -d lp ]; then
+            cp -a lp publish/lp
           fi
 
           find . -maxdepth 1 -type f -name '*.md' \
@@ -117,5 +135,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./publish
           publish_branch: gh-pages
-          keep_files: true
+          keep_files: false
           enable_jekyll: true

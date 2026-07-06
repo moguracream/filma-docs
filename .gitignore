@@ -3,6 +3,9 @@
 /api-spec/site/
 /publish/
 
+# Local Pages preview output (scripts/preview-pages)
+/.preview/
+
 # Generated API spec MkDocs config
 /api-spec/mkdocs.generated.yml
 
