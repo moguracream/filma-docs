@@ -9,6 +9,7 @@ on:
       - 'template-jwt/**'
       - 'template-no-auth/**'
       - 'assets/**'
+      - 'developers/**'
       - 'lp/**'
       - 'index.html'
       - '*.md'
@@ -24,6 +25,7 @@ on:
       - 'template-jwt/**'
       - 'template-no-auth/**'
       - 'assets/**'
+      - 'developers/**'
       - 'lp/**'
       - 'index.html'
       - '*.md'
@@ -113,6 +115,9 @@ jobs:
 
           if [ -d assets ]; then
             cp -a assets publish/assets
+          fi
+          if [ -d developers ]; then
+            cp -a developers publish/developers
           fi
           if [ -d lp ]; then
             cp -a lp publish/lp

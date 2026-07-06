@@ -52,6 +52,7 @@ build_publish_dir() {
     -exec cp -f {} "$PUBLISH_DIR/" \;
 
   copy_dir "$ROOT_DIR/assets" "$PUBLISH_DIR/assets"
+  copy_dir "$ROOT_DIR/developers" "$PUBLISH_DIR/developers"
   copy_dir "$ROOT_DIR/lp" "$PUBLISH_DIR/lp"
   copy_dir "$ROOT_DIR/template-jwt" "$PUBLISH_DIR/template-jwt"
   copy_dir "$ROOT_DIR/template-no-auth" "$PUBLISH_DIR/template-no-auth"
