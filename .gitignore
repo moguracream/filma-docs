@@ -2,6 +2,7 @@
 /admin-manual/site/
 /api-spec/site/
 /publish/
+/.preview-pages/
 
 # Generated API spec MkDocs config
 /api-spec/mkdocs.generated.yml

@@ -8,8 +8,13 @@ on:
       - 'api-spec/**'
       - 'template-jwt/**'
       - 'template-no-auth/**'
+      - 'assets/**'
+      - 'lp/**'
+      - 'index.html'
       - '*.md'
       - '_config.yml'
+      - 'CNAME'
+      - 'scripts/**'
       - '.github/workflows/pages.yml'
   pull_request:
     branches: [ master ]
@@ -18,8 +23,13 @@ on:
       - 'api-spec/**'
       - 'template-jwt/**'
       - 'template-no-auth/**'
+      - 'assets/**'
+      - 'lp/**'
+      - 'index.html'
       - '*.md'
       - '_config.yml'
+      - 'CNAME'
+      - 'scripts/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -85,10 +95,14 @@ jobs:
             cp -f _config.yml publish/_config.yml
           fi
 
-          if [ -f README.md ]; then
-            cp -f README.md publish/index.md
+          if [ -f CNAME ]; then
+            cp -f CNAME publish/CNAME
+          fi
+
+          if [ -f index.html ]; then
+            cp -f index.html publish/index.html
           else
-            echo "README.md is required for the GitHub Pages top page." >&2
+            echo "index.html is required for the GitHub Pages top page." >&2
             exit 1
           fi
 
@@ -96,6 +110,13 @@ jobs:
             ! -name 'README.md' \
             ! -name 'api_specification.md' \
             -exec cp -f {} publish/ \;
+
+          if [ -d assets ]; then
+            cp -a assets publish/assets
+          fi
+          if [ -d lp ]; then
+            cp -a lp publish/lp
+          fi
 
           if [ -d template-jwt ]; then
             cp -a template-jwt publish/template-jwt
@@ -117,5 +138,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./publish
           publish_branch: gh-pages
-          keep_files: true
+          keep_files: false
           enable_jekyll: true

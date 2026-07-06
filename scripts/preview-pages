@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PUBLISH_DIR="${PUBLISH_DIR:-$ROOT_DIR/.preview-pages}"
+HOST="${HOST:-127.0.0.1}"
+PORT="${PORT:-8080}"
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+
+usage() {
+  cat >&2 <<USAGE
+Usage: scripts/preview-pages {serve|build|clean}
+
+Environment:
+  HOST         Bind address for serve mode. Default: 127.0.0.1
+  PORT         Port for serve mode. Default: 8080
+  PUBLISH_DIR  Preview output directory. Default: .preview-pages
+USAGE
+}
+
+copy_dir() {
+  local src="$1"
+  local dest="$2"
+
+  if [[ -d "$src" ]]; then
+    mkdir -p "$(dirname "$dest")"
+    cp -a "$src" "$dest"
+  fi
+}
+
+build_publish_dir() {
+  rm -rf "$PUBLISH_DIR"
+  mkdir -p "$PUBLISH_DIR"
+
+  if [[ -f "$ROOT_DIR/_config.yml" ]]; then
+    cp -f "$ROOT_DIR/_config.yml" "$PUBLISH_DIR/_config.yml"
+  fi
+
+  if [[ -f "$ROOT_DIR/CNAME" ]]; then
+    cp -f "$ROOT_DIR/CNAME" "$PUBLISH_DIR/CNAME"
+  fi
+
+  if [[ ! -f "$ROOT_DIR/index.html" ]]; then
+    echo "index.html is required for the GitHub Pages top page." >&2
+    exit 1
+  fi
+  cp -f "$ROOT_DIR/index.html" "$PUBLISH_DIR/index.html"
+
+  find "$ROOT_DIR" -maxdepth 1 -type f -name '*.md' \
+    ! -name 'README.md' \
+    ! -name 'api_specification.md' \
+    -exec cp -f {} "$PUBLISH_DIR/" \;
+
+  copy_dir "$ROOT_DIR/assets" "$PUBLISH_DIR/assets"
+  copy_dir "$ROOT_DIR/lp" "$PUBLISH_DIR/lp"
+  copy_dir "$ROOT_DIR/template-jwt" "$PUBLISH_DIR/template-jwt"
+  copy_dir "$ROOT_DIR/template-no-auth" "$PUBLISH_DIR/template-no-auth"
+
+  if [[ -d "$ROOT_DIR/admin-manual/site" ]]; then
+    mkdir -p "$PUBLISH_DIR/admin-manual"
+    cp -a "$ROOT_DIR/admin-manual/site/." "$PUBLISH_DIR/admin-manual/"
+  else
+    echo "[preview] admin-manual/site not found; admin manual links may 404." >&2
+  fi
+
+  if [[ -d "$ROOT_DIR/api-spec/site" ]]; then
+    mkdir -p "$PUBLISH_DIR/api-spec"
+    cp -a "$ROOT_DIR/api-spec/site/." "$PUBLISH_DIR/api-spec/"
+  else
+    echo "[preview] api-spec/site not found; API spec links may 404." >&2
+  fi
+}
+
+cmd="${1:-serve}"
+
+case "$cmd" in
+  build)
+    build_publish_dir
+    echo "Built preview directory: $PUBLISH_DIR"
+    ;;
+  serve)
+    build_publish_dir
+    echo "Serving preview at http://$HOST:$PORT/"
+    cd "$PUBLISH_DIR"
+    exec "$PYTHON_BIN" -m http.server "$PORT" --bind "$HOST"
+    ;;
+  clean)
+    rm -rf "$PUBLISH_DIR"
+    ;;
+  *)
+    usage
+    exit 1
+    ;;
+esac
