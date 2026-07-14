@@ -1,0 +1,43 @@
+/* ==========================================================================
+   IPホルダー向けLP テーマ
+   lp-common.css の後に読み込む。重厚・プレミアム感のあるダーク×ゴールド。
+   見出しに明朝体を使い、保護と信頼を印象付ける。
+   ========================================================================== */
+
+:root {
+  --color-bg: #0e0b13;
+  --color-bg-raised: #171221;
+  --color-bg-card: #1c1628;
+  --color-border: #362c49;
+  --color-text: #ece7dd;
+  --color-text-muted: #a9a093;
+  --color-accent: #d8b45a;
+  --color-accent-strong: #c9a227;
+  --color-accent-contrast: #241b06;
+}
+
+.brand,
+.hero h1,
+.section-title,
+.cta-band h2 {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+  letter-spacing: 0.06em;
+}
+
+.site-header {
+  background: rgba(14, 11, 19, 0.92);
+}
+
+.hero {
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 0%, rgba(216, 180, 90, 0.13), transparent),
+    var(--color-bg);
+}
+
+.hero h1 { font-weight: 600; }
+
+.cta-band {
+  background:
+    radial-gradient(ellipse 50% 80% at 50% 100%, rgba(216, 180, 90, 0.12), transparent),
+    var(--color-bg-raised);
+}
