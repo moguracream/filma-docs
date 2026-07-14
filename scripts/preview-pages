@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Preview the GitHub Pages top page (index.html) locally with the same
+# directory layout it gets when published to docs.filma.biz.
+#
+# index.html references assets via absolute paths like /lp/assets/lp-common.css,
+# so opening the file directly (file://) does not reproduce the published state.
+# This script assembles a publish-like tree and serves it over HTTP.
+#
+# Usage:
+#   scripts/preview-pages [port]   # default port: 8000
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+OUT="$ROOT/.preview"
+PORT="${1:-8000}"
+
+rm -rf "$OUT"
+mkdir -p "$OUT"
+
+# Top page
+cp -f "$ROOT/index.html" "$OUT/index.html"
+
+# Landing page assets (developers is the root LP; elearning / ip live under /lp/)
+if [ -d "$ROOT/lp" ]; then
+  cp -a "$ROOT/lp" "$OUT/lp"
+fi
+
+# Custom domain marker (harmless locally, keeps parity with publish/)
+if [ -f "$ROOT/CNAME" ]; then
+  cp -f "$ROOT/CNAME" "$OUT/CNAME"
+fi
+
+# Other root markdown pages that are published alongside the LP
+find "$ROOT" -maxdepth 1 -type f -name '*.md' \
+  ! -name 'README.md' \
+  ! -name 'api_specification.md' \
+  -exec cp -f {} "$OUT/" \;
+
+echo "Preview ready at http://localhost:${PORT}/"
+echo "  top page      -> http://localhost:${PORT}/"
+echo "  elearning LP  -> http://localhost:${PORT}/lp/elearning/"
+echo "  ip LP         -> http://localhost:${PORT}/lp/ip/"
+echo "(Ctrl+C to stop)"
+
+cd "$OUT"
+exec python3 -m http.server "$PORT"

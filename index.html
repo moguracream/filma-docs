@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filma for Developers | コピペで動く、DRM付き動画配信API</title>
+  <meta name="description" content="Filmaは開発者向けの動画配信PaaS。アップロードするだけでエンコード・マルチDRM暗号化が自動完了。サンプルコードをコピペするだけで、DRM付き動画配信サイトを構築できます。">
+  <meta property="og:title" content="Filma for Developers | コピペで動く、DRM付き動画配信API">
+  <meta property="og:description" content="アップロードするだけでエンコード・マルチDRM暗号化が自動完了。サンプルコードをコピペするだけで動画配信サイトを構築できます。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://docs.filma.biz/">
+  <!-- 計測タグはここに挿入 (未導入) -->
+  <link rel="stylesheet" href="/lp/assets/lp-common.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">Filma<span>.</span></a>
+    <nav class="global-nav">
+      <a href="#features">機能</a>
+      <a href="#samples">サンプル</a>
+      <a href="#pricing">料金</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-primary btn-small" href="#contact">導入のご相談</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>コピペで動く、<br>DRM付き動画配信API。</h1>
+      <p class="lead">Filmaは開発者向けの動画配信PaaSです。アップロードするだけでエンコードとマルチDRM暗号化が自動で完了。あとはサンプルコードをコピペするだけで、動画配信サイトが動き出します。</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#contact">導入のご相談(無料)</a>
+        <a class="btn btn-ghost" href="https://docs.filma.biz/api-spec/">APIリファレンスを見る</a>
+      </div>
+      <p class="hero-note">ご試用・開発期間中は半年まで完全無料。契約前にAPIとサンプルコードをお試しいただけます。</p>
+    </div>
+  </section>
+
+  <!-- コードスニペット -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">埋め込みは、これだけ。</h2>
+      <p class="section-lead">エンコード形式もDRMライセンスも意識する必要はありません。発行されたコードをサイトに貼り付ければ、すぐに再生が始まります。</p>
+      <div class="code-panel">
+        <div class="code-panel-title">index.html — 動画プレイヤーの埋め込み例</div>
+        <pre><span class="comment">&lt;!-- 動画コンテナを置いて --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"video-container"</span> <span class="attr">data-media-id</span>=<span class="str">"YOUR_MEDIA_ID"</span><span class="tag">&gt;&lt;/div&gt;</span>
+
+<span class="comment">&lt;!-- プレイヤースクリプトを読み込むだけ --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://filma.biz/player.js"</span>
+        <span class="attr">data-api-key</span>=<span class="str">"YOUR_API_KEY"</span><span class="tag">&gt;&lt;/script&gt;</span></pre>
+      </div>
+      <p class="hero-note" style="text-align:center">※ 実際のコードは<a href="https://docs.filma.biz/template-no-auth/">サンプル</a>と<a href="https://docs.filma.biz/api-spec/">APIリファレンス</a>をご確認ください。</p>
+    </div>
+  </section>
+
+  <!-- 課題 -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">動画配信の「面倒」を、すべて肩代わり</h2>
+      <p class="section-lead">動画配信機能を自前で作ろうとすると、本質でない作業に時間が溶けていきます。</p>
+      <div class="card-grid">
+        <div class="card">
+          <span class="card-icon">🎞️</span>
+          <h3>エンコードパイプラインが重い</h3>
+          <p>解像度別の変換、アダプティブ配信対応、ジョブ管理…。FilmaならアップロードだけでMPEG-DASH配信用の変換が全自動で完了します。</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🔐</span>
+          <h3>DRMの実装が難しすぎる</h3>
+          <p>Widevine・PlayReady・FairPlayの3方式に標準対応。ライセンスサーバの構築も鍵管理も不要。DRMの知識ゼロで暗号化配信ができます。</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">💸</span>
+          <h3>CDN・転送コストが読めない</h3>
+          <p>大手クラウドやCDNを経由しない自社インフラで、転送量込みの定額プラン。予算計画が立てやすい料金体系です。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 機能 -->
+  <section class="section" id="features">
+    <div class="container">
+      <h2 class="section-title">開発者のための機能</h2>
+      <div class="card-grid">
+        <div class="card">
+          <span class="card-icon">⚡</span>
+          <h3>アダプティブストリーミング</h3>
+          <p>MPEG-DASHにより視聴者の回線状況に応じて最適画質を自動選択。Windows / Mac / iOS / Android / Chrome OSで再生できます。</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🛡️</span>
+          <h3>マルチDRM標準対応</h3>
+          <p>アップロードするだけで自動暗号化。不正コピー・ダウンロードを防ぎ、プレミアムコンテンツを保護します。</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🔑</span>
+          <h3>JWT認証・署名付きURL</h3>
+          <p>会員だけに再生を許可する認可制御をAPIで実装できます。既存の会員基盤との連携も可能です。</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🧩</span>
+          <h3>REST API</h3>
+          <p>動画管理(Storage API)、再生(Player / DASH / HLS API)、会員・視聴権管理(Customers / Entitlements API)まで一通り揃っています。</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">📦</span>
+          <h3>大容量ストレージ</h3>
+          <p>数ペタバイト級のストレージと専用高速回線。大量の動画アセットも安心して預けられます。</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">📝</span>
+          <h3>コピペで始められる</h3>
+          <p>認証なし・JWT認証ありの2種類のサンプルコードを公開中。ウェブ制作ができれば、プログラマがいなくても構築できます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 導入の流れ -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">導入は3ステップ</h2>
+      <div class="steps">
+        <div class="step">
+          <h3>動画をアップロード</h3>
+          <p>ウェブ管理画面から動画ファイルをアップロードします。</p>
+        </div>
+        <div class="step">
+          <h3>自動処理を待つ</h3>
+          <p>エンコードとDRM暗号化はすべて自動で完了します。やることはありません。</p>
+        </div>
+        <div class="step">
+          <h3>コードを埋め込む</h3>
+          <p>APIキーを使ってHTML/JavaScriptコードをサイトに貼り付ければ、すぐに再生できます。</p>
+        </div>
+      </div>
+      <div style="margin-top: 40px" class="badge-row">
+        <span class="badge">MPEG-DASH</span>
+        <span class="badge">Widevine</span>
+        <span class="badge">PlayReady</span>
+        <span class="badge">FairPlay</span>
+        <span class="badge">JWT</span>
+        <span class="badge">REST API</span>
+        <span class="badge">HLS</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- サンプル・ドキュメント -->
+  <section class="section" id="samples">
+    <div class="container">
+      <h2 class="section-title">契約前に、コードで確かめる</h2>
+      <p class="section-lead">「触ってから決めたい」に応えるため、APIリファレンスとサンプルコードを公開しています。</p>
+      <div class="card-grid">
+        <a class="card" href="https://docs.filma.biz/template-no-auth/">
+          <span class="card-icon">▶️</span>
+          <h3>認証無し動画サンプル</h3>
+          <p>誰でも見られる動画再生の最小構成サンプル。まずはここから。</p>
+        </a>
+        <a class="card" href="https://docs.filma.biz/template-jwt/">
+          <span class="card-icon">🎫</span>
+          <h3>JWT認証付きサンプル</h3>
+          <p>会員制配信を想定した、JWTによる再生認可のサンプルです。</p>
+        </a>
+        <a class="card" href="https://docs.filma.biz/api-spec/">
+          <span class="card-icon">📚</span>
+          <h3>APIリファレンス</h3>
+          <p>認証、エンドポイント、使用例まで。詳細なAPI仕様を公開しています。</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 実績 -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">実績あるインフラの上に</h2>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">20年</div>
+          <div class="stat-label">プレミアムコンテンツ配信の運用実績</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">数十億円</div>
+          <div class="stat-label">相当のコンテンツを安定配信</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">数PB級</div>
+          <div class="stat-label">の大容量ストレージと専用高速回線</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 料金 -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <h2 class="section-title">シンプルな料金</h2>
+      <p class="section-lead">自社配信システムにより、転送量込みで競争力のある価格を実現しています。</p>
+      <div class="pricing-scroll">
+        <table class="pricing-table">
+          <thead>
+            <tr>
+              <th>プラン</th>
+              <th>年額</th>
+              <th>転送量</th>
+              <th>保存容量</th>
+              <th>機能</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Standard</strong></td>
+              <td class="price">¥498,000</td>
+              <td>10TB</td>
+              <td>10TB</td>
+              <td>DRM非対応 / 無料配信可 / 有料配信可 / 会員制配信可</td>
+            </tr>
+            <tr>
+              <td><strong>Pro</strong></td>
+              <td class="price">¥980,000</td>
+              <td>50TB</td>
+              <td>50TB</td>
+              <td>DRM対応 / 無料配信可 / 有料配信可 / 会員制配信可</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="pricing-notes">
+        <li>※ ご試用・開発の期間中に限り、半年まで完全無料でご利用いただけます。半年以内でも本番稼働後は有料となります。</li>
+        <li>※ 銀行振込をご希望の方は、年額プラン(先払い・解約不可)でのご契約に限らせていただきます。月額プランをご希望の方は、クレジットカード決済をご利用ください。</li>
+        <li>※ 転送量・保存容量が超過した場合は、別途、追加費用を頂きます。詳細はご相談ください。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-alt" id="faq">
+    <div class="container">
+      <h2 class="section-title">よくあるご質問</h2>
+      <div class="faq-list">
+        <details>
+          <summary>認証・認可はどのように実装しますか?</summary>
+          <p>APIキー認証とJWT認証の2方式に対応しています。会員だけに再生を許可する場合はJWTを利用します。<a href="https://docs.filma.biz/template-jwt/">JWT認証付きサンプル</a>と<a href="https://docs.filma.biz/api-spec/">APIリファレンスの認証の章</a>をご覧ください。</p>
+        </details>
+        <details>
+          <summary>WordPressサイトに埋め込めますか?</summary>
+          <p>可能です。発行される埋め込みコードをWordPressの投稿・固定ページに貼り付けることで再生できます。</p>
+        </details>
+        <details>
+          <summary>海外からの再生はできますか?</summary>
+          <p>再生自体は可能ですが、クラウドや大手CDNを経由しない国内自社インフラのため、海外からの再生は低速になる場合があります。また可用性やデータの完全性は大手クラウド・大手CDNより劣ります。高可用性が必要な場合はご相談ください。</p>
+        </details>
+        <details>
+          <summary>StandardプランからProプランに変更できますか?</summary>
+          <p>アップグレードは可能です。ただしアップロード済み動画にDRMを付与する場合は再エンコードが必要で、動画ファイル数が多い場合は時間がかかります。ProからStandardへのダウングレードは、DRM付き動画が視聴不能になるため原則不可です。</p>
+        </details>
+        <details>
+          <summary>転送量や保存容量を超過した場合は?</summary>
+          <p>別途追加費用にてご利用いただけます。超過が見込まれる場合は事前にご相談ください。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band" id="contact">
+    <div class="container">
+      <h2>まずは、触ってみてください。</h2>
+      <p>現在ローンチ直後のため、お申し込みは原則として紹介制とさせていただいております。導入のご相談・機能のご要望は提供会社までお気軽にお問い合わせください。ご試用・開発期間中は半年まで無料です。</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://cream.co.jp/">導入のご相談(株式会社クリーム)</a>
+        <a class="btn btn-ghost" href="https://docs.filma.biz/">ドキュメントを見る</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-columns">
+      <div>
+        <h3>Filma</h3>
+        <ul>
+          <li><a href="https://docs.filma.biz/">ドキュメントトップ</a></li>
+          <li><a href="https://docs.filma.biz/api-spec/">APIリファレンス</a></li>
+          <li><a href="https://docs.filma.biz/admin-manual/">管理画面マニュアル</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>他の用途で探す</h3>
+        <ul>
+          <li><a href="/lp/elearning/">eラーニング・社内研修での利用</a></li>
+          <li><a href="/lp/ip/">IPホルダー・版権元の方へ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>規約・提供会社</h3>
+        <ul>
+          <li><a href="https://docs.filma.biz/terms_of_service_template">ご利用規約</a></li>
+          <li><a href="https://docs.filma.biz/service_level_agreement">サービスレベルアグリーメント</a></li>
+          <li><a href="https://cream.co.jp/">株式会社クリーム</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-copy">Filma — 動画配信プラットフォーム (PaaS) / 提供: 株式会社クリーム</div>
+  </div>
+</footer>
+
+</body>
+</html>
