@@ -7,7 +7,7 @@ const inquiryFormUrl =
 
 const expectedContent = [
   "DRMで守るべき動画コンテンツを配信する事業者へ",
-  "<strong>Pro</strong>",
+  "<strong>Pro</strong> <span",
   "<td>12TB／年</td>",
   "<td>1TB</td>",
   "<td>50TB／年</td>",
