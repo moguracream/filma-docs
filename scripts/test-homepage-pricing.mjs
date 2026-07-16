@@ -2,10 +2,12 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
+const inquiryFormUrl =
+  "https://docs.google.com/forms/d/e/1FAIpQLSfTXvyTcaS_pHkpMvy8TqeNQpWhyQmFEopaFoI81n2swGNjmA/viewform";
 
 const expectedContent = [
   "DRMで守るべき動画コンテンツを配信する事業者へ",
-  "Pro（推奨）",
+  "<strong>Pro</strong>",
   "<td>12TB／年</td>",
   "<td>1TB</td>",
   "<td>50TB／年</td>",
@@ -27,6 +29,14 @@ const expectedContent = [
 for (const content of expectedContent) {
   assert.ok(html.includes(content), `Missing homepage content: ${content}`);
 }
+
+assert.equal(
+  html.split(`href="${inquiryFormUrl}"`).length - 1,
+  3,
+  "All three inquiry buttons must link directly to the Google Form",
+);
+
+assert.ok(!html.includes("Pro（推奨）"), "Pro plan must not include the recommendation label");
 
 assert.ok(
   !html.includes("詳細はご相談ください。"),
