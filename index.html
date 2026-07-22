@@ -9,7 +9,15 @@
   <meta property="og:description" content="アップロードするだけでエンコード・マルチDRM暗号化が自動完了。サンプルコードをコピペするだけで動画配信サイトを構築できます。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://docs.filma.biz/">
-  <!-- 計測タグはここに挿入 (未導入) -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KZJ2QN1S7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-1KZJ2QN1S7');
+  </script>
   <link rel="stylesheet" href="/lp/assets/lp-common.css">
 </head>
 <body>
@@ -46,16 +54,17 @@
   <section class="section">
     <div class="container">
       <h2 class="section-title">埋め込みは、これだけ。</h2>
-      <p class="section-lead">エンコード形式もDRMライセンスも意識する必要はありません。発行されたコードをサイトに貼り付ければ、すぐに再生が始まります。</p>
+      <p class="section-lead">エンコード形式もDRMライセンスも意識する必要はありません。プレイヤーURLをiframeでサイトに埋め込めば、すぐに再生できます。</p>
       <div class="code-panel">
         <div class="code-panel-title">index.html — 動画プレイヤーの埋め込み例</div>
-        <pre><span class="comment">&lt;!-- 動画コンテナを置いて --&gt;</span>
-<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"video-container"</span> <span class="attr">data-media-id</span>=<span class="str">"YOUR_MEDIA_ID"</span><span class="tag">&gt;&lt;/div&gt;</span>
-
-<span class="comment">&lt;!-- プレイヤースクリプトを読み込むだけ --&gt;</span>
-<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://filma.biz/player.js"</span>
-        <span class="attr">data-api-key</span>=<span class="str">"YOUR_API_KEY"</span><span class="tag">&gt;&lt;/script&gt;</span></pre>
+        <pre><span class="tag">&lt;iframe</span>
+  <span class="attr">src</span>=<span class="str">"https://filma.biz/filmaapi/player/YOUR_MEDIAFILE_ID?api_key=YOUR_API_KEY"</span>
+  <span class="attr">title</span>=<span class="str">"Filma 動画プレイヤー"</span>
+  <span class="attr">style</span>=<span class="str">"width: 100%; aspect-ratio: 16 / 9; border: 0;"</span>
+  <span class="attr">allow</span>=<span class="str">"autoplay; fullscreen; encrypted-media; picture-in-picture"</span>
+  <span class="attr">allowfullscreen</span><span class="tag">&gt;&lt;/iframe&gt;</span></pre>
       </div>
+      <p class="hero-note" style="text-align:center">※ <code>YOUR_MEDIAFILE_ID</code> と <code>YOUR_API_KEY</code> を実際の値に置き換え、APIキーのアクセス許可ドメインを設定してください。</p>
       <p class="hero-note" style="text-align:center">※ 実際のコードは<a href="https://docs.filma.biz/template-no-auth/">サンプル</a>と<a href="https://docs.filma.biz/api-spec/">APIリファレンス</a>をご確認ください。</p>
     </div>
   </section>
