@@ -6,6 +6,9 @@
 # Local Pages preview output (scripts/preview-pages)
 /.preview/
 
+# Local feature worktrees
+/.worktrees/
+
 # Generated API spec MkDocs config
 /api-spec/mkdocs.generated.yml
 
