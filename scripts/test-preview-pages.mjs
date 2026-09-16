@@ -60,6 +60,15 @@ try {
     200,
     "Preview must include the contact JavaScript module",
   );
+
+  const trackingModuleResponse = await fetch(
+    `${baseUrl}/assets/js/contact-tracking.mjs`,
+  );
+  assert.equal(
+    trackingModuleResponse.status,
+    200,
+    "Preview must include the anonymous tracking module",
+  );
 } finally {
   preview.kill("SIGTERM");
   if (preview.exitCode === null) await once(preview, "exit");

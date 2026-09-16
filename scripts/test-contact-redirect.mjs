@@ -416,7 +416,7 @@ test("omits the management code when utm_content is absent", async () => {
   );
 });
 
-function createBrowserHarness(search) {
+function createBrowserHarness(search, gaIdentity = null) {
   const order = [];
   const gtagCalls = [];
   const timerCallbacks = [];
@@ -463,6 +463,13 @@ function createBrowserHarness(search) {
       gtagCalls.push(call);
       const suffix = call[0] === "js" || !call[1] ? "" : `.${call[1]}`;
       order.push(`gtag.${call[0]}${suffix}`);
+      if (call[0] === "get" && gaIdentity) {
+        const value =
+          call[2] === "client_id"
+            ? gaIdentity.clientId
+            : gaIdentity.sessionId;
+        call[3](value);
+      }
     },
   };
   const window = {
@@ -582,4 +589,97 @@ test("falls back to the timer when the Google tag never loads", async () => {
 
   assert.deepEqual(harness.replacedLocations, [result.formUrl]);
   assert.equal(result.formUrl.endsWith("?usp=pp_url"), true);
+});
+
+test("starts anonymous attribution with the management code and no click IDs", async () => {
+  const { startContactRedirect } = await loadModule();
+  const trackingId = "16395380-785b-476f-a62b-046c8d5db697";
+  const harness = createBrowserHarness(
+    "?contact_flow=ip_hero&contact_source=google&contact_medium=cpc&contact_market=general&utm_source=google&utm_medium=cpc&utm_campaign=filma_drm&utm_content=hero_a&gclid=GoogleClick_123&email=person%40example.com",
+    { clientId: "123456789.987654321", sessionId: "1789531200" },
+  );
+  const requests = [];
+
+  const result = startContactRedirect({
+    ...harness,
+    measurementId: "G-1KZJ2QN1S7",
+    formBaseUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSfTXvyTcaS_pHkpMvy8TqeNQpWhyQmFEopaFoI81n2swGNjmA/viewform",
+    formEntryKey: "entry.1442019456",
+    timeoutMs: 1000,
+    trackingEndpoint:
+      "https://filma-funnel-attribution.filma-biz.workers.dev/v1/starts",
+    trackingTimeoutMs: 300,
+    cryptoApi: { randomUUID: () => trackingId },
+    fetchApi: async (url, options) => {
+      requests.push({ url, options });
+      return { ok: true, status: 202 };
+    },
+    now: () => new Date("2026-09-16T02:00:00.000Z"),
+  });
+
+  assert.ok(result.trackingPromise, "tracking must expose its completion");
+  assert.equal(
+    new URL(result.formUrl).searchParams.get("entry.1442019456"),
+    `v1~lp=ip|cta=hero|source=google|medium=cpc|campaign=filma_drm|content=hero_a|market=general~${trackingId}`,
+  );
+  assert.deepEqual(await result.trackingPromise, {
+    accepted: true,
+    status: 202,
+  });
+  assert.equal(requests.length, 1);
+  assert.equal(
+    requests[0].url,
+    "https://filma-funnel-attribution.filma-biz.workers.dev/v1/starts",
+  );
+  const payload = JSON.parse(requests[0].options.body);
+  assert.deepEqual(payload, {
+    tracking_id: trackingId,
+    flow_code:
+      "lp=ip|cta=hero|source=google|medium=cpc|campaign=filma_drm|content=hero_a|market=general",
+    client_id: "123456789.987654321",
+    session_id: "1789531200",
+    contact_flow: "ip_hero",
+    contact_lp: "ip",
+    contact_cta: "hero",
+    contact_market: "general",
+    acquired_at: "2026-09-16T02:00:00.000Z",
+    utm_source: "google",
+    utm_medium: "cpc",
+    utm_campaign: "filma_drm",
+    utm_content: "hero_a",
+  });
+  assert.equal("gclid" in payload, false);
+  assert.equal("email" in payload, false);
+});
+
+test("keeps the Google Form redirect available when attribution transport fails", async () => {
+  const { startContactRedirect } = await loadModule();
+  const harness = createBrowserHarness(
+    "?contact_flow=elearning_footer&contact_market=general",
+    { clientId: "123456789.987654321", sessionId: "1789531200" },
+  );
+
+  const result = startContactRedirect({
+    ...harness,
+    measurementId: "G-1KZJ2QN1S7",
+    formBaseUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSfTXvyTcaS_pHkpMvy8TqeNQpWhyQmFEopaFoI81n2swGNjmA/viewform",
+    formEntryKey: "entry.1442019456",
+    trackingEndpoint:
+      "https://filma-funnel-attribution.filma-biz.workers.dev/v1/starts",
+    cryptoApi: {
+      randomUUID: () => "16395380-785b-476f-a62b-046c8d5db697",
+    },
+    fetchApi: async () => {
+      throw new Error("offline");
+    },
+  });
+
+  assert.deepEqual(await result.trackingPromise, {
+    accepted: false,
+    reason: "network_error",
+  });
+  harness.timerCallbacks[0]();
+  assert.deepEqual(harness.replacedLocations, [result.formUrl]);
 });

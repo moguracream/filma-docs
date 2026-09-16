@@ -1,3 +1,11 @@
+import {
+  buildStartPayload,
+  buildTrackingCode,
+  createTrackingId,
+  postTrackingStart,
+  readGaIdentity,
+} from "./contact-tracking.mjs";
+
 export const UTM_PARAMETER_NAMES = Object.freeze([
   "utm_source",
   "utm_medium",
@@ -301,6 +309,11 @@ export function startContactRedirect({
   formBaseUrl,
   formEntryKey,
   timeoutMs = 1000,
+  trackingEndpoint = "",
+  trackingTimeoutMs = 300,
+  cryptoApi = globalThis.crypto,
+  fetchApi = globalThis.fetch,
+  now = () => new Date(),
   enabledClickIdNames = DEFAULT_CLICK_ID_NAMES,
 }) {
   const attribution = sanitizeAttribution(
@@ -317,10 +330,20 @@ export function startContactRedirect({
     pageParams,
   );
   const managementCode = buildContactManagementCode(contact, attribution);
+  let trackingId = "";
+  let formCode = managementCode;
+  if (trackingEndpoint) {
+    try {
+      trackingId = createTrackingId(cryptoApi);
+      formCode = buildTrackingCode(managementCode, trackingId);
+    } catch {
+      trackingId = "";
+    }
+  }
   const formUrl = buildFormUrl(
     formBaseUrl,
     formEntryKey,
-    managementCode,
+    formCode,
   );
 
   history.replaceState(null, "", sanitizedPageUrl);
@@ -351,6 +374,28 @@ export function startContactRedirect({
   window.gtag("config", measurementId, {
     page_location: sanitizedPageUrl,
   });
+  const trackingPromise = trackingId
+    ? readGaIdentity(window.gtag, measurementId, trackingTimeoutMs)
+        .then((gaIdentity) => {
+          if (!gaIdentity) {
+            return { accepted: false, reason: "ga_identity_missing" };
+          }
+          return postTrackingStart({
+            fetchApi,
+            endpoint: trackingEndpoint,
+            payload: buildStartPayload({
+              trackingId,
+              flowCode: managementCode,
+              gaIdentity,
+              contact,
+              attribution,
+              acquiredAt: now().toISOString(),
+            }),
+            timeoutMs: trackingTimeoutMs,
+          });
+        })
+        .catch(() => ({ accepted: false, reason: "tracking_failed" }))
+    : Promise.resolve({ accepted: false, reason: "disabled" });
   window.gtag("event", "contact_redirect", {
     contact_flow: contact.values.contact_flow || "unknown",
     contact_lp: contact.lp || "unknown",
@@ -376,5 +421,6 @@ export function startContactRedirect({
     formUrl,
     managementCode,
     redirect,
+    trackingPromise,
   };
 }
