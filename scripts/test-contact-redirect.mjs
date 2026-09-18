@@ -135,6 +135,16 @@ test("keeps valid manual campaign parameters and Google click IDs", async () => 
   assert.equal(result.params.has("next"), false);
 });
 
+test("accepts only an uppercase opaque attribution code", async () => {
+  const { sanitizeAttribution } = await loadModule();
+  const valid = sanitizeAttribution(
+    "?attribution_code=7F3K&utm_source=outbound&email=person%40example.com",
+  );
+  assert.equal(valid.attributionCode, "7F3K");
+  assert.equal(valid.params.get("attribution_code"), "7F3K");
+  assert.equal(sanitizeAttribution("?attribution_code=7f3k").attributionCode, "");
+});
+
 test("rejects malformed and overlong values without blocking valid attribution", async () => {
   const { sanitizeAttribution } = await loadModule();
   const overlongUtm = "a".repeat(101);
@@ -651,6 +661,49 @@ test("starts anonymous attribution with the management code and no click IDs", a
   });
   assert.equal("gclid" in payload, false);
   assert.equal("email" in payload, false);
+});
+
+test("carries the short code through GA4, v2 form prefilling, and the start API", async () => {
+  const { startContactRedirect } = await loadModule();
+  const trackingId = "16395380-785b-476f-a62b-046c8d5db697";
+  const harness = createBrowserHarness(
+    "?attribution_code=7F3K&contact_flow=ip_hero&contact_market=general&utm_source=outbound&utm_medium=contact_form&utm_campaign=filma_sales_general_202609&utm_content=AA001",
+    { clientId: "123456789.987654321", sessionId: "1789531200" },
+  );
+  const requests = [];
+  const result = startContactRedirect({
+    ...harness,
+    measurementId: "G-1KZJ2QN1S7",
+    formBaseUrl: "https://docs.google.com/forms/d/e/form-id/viewform",
+    formEntryKey: "entry.1442019456",
+    trackingEndpoint: "https://filma-funnel-attribution.filma-biz.workers.dev/v1/starts",
+    cryptoApi: { randomUUID: () => trackingId },
+    fetchApi: async (url, options) => {
+      requests.push({ url, options });
+      return { ok: true, status: 202 };
+    },
+    now: () => new Date("2026-09-16T02:00:00.000Z"),
+  });
+
+  assert.equal(
+    new URL(result.formUrl).searchParams.get("entry.1442019456"),
+    `v2~7F3K~${trackingId}`,
+  );
+  await result.trackingPromise;
+  assert.deepEqual(JSON.parse(requests[0].options.body), {
+    tracking_id: trackingId,
+    attribution_code: "7F3K",
+    client_id: "123456789.987654321",
+    session_id: "1789531200",
+    contact_flow: "ip_hero",
+    contact_lp: "ip",
+    contact_cta: "hero",
+    acquired_at: "2026-09-16T02:00:00.000Z",
+  });
+  const event = harness.gtagCalls.find(
+    (call) => call[0] === "event" && call[1] === "contact_redirect",
+  );
+  assert.equal(event[2].attribution_code, "7F3K");
 });
 
 test("keeps the Google Form redirect available when attribution transport fails", async () => {
