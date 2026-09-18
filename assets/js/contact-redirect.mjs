@@ -33,6 +33,7 @@ const CONTACT_FLOW_PATTERN = /^(developer|ip|elearning)_(header|hero|footer)$/;
 const CONTACT_CONTEXT_VALUE_PATTERN = /^[A-Za-z0-9._-]+$/;
 const CONTACT_MARKETS = new Set(["general", "special"]);
 const ATTRIBUTION_STORAGE_KEY = "filma_contact_attribution_v1";
+const ATTRIBUTION_CODE_PATTERN = /^[A-Z0-9]{4}$/;
 
 function copyValidValues(source, destination, names, pattern, maxLength) {
   const values = {};
@@ -68,11 +69,18 @@ export function sanitizeAttribution(
     CLICK_ID_VALUE_PATTERN,
     512,
   );
+  const attributionCode = source.get("attribution_code") || "";
+  if (ATTRIBUTION_CODE_PATTERN.test(attributionCode)) {
+    params.set("attribution_code", attributionCode);
+  }
 
   return {
     params,
     utm,
     clickIds,
+    attributionCode: ATTRIBUTION_CODE_PATTERN.test(attributionCode)
+      ? attributionCode
+      : "",
     flowCode: utm.utm_content || "",
   };
 }
@@ -335,7 +343,11 @@ export function startContactRedirect({
   if (trackingEndpoint) {
     try {
       trackingId = createTrackingId(cryptoApi);
-      formCode = buildTrackingCode(managementCode, trackingId);
+      formCode = buildTrackingCode(
+        managementCode,
+        trackingId,
+        attribution.attributionCode,
+      );
     } catch {
       trackingId = "";
     }
@@ -385,6 +397,7 @@ export function startContactRedirect({
             endpoint: trackingEndpoint,
             payload: buildStartPayload({
               trackingId,
+              attributionCode: attribution.attributionCode,
               flowCode: managementCode,
               gaIdentity,
               contact,
@@ -410,6 +423,9 @@ export function startContactRedirect({
       "none",
     contact_campaign: getCampaignIdentifier(attribution),
     contact_market: contact.values.contact_market || "general",
+    ...(attribution.attributionCode
+      ? { attribution_code: attribution.attributionCode }
+      : {}),
     event_callback: redirect,
     event_timeout: timeoutMs,
     transport_type: "beacon",
