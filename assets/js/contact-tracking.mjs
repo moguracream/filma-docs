@@ -10,6 +10,7 @@ const FLOW_KEYS = Object.freeze([
   "market",
 ]);
 const SAFE_VALUE_PATTERN = /^[A-Za-z0-9._-]{1,100}$/;
+const ATTRIBUTION_CODE_PATTERN = /^[A-Z0-9]{4}$/;
 
 export function createTrackingId(cryptoApi = globalThis.crypto) {
   const trackingId = cryptoApi.randomUUID();
@@ -19,12 +20,17 @@ export function createTrackingId(cryptoApi = globalThis.crypto) {
   return trackingId;
 }
 
-export function buildTrackingCode(flowCode, trackingId) {
+export function buildTrackingCode(flowCode, trackingId, attributionCode = "") {
   parseManagementCode(flowCode);
   if (!UUID_V4_PATTERN.test(trackingId)) {
     throw new Error("invalid tracking_id");
   }
-  const trackingCode = `v1~${flowCode}~${trackingId}`;
+  if (attributionCode && !ATTRIBUTION_CODE_PATTERN.test(attributionCode)) {
+    throw new Error("invalid attribution_code");
+  }
+  const trackingCode = attributionCode
+    ? `v2~${attributionCode}~${trackingId}`
+    : `v1~${flowCode}~${trackingId}`;
   if (new TextEncoder().encode(trackingCode).byteLength > 2048) {
     throw new Error("tracking code too large");
   }
@@ -95,19 +101,47 @@ export function readGaIdentity(gtag, measurementId, timeoutMs = 300) {
 
 export function buildStartPayload({
   trackingId,
+  attributionCode = "",
   flowCode,
   gaIdentity,
   contact,
   attribution,
   acquiredAt,
 }) {
-  const management = parseManagementCode(flowCode);
   if (!UUID_V4_PATTERN.test(trackingId)) {
     throw new Error("invalid tracking_id");
   }
   if (!gaIdentity?.clientId || !gaIdentity?.sessionId) {
     throw new Error("invalid GA identity");
   }
+
+  if (attributionCode) {
+    if (!ATTRIBUTION_CODE_PATTERN.test(attributionCode)) {
+      throw new Error("invalid attribution_code");
+    }
+    const contactLp = String(contact?.lp || "");
+    const contactCta = String(contact?.cta || "");
+    const contactFlow = String(contact?.values?.contact_flow || "");
+    if (
+      !/^(developer|ip|elearning)$/.test(contactLp) ||
+      !/^(header|hero|footer)$/.test(contactCta) ||
+      contactFlow !== `${contactLp}_${contactCta}`
+    ) {
+      throw new Error("invalid contact context");
+    }
+    return {
+      tracking_id: trackingId,
+      attribution_code: attributionCode,
+      client_id: gaIdentity.clientId,
+      session_id: gaIdentity.sessionId,
+      contact_flow: contactFlow,
+      contact_lp: contactLp,
+      contact_cta: contactCta,
+      acquired_at: acquiredAt,
+    };
+  }
+
+  const management = parseManagementCode(flowCode);
 
   const payload = {
     tracking_id: trackingId,
