@@ -18,6 +18,7 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
 extra_javascript:
+  - javascripts/clarity.js
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
   - javascripts/mermaid-init.js
   - javascripts/lightbox.js
