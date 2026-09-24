@@ -15,6 +15,7 @@ on:
       - 'CNAME'
       - '*.md'
       - '_config.yml'
+      - '_includes/**'
       - '.github/workflows/pages.yml'
   pull_request:
     branches: [ master ]
@@ -28,12 +29,14 @@ on:
       - 'assets/**'
       - 'contact/**'
       - 'scripts/test-contact-redirect.mjs'
+      - 'scripts/test-clarity.mjs'
       - 'scripts/test-homepage-pricing.mjs'
       - 'scripts/test-preview-pages.mjs'
       - 'scripts/preview-pages'
       - 'CNAME'
       - '*.md'
       - '_config.yml'
+      - '_includes/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -58,6 +61,7 @@ jobs:
 
       - name: Test static pages
         run: |
+          node scripts/test-clarity.mjs
           node scripts/test-contact-redirect.mjs
           node scripts/test-homepage-pricing.mjs
           node scripts/test-preview-pages.mjs
@@ -108,6 +112,9 @@ jobs:
 
           if [ -f _config.yml ]; then
             cp -f _config.yml publish/_config.yml
+          fi
+          if [ -d _includes ]; then
+            cp -a _includes publish/_includes
           fi
 
           # Custom domain: kept in the repo so keep_files:false does not drop it.
