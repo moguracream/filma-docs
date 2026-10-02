@@ -58,16 +58,22 @@
     </div>
   </section>
 
-  <!-- 埋め込み動画サンプルへの案内 -->
+  <!-- コードスニペット -->
   <section class="section">
     <div class="container">
       <h2 class="section-title">埋め込みは、これだけ。</h2>
-      <p class="section-lead">管理画面で取得した埋め込みHTMLをサイトに貼り付ければ、動画を再生できます。</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="https://docs.filma.biz/template-no-auth/">埋め込み動画サンプルを見る</a>
+      <p class="section-lead">エンコード形式もDRMライセンスも意識する必要はありません。プレイヤーURLをiframeでサイトに埋め込めば、すぐに再生できます。</p>
+      <div class="code-panel">
+        <div class="code-panel-title">index.html — 動画プレイヤーの埋め込み例</div>
+        <pre><span class="tag">&lt;iframe</span>
+  <span class="attr">src</span>=<span class="str">"https://filma.biz/filmaapi/player/YOUR_MEDIAFILE_ID?api_key=YOUR_API_KEY"</span>
+  <span class="attr">title</span>=<span class="str">"Filma 動画プレイヤー"</span>
+  <span class="attr">style</span>=<span class="str">"width: 100%; aspect-ratio: 16 / 9; border: 0;"</span>
+  <span class="attr">allow</span>=<span class="str">"autoplay; fullscreen; encrypted-media; picture-in-picture"</span>
+  <span class="attr">allowfullscreen</span><span class="tag">&gt;&lt;/iframe&gt;</span></pre>
       </div>
-      <p class="hero-note" style="text-align:center">※ 埋め込みHTMLの取得方法は<a href="https://docs.filma.biz/admin-manual/embed_html/">管理者マニュアル</a>をご確認ください。</p>
-      <p class="hero-note" style="text-align:center">※ APIの使い方は<a href="https://docs.filma.biz/template-jwt/">JWT認証付きサンプル</a>と<a href="https://docs.filma.biz/api-spec/">APIリファレンス</a>をご確認ください。</p>
+      <p class="hero-note" style="text-align:center">※ <code>YOUR_MEDIAFILE_ID</code> と <code>YOUR_API_KEY</code> を実際の値に置き換え、APIキーのアクセス許可ドメインを設定してください。</p>
+      <p class="hero-note" style="text-align:center">※ 実際のコードは<a href="https://docs.filma.biz/template-no-auth/">サンプル</a>と<a href="https://docs.filma.biz/api-spec/">APIリファレンス</a>をご確認ください。</p>
     </div>
   </section>
 
@@ -179,7 +185,7 @@
         <a class="card" href="https://docs.filma.biz/template-jwt/">
           <span class="card-icon">🎫</span>
           <h3>JWT認証付きサンプル</h3>
-          <p>JWTを使った一覧・メタデータ取得と動画再生のデモです。readonlyキーをブラウザに公開する、本番利用向けではない実装です。</p>
+          <p>JWTを使った一覧・メタデータ取得と動画再生のサンプルです。JWTの取得処理をサーバー側に移すことで、実運用にも利用できます。</p>
         </a>
         <a class="card" href="https://docs.filma.biz/api-spec/">
           <span class="card-icon">📚</span>

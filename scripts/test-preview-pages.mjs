@@ -48,6 +48,12 @@ try {
   const embedResponse = await fetch(`${baseUrl}/template-no-auth/`);
   assert.equal(embedResponse.status, 200, "Preview must preserve /template-no-auth/");
 
+  const jwtResponse = await fetch(`${baseUrl}/template-jwt/`);
+  assert.equal(jwtResponse.status, 200, "Preview must include /template-jwt/");
+
+  const jwtScriptResponse = await fetch(`${baseUrl}/template-jwt/jwt_token.js`);
+  assert.equal(jwtScriptResponse.status, 200, "Preview must include the JWT request script");
+
   const contactResponse = await fetch(`${baseUrl}/contact/`);
   assert.equal(contactResponse.status, 200, "Preview must include /contact/");
   assert.match(
@@ -77,4 +83,4 @@ try {
   if (preview.exitCode === null) await once(preview, "exit");
 }
 
-console.log("Local Pages preview includes the contact flow and embedded video sample.");
+console.log("Local Pages preview includes the contact flow and both video samples.");

@@ -20,10 +20,12 @@ mkdir -p "$OUT"
 # Top page
 cp -f "$ROOT/index.html" "$OUT/index.html"
 
-# Embedded video sample at its existing public URL.
-if [ -d "$ROOT/template-no-auth" ]; then
-  cp -a "$ROOT/template-no-auth" "$OUT/template-no-auth"
-fi
+# Samples use the same paths as the published site.
+for sample_dir in template-no-auth template-jwt; do
+  if [ -d "$ROOT/$sample_dir" ]; then
+    cp -a "$ROOT/$sample_dir" "$OUT/$sample_dir"
+  fi
+done
 
 # Landing page assets (developers is the root LP; elearning / ip live under /lp/)
 if [ -d "$ROOT/lp" ]; then
@@ -51,6 +53,8 @@ find "$ROOT" -maxdepth 1 -type f -name '*.md' \
 
 echo "Preview ready at http://localhost:${PORT}/"
 echo "  top page      -> http://localhost:${PORT}/"
+echo "  embed sample  -> http://localhost:${PORT}/template-no-auth/"
+echo "  JWT sample    -> http://localhost:${PORT}/template-jwt/"
 echo "  contact       -> http://localhost:${PORT}/contact/"
 echo "  elearning LP  -> http://localhost:${PORT}/lp/elearning/"
 echo "  ip LP         -> http://localhost:${PORT}/lp/ip/"

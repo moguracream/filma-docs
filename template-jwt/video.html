@@ -22,8 +22,8 @@
     <h1 class="text-center mb-4">Video</h1>
 
     <div class="alert alert-warning">
-      <strong>API 動作確認用デモです。本番利用向けの実装ではありません。</strong>
-      このサンプルは readonly API キーをブラウザに公開しています。実運用ではキーをサーバーに保管し、サーバー側で JWT を発行してください。会員認証・視聴権確認は行っていません。
+      <strong>実運用では、JWT の取得処理をサーバー側へ移してください。</strong>
+      このデモは readonly API キーを使ってブラウザから JWT を取得しています。API キーをサーバーに保管し、取得した JWT をブラウザへ渡す構成にすることで、一覧取得・動画再生のコードを活用できます。会員認証・視聴権確認は別途実装してください。
       <a href="https://github.com/moguracream/filma-docs/tree/master/template-jwt">実装と利用条件</a>
     </div>
     <div class="text-end mb-3">
