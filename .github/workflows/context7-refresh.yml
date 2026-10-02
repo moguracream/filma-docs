@@ -7,7 +7,6 @@ on:
       - 'api-spec/**'
       - 'admin-manual/**'
       - 'template-jwt/**'
-      - 'template-no-auth/**'
       - '*.md'
       - 'context7.json'
       - '.github/workflows/context7-refresh.yml'

@@ -58,22 +58,30 @@
     </div>
   </section>
 
-  <!-- コードスニペット -->
-  <section class="section">
+  <!-- 埋め込み動画サンプル -->
+  <section class="section" id="video">
     <div class="container">
       <h2 class="section-title">埋め込みは、これだけ。</h2>
-      <p class="section-lead">エンコード形式もDRMライセンスも意識する必要はありません。プレイヤーURLをiframeでサイトに埋め込めば、すぐに再生できます。</p>
-      <div class="code-panel">
-        <div class="code-panel-title">index.html — 動画プレイヤーの埋め込み例</div>
-        <pre><span class="tag">&lt;iframe</span>
-  <span class="attr">src</span>=<span class="str">"https://filma.biz/filmaapi/player/YOUR_MEDIAFILE_ID?api_key=YOUR_API_KEY"</span>
-  <span class="attr">title</span>=<span class="str">"Filma 動画プレイヤー"</span>
-  <span class="attr">style</span>=<span class="str">"width: 100%; aspect-ratio: 16 / 9; border: 0;"</span>
-  <span class="attr">allow</span>=<span class="str">"autoplay; fullscreen; encrypted-media; picture-in-picture"</span>
-  <span class="attr">allowfullscreen</span><span class="tag">&gt;&lt;/iframe&gt;</span></pre>
-      </div>
-      <p class="hero-note" style="text-align:center">※ <code>YOUR_MEDIAFILE_ID</code> と <code>YOUR_API_KEY</code> を実際の値に置き換え、APIキーのアクセス許可ドメインを設定してください。</p>
-      <p class="hero-note" style="text-align:center">※ 実際のコードは<a href="https://docs.filma.biz/template-no-auth/">サンプル</a>と<a href="https://docs.filma.biz/api-spec/">APIリファレンス</a>をご確認ください。</p>
+      <p class="section-lead">管理画面で取得した埋め込みHTMLをサイトに貼り付ければ、動画を再生できます。</p>
+      <script src="https://filma.biz/filma_player/js/filma_player.min.js?20260918-videojs-6.13.0"></script>
+      <link rel="stylesheet" type="text/css" href="https://filma.biz/filma_player/css/style.css?20260918-videojs-6.13.0">
+      <div id="video-57760943" class="filma-video" data-drm="false" style="width: 100%;"></div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          let elem = document.getElementById('video-57760943');
+          if (elem == null) {
+            return;
+          }
+          if (isSafari()) {
+            elem.dataset.src = 'https://filma.biz/filmaapi/hls/57760943.m3u8?api_key=e47aad55d7fb4f152603b91b';
+          } else {
+            elem.dataset.src = 'https://filma.biz/filmaapi/dash/57760943.mpd?api_key=e47aad55d7fb4f152603b91b';
+          }
+          init_xcream_player('video-57760943');
+        });
+      </script>
+      <p class="hero-note" style="text-align:center">※ 埋め込みHTMLの取得方法は<a href="https://docs.filma.biz/admin-manual/embed_html/">管理者マニュアル</a>をご確認ください。</p>
+      <p class="hero-note" style="text-align:center">※ APIの使い方は<a href="https://docs.filma.biz/template-jwt/">JWT認証付きサンプル</a>と<a href="https://docs.filma.biz/api-spec/">APIリファレンス</a>をご確認ください。</p>
     </div>
   </section>
 
@@ -135,7 +143,7 @@
         <div class="card">
           <span class="card-icon">📝</span>
           <h3>コピペで始められる</h3>
-          <p>認証なし・JWT認証ありの2種類のサンプルコードを公開中。ウェブ制作ができれば、プログラマがいなくても構築できます。</p>
+          <p>管理画面の埋め込みHTMLをサイトへ貼り付ければ、動画を公開できます。APIの使い方はJWT認証付きサンプルで確認できます。</p>
         </div>
       </div>
     </div>
@@ -177,10 +185,10 @@
       <h2 class="section-title">契約前に、コードで確かめる</h2>
       <p class="section-lead">「触ってから決めたい」に応えるため、APIリファレンスとサンプルコードを公開しています。</p>
       <div class="card-grid">
-        <a class="card" href="https://docs.filma.biz/template-no-auth/">
+        <a class="card" href="#video">
           <span class="card-icon">▶️</span>
-          <h3>認証無し動画サンプル</h3>
-          <p>誰でも見られる動画再生の最小構成サンプル。まずはここから。</p>
+          <h3>埋め込み動画サンプル</h3>
+          <p>管理画面で取得した埋め込みHTMLを使う、動画再生のサンプルです。</p>
         </a>
         <a class="card" href="https://docs.filma.biz/template-jwt/">
           <span class="card-icon">🎫</span>

@@ -11,8 +11,6 @@ const staticPages = [
   "lp/elearning/index.html",
   "template-jwt/index.html",
   "template-jwt/video.html",
-  "template-no-auth/index.html",
-  "template-no-auth/video.html",
 ];
 
 test("loads Microsoft Clarity on every static public page", async () => {
