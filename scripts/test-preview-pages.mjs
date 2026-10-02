@@ -45,6 +45,9 @@ try {
   const baseUrl = `http://127.0.0.1:${port}`;
   await waitForPreview(`${baseUrl}/`, preview);
 
+  const embedResponse = await fetch(`${baseUrl}/template-no-auth/`);
+  assert.equal(embedResponse.status, 200, "Preview must preserve /template-no-auth/");
+
   const contactResponse = await fetch(`${baseUrl}/contact/`);
   assert.equal(contactResponse.status, 200, "Preview must include /contact/");
   assert.match(
@@ -74,4 +77,4 @@ try {
   if (preview.exitCode === null) await once(preview, "exit");
 }
 
-console.log("Local Pages preview includes the contact flow.");
+console.log("Local Pages preview includes the contact flow and embedded video sample.");

@@ -20,6 +20,11 @@ mkdir -p "$OUT"
 # Top page
 cp -f "$ROOT/index.html" "$OUT/index.html"
 
+# Embedded video sample at its existing public URL.
+if [ -d "$ROOT/template-no-auth" ]; then
+  cp -a "$ROOT/template-no-auth" "$OUT/template-no-auth"
+fi
+
 # Landing page assets (developers is the root LP; elearning / ip live under /lp/)
 if [ -d "$ROOT/lp" ]; then
   cp -a "$ROOT/lp" "$OUT/lp"

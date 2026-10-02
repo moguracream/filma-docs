@@ -58,28 +58,14 @@
     </div>
   </section>
 
-  <!-- 埋め込み動画サンプル -->
-  <section class="section" id="video">
+  <!-- 埋め込み動画サンプルへの案内 -->
+  <section class="section">
     <div class="container">
       <h2 class="section-title">埋め込みは、これだけ。</h2>
       <p class="section-lead">管理画面で取得した埋め込みHTMLをサイトに貼り付ければ、動画を再生できます。</p>
-      <script src="https://filma.biz/filma_player/js/filma_player.min.js?20260918-videojs-6.13.0"></script>
-      <link rel="stylesheet" type="text/css" href="https://filma.biz/filma_player/css/style.css?20260918-videojs-6.13.0">
-      <div id="video-57760943" class="filma-video" data-drm="false" style="width: 100%;"></div>
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          let elem = document.getElementById('video-57760943');
-          if (elem == null) {
-            return;
-          }
-          if (isSafari()) {
-            elem.dataset.src = 'https://filma.biz/filmaapi/hls/57760943.m3u8?api_key=e47aad55d7fb4f152603b91b';
-          } else {
-            elem.dataset.src = 'https://filma.biz/filmaapi/dash/57760943.mpd?api_key=e47aad55d7fb4f152603b91b';
-          }
-          init_xcream_player('video-57760943');
-        });
-      </script>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://docs.filma.biz/template-no-auth/">埋め込み動画サンプルを見る</a>
+      </div>
       <p class="hero-note" style="text-align:center">※ 埋め込みHTMLの取得方法は<a href="https://docs.filma.biz/admin-manual/embed_html/">管理者マニュアル</a>をご確認ください。</p>
       <p class="hero-note" style="text-align:center">※ APIの使い方は<a href="https://docs.filma.biz/template-jwt/">JWT認証付きサンプル</a>と<a href="https://docs.filma.biz/api-spec/">APIリファレンス</a>をご確認ください。</p>
     </div>
@@ -185,7 +171,7 @@
       <h2 class="section-title">契約前に、コードで確かめる</h2>
       <p class="section-lead">「触ってから決めたい」に応えるため、APIリファレンスとサンプルコードを公開しています。</p>
       <div class="card-grid">
-        <a class="card" href="#video">
+        <a class="card" href="https://docs.filma.biz/template-no-auth/">
           <span class="card-icon">▶️</span>
           <h3>埋め込み動画サンプル</h3>
           <p>管理画面で取得した埋め込みHTMLを使う、動画再生のサンプルです。</p>
