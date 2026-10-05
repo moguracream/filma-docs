@@ -435,6 +435,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#apijwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APIキー・埋め込みJWTの制限エラー
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#jwt" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -572,6 +583,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#apijwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APIキー・埋め込みJWTの制限エラー
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#jwt" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -610,12 +632,16 @@
 </thead>
 <tbody>
 <tr>
+<td>400</td>
+<td>パラメータ不正（embeddedでの必須ID未指定・禁止パラメータ指定など）</td>
+</tr>
+<tr>
 <td>401</td>
 <td>認証エラー（APIキー/JWTトークンが無効または未指定）</td>
 </tr>
 <tr>
 <td>403</td>
-<td>権限エラー（fullaccess権限が必要な操作、またはAPIキー認証でのドメインアクセス拒否）</td>
+<td>権限エラー（キー・JWTの用途制限、URL認証の禁止、IP・ドメイン制限、fullaccess権限不足など）</td>
 </tr>
 <tr>
 <td>404</td>
@@ -627,6 +653,66 @@
 </tr>
 </tbody>
 </table>
+<h3 id="apijwt">APIキー・埋め込みJWTの制限エラー</h3>
+<p>JSONの <code>error</code> に以下のコードが返されます。</p>
+<table>
+<thead>
+<tr>
+<th>HTTP</th>
+<th>error</th>
+<th>原因と対処</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>400</td>
+<td><code>mediafile_id_required</code></td>
+<td>embeddedのJWT発行に正の整数のMediafile IDが必要です。FilmaFile IDとは区別してください</td>
+</tr>
+<tr>
+<td>400</td>
+<td><code>embedded_token_parameter_not_allowed</code></td>
+<td>embeddedで <code>expires_in</code>、<code>jwt_expires_at</code>、<code>show_all</code> を指定しています。falseなどの値でも拒否されるため、パラメータ自体を削除してください</td>
+</tr>
+<tr>
+<td>403</td>
+<td><code>api_key_query_auth_disabled</code></td>
+<td>サーバー用キーのURL認証が許可されていません。<code>X-Api-Key</code> ヘッダーへ変更してください</td>
+</tr>
+<tr>
+<td>403</td>
+<td><code>api_key_ip_access_denied</code></td>
+<td>サーバー用キーの許可IP範囲外です。接続元不明・保存された許可リストの不正も含みます</td>
+</tr>
+<tr>
+<td>403</td>
+<td><code>embedded_key_token_only</code></td>
+<td>embeddedキーは <code>POST /filmaapi/token</code> のみ利用できます。再生には取得したJWTを使用してください</td>
+</tr>
+<tr>
+<td>403</td>
+<td><code>embedded_token_playback_only</code></td>
+<td>embeddedのJWTで一般API・ダウンロード・トークン情報取得・再発行・更新を呼び出しています</td>
+</tr>
+<tr>
+<td>403</td>
+<td><code>invalid_embedded_token</code></td>
+<td>embeddedに必要な用途・組織・動画IDなどの条件を満たしていません。種類変更前のJWTではなく、embeddedキーで再取得してください</td>
+</tr>
+<tr>
+<td>403</td>
+<td><code>embedded_key_disabled</code></td>
+<td>embeddedのキーに対応するユーザーまたは組織が無効です。管理画面で状態を確認してください</td>
+</tr>
+</tbody>
+</table>
+<p><code>api_key_query_auth_disabled</code> と <code>api_key_ip_access_denied</code> は、有効なJWTを同時に渡しても回避できません。詳細は <a href="../02-authentication/">認証</a> を参照してください。</p>
+<p>レスポンス例:</p>
+<pre><code class="language-json">{
+  &quot;error&quot;: &quot;api_key_query_auth_disabled&quot;,
+  &quot;message&quot;: &quot;Use the X-Api-Key header for this API key&quot;
+}
+</code></pre>
 <h3 id="jwt">JWT認証エラーの詳細レスポンス</h3>
 <p>JWT認証で期限切れやその他のエラーが発生した場合、詳細なエラー情報がJSON形式で返されます：</p>
 <pre><code class="language-json">{
@@ -640,6 +726,7 @@
   }
 }
 </code></pre>
+<p>期限切れのJWTは <code>POST /filmaapi/token/refresh</code> では更新できません。<code>readonly</code> / <code>fullaccess</code> ではサーバー側でAPIキーを使って再取得してください。embeddedの再生JWTは有効期間内でもリフレッシュできず、再取得にはembeddedキーと <code>mediafile_id</code> が必要です。</p>
 
 
 

@@ -746,7 +746,18 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="デフォルトのAPIユーザー">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API設定の変更
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API設定の変更">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1204,7 +1215,18 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="デフォルトのAPIユーザー">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API設定の変更
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API設定の変更">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1249,16 +1271,53 @@
 <h2 id="api_1">APIユーザー</h2>
 <ul>
 <li>役割: 外部サイト/システム連携のためのAPI利用</li>
-<li>特徴: APIキー保有、API種類（<code>readonly</code>/<code>fullaccess</code>）、アクセス許可ドメインで制限</li>
-<li>作成/変更: 一般→APIへ変更時にAPIキー自動発行。API設定は別画面で編集</li>
+<li>特徴: APIキー保有、API種類は <code>embedded</code> / <code>readonly</code> / <code>fullaccess</code> の三択</li>
+<li>作成/変更: 新規作成・一般→APIへの変更時は <code>embedded</code>（ページ埋め込み用）でAPIキーを自動発行。API設定は別画面で編集し、サーバーから一般APIを利用する場合は <code>readonly</code> または <code>fullaccess</code> に変更</li>
 <li>注意: <code>fullaccess</code> は強力。キーの保護とローテーションを徹底</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>API種類</th>
+<th>主な用途</th>
+<th>保管場所</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>embedded（新規の既定値）</td>
+<td>公開動画の再生JWTを取得</td>
+<td>埋め込みHTMLへ記載可能</td>
+</tr>
+<tr>
+<td>readonly</td>
+<td>ファイル一覧やメタデータなどの参照</td>
+<td>サーバー</td>
+</tr>
+<tr>
+<td>fullaccess</td>
+<td>更新・削除を含む連携</td>
+<td>サーバー</td>
+</tr>
+</tbody>
+</table>
+<p>embeddedのキーや再生JWTでは、ファイル一覧・会員管理・視聴権管理・ダウンロード・JWT更新は利用できません。</p>
 <h2 id="api_2">デフォルトのAPIユーザー</h2>
 <ul>
-<li>初期アカウント発行時に自動作成されます</li>
+<li>初期アカウント発行時に <code>API_EMBEDDED</code>（ページ埋め込み用）として自動作成されます</li>
+<li>従来の <code>API_READ_ONLY</code> などの名前が残っていても、移行によってAPI種類がembeddedに変更されている場合があります。名前ではなく現在のAPI種類を確認してください</li>
 <li>埋め込みHTML でもこのユーザーの「アクセス許可ドメイン」設定が必要です</li>
 <li>設定場所: <code>/filmaadmin/apisettings/edit/:user_id</code></li>
 </ul>
+<h2 id="api_3">API設定の変更</h2>
+<p>組織管理者がユーザー一覧から対象のAPIユーザーを開き、「API設定編集」で変更します。</p>
+<ul>
+<li><strong>API種類</strong>: 埋め込み用とサーバー用を用途に合わせて選択します。既存キーをembeddedへ変更すると、一般APIの利用と変更前のJWTが使えなくなるため、<a href="../embed_api/#embedded">切り替え前の確認事項</a>を確認してください。</li>
+<li><strong>アクセス許可ドメイン</strong>: 埋め込み先のホスト名を1行1件で登録します。Referer / Originを使う補助的な制限であり、両ヘッダーがない要求は許可されます。</li>
+<li><strong>URLパラメーター認証</strong>: 移行対象の一部の組織にのみ表示される互換設定です。readonly / fullaccessは <code>X-Api-Key</code> ヘッダーを使用し、移行後は「禁止する（推奨）」にします。設定欄のない組織はURL認証を許可できません。embeddedのJWT取得には適用されません。</li>
+<li><strong>アクセス許可IP／CIDR</strong>: readonly / fullaccessを使うサーバーの送信元IPv4／IPv6・CIDRを1行1件で登録します。空欄は制限なしです。embeddedでは欄が操作不可となり、保存済みの値は維持されます。サーバー用へ戻すと再び適用されます。</li>
+</ul>
+<p>IP制限はJWT取得時のAPIキー認証にも適用されますが、取得したJWTを利用するブラウザには適用されません。ドメイン制限とは別の設定です。</p>
 <hr />
 <h3 id="_2">次にやること / 関連</h3>
 <ul>

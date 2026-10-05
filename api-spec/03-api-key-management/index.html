@@ -420,6 +420,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#6-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. URLパラメーター認証の互換設定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-ipcidr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. サーバー用キーのIP／CIDR制限
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -738,6 +760,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#6-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. URLパラメーター認証の互換設定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-ipcidr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. サーバー用キーのIP／CIDR制限
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -852,7 +896,8 @@
 <li>
 <p><strong>API種類</strong>を確認：</p>
 </li>
-<li><strong>読取専用 (readonly)</strong>: デフォルト設定</li>
+<li><strong>ページ埋め込み用 (embedded)</strong>: デフォルト設定。公開動画の短期再生JWT発行専用</li>
+<li><strong>読取専用 (readonly)</strong>: サーバーから参照系APIを利用する場合</li>
 <li>
 <p><strong>フルアクセス (fullaccess)</strong>: 編集権限が必要な場合</p>
 </li>
@@ -861,7 +906,7 @@
 </li>
 </ol>
 <h4 id="4">4. ドメインアクセス制限の設定</h4>
-<p>APIキーを特定のドメインからのみ利用可能にするため、アクセス許可ドメインを設定します。</p>
+<p>ブラウザからの意図しない利用を抑えるため、アクセス許可ドメインを設定します。Referer / Origin がない要求は許可され、これらのヘッダーはAPIクライアントで指定できるため、不正利用防止の認証機能にはなりません。</p>
 <ol>
 <li>
 <p>ユーザー詳細画面で「<strong>API設定編集</strong>」ボタンをクリック</p>
@@ -875,6 +920,7 @@
 <li>
 <p><strong>API種類</strong>を必要に応じて変更：</p>
 </li>
+<li><strong>ページ埋め込み用 (embedded)</strong>: 動画を指定した短期再生JWTの発行のみ可能（デフォルト）</li>
 <li><strong>読み取り専用 (readonly)</strong>: データの取得のみ可能</li>
 <li>
 <p><strong>読み書き可能 (fullaccess)</strong>: データの取得・更新・削除が可能</p>
@@ -884,30 +930,48 @@
 </li>
 </ol>
 <h4 id="5-api">5. APIキーの利用</h4>
-<p>発行されたAPIキーを使用してAPIにアクセスできます：</p>
+<p>新規キーは <code>embedded</code> です。ファイル一覧などの一般APIをサーバーから利用する場合は、API種類を <code>readonly</code> または必要に応じて <code>fullaccess</code> に変更します。既存キーの種類はアプリケーションからは自動変更されませんが、後述のリリース時の移行SQLで変更される場合があります。</p>
 <pre><code class="language-bash"># 例: ファイル一覧の取得
-curl &quot;https://filma.biz/filmaapi/storage?api_key=a1b2c3d4e5f6789a&quot;
+curl -H &quot;X-Api-Key: YOUR_SERVER_API_KEY&quot; &quot;https://filma.biz/filmaapi/storage&quot;
 </code></pre>
+<p>ページにキーを記載する場合は <code>embedded</code> を選びます。現行プレイヤーは <code>api_key</code> からJWTを取得するため、既存キーの値と埋め込みHTMLを維持できます。一般API、旧プレイヤーのAPIキーによる直接再生、変更前に発行したJWTは利用できなくなるため、Filma運営へ現在の利用状況と変更による影響の確認を依頼してから種類を変更してください。</p>
+<h4 id="6-url">6. URLパラメーター認証の互換設定</h4>
+<p>「API設定編集」の「URLパラメーター認証」選択欄は、移行対象として指定された例外組織だけに表示します。それ以外の組織では選択欄を表示せず、サーバー用キーのURL認証は常に禁止です。</p>
+<p>例外対象の組織は、<code>readonly</code> / <code>fullaccess</code> のキーごとに許可・禁止を変更できます。新規キーは「禁止する（推奨）」です。既存キーの互換設定はヘッダー移行が完了するまで維持できます。</p>
+<p>許可は既存連携のための一時設定です。<code>X-Api-Key</code> ヘッダーでの動作確認後、Filma運営へURLパラメーター認証の利用が残っていないか確認を依頼してください。確認が完了したら、必ず禁止へ変更してください。<code>embedded</code> ではこの設定を操作できず、JWT発行時のURL認証は引き続き利用できます。<code>embedded</code> へ種類を変更した場合は互換設定を <code>false</code> に戻します。</p>
+<p>列追加には <code>filma_doc/membership/ddl/015_filma_users_legacy_query_auth.sql</code> を一度だけ適用します。リリース時の移行には <code>017_filma_users_limit_legacy_query_auth.sql</code> を使用します。このSQLは、サーバー利用を維持する指定組織を除く既存APIキーを <code>embedded</code> へ一括変更し、URL認証の互換設定も例外対象に限定します。対象キーの一般API利用がなく、プレイヤーがJWT交換に対応していることを確認してから、embedded対応コードの反映後に一度だけ適用してください。キーの値は維持されますが、種類変更前のJWTは利用できなくなります。移行後に追加・変更したサーバー用キーまで変更しないよう再実行しないでください。アプリケーションは017未適用でも対象外組織のURL認証を拒否します。</p>
+<h4 id="7-ipcidr">7. サーバー用キーのIP／CIDR制限</h4>
+<p>「API設定編集」の「アクセス許可IP／CIDR」に、サーバーがFilmaへ接続する際の送信元IPを1行1件で登録します。IPv4／IPv6の単一IPとCIDRを指定でき、いずれかに一致すれば許可します。空欄は制限なしです。</p>
+<pre><code class="language-text">192.0.2.10
+198.51.100.0/24
+2001:db8::/32
+</code></pre>
+<p>保存時に単一IPを <code>/32</code> または <code>/128</code>、CIDRをネットワークアドレスへ正規化し、空白行・重複を除きます。不正な入力があれば保存しません。</p>
+<p><code>readonly</code> / <code>fullaccess</code> のAPIキー認証（JWT発行を含む）に適用します。<code>embedded</code> とJWT認証は対象外です。<code>embedded</code> では入力欄が操作不可になり、保存済みの値は維持します。サーバー用へ戻すと設定が再び適用されます。</p>
+<p>この機能を含むコードの反映前に、<code>filma_doc/membership/ddl/016_filma_users_api_access_cidrs.sql</code> を適用してください。</p>
 <h3 id="_2">重要な注意事項</h3>
 <ol>
 <li><strong>APIキーの管理</strong></li>
-<li>APIキーは外部に漏らさないよう厳重に管理してください</li>
+<li>readonly / fullaccess のAPIキーはサーバーで保管し、ブラウザへ公開しないでください</li>
+<li>embedded のキーはページへの公開を前提としますが、組織内の公開動画の再生JWTを取得できるため、アクセス許可ドメインも設定してください</li>
 <li>
 <p>特にfullaccess権限のAPIキーは細心の注意が必要です</p>
 </li>
 <li>
 <p><strong>ドメイン制限</strong></p>
 </li>
-<li>アクセス許可ドメインが未設定の場合、他のドメインからのアクセスが拒否されます</li>
+<li>Referer / Origin が送られる場合、アクセス許可ドメインやFilmaの許可ホストに一致しなければ拒否されます</li>
+<li>Filmaのドメインからのアクセスは常に許可されます</li>
 <li>
-<p>Filmaのドメインからのアクセスは常に許可されます</p>
+<p>Referer / Origin がない要求は許可されます</p>
 </li>
 <li>
 <p><strong>権限による機能制限</strong></p>
 </li>
 <li>readonly権限: 公開ファイルの参照のみ</li>
+<li>fullaccess権限: 全ファイルの参照・編集（<code>show_all=true</code>パラメータ使用時）</li>
 <li>
-<p>fullaccess権限: 全ファイルの参照・編集（<code>show_all=true</code>パラメータ使用時）</p>
+<p>embedded権限: 公開動画の短期再生JWT発行のみ。発行したJWTも再生専用で、一般API・ダウンロード・JWT更新は利用不可</p>
 </li>
 <li>
 <p><strong>APIキーの削除・再発行</strong></p>
@@ -932,6 +996,27 @@ curl &quot;https://filma.biz/filmaapi/storage?api_key=a1b2c3d4e5f6789a&quot;
 <p><strong>403 Forbidden (fullaccess required)</strong></p>
 <ul>
 <li>fullaccess権限が必要な操作をreadonly権限で実行しようとしている</li>
+</ul>
+<p><strong>403 Forbidden (api_key_query_auth_disabled)</strong></p>
+<ul>
+<li><code>readonly</code> / <code>fullaccess</code> のAPIキーをURLの <code>api_key</code> で送信している</li>
+<li><code>X-Api-Key</code> ヘッダーへ変更してください。JWTを同時に渡しても、この拒否は回避できません</li>
+</ul>
+<p><strong>403 Forbidden (embedded_key_token_only / embedded_token_playback_only)</strong></p>
+<ul>
+<li>embeddedキーでJWT発行以外のAPIを呼び出している、または再生JWTで一般APIを呼び出している</li>
+<li>一覧取得などにはサーバー用の <code>readonly</code> / <code>fullaccess</code> を使用してください</li>
+</ul>
+<p><strong>400 Bad Request (mediafile_id_required / embedded_token_parameter_not_allowed)</strong></p>
+<ul>
+<li>embeddedのJWT発行には正の整数のMediafile IDが必要です</li>
+<li><code>expires_in</code>、<code>jwt_expires_at</code>、<code>show_all</code> は指定せず、リクエストから削除してください</li>
+</ul>
+<p><strong>403 Forbidden (api_key_ip_access_denied)</strong></p>
+<ul>
+<li>サーバーの送信元IPが「アクセス許可IP／CIDR」の範囲外</li>
+<li>IP制限が設定されているが、接続元を確定できない、またはDB内の許可リストが不正</li>
+<li>接続元は <code>REMOTE_ADDR</code> で判定します。<code>X-Forwarded-For</code> 等を指定しても許可IPは変更できません</li>
 </ul>
 <p><strong>404 Not Found</strong></p>
 <ul>

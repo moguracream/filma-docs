@@ -1,49 +1,25 @@
-# 認証無しサンプルコード解説
+# 埋め込み動画サンプル
 
-このディレクトリには、Filma API を用いて認証無しで動画を表示する
-サンプルコードが含まれています。ファイル構成と主な役割は次の通り
-です。
+Filma管理画面で取得した埋め込みHTMLを `index.html` に配置した、動画再生のサンプルです。
 
-| ファイル | 説明 |
-| --- | --- |
-| `index.html` | 動画をフォルダごとに一覧表示するトップページ。ページ読込時に `loadFileListByFolder` を実行して Filma から取得した動画一覧をカテゴリ別にサムネイル表示します。|
-| `video.html` | 個別の動画再生ページ。URL パラメータ `id` に指定された動画 ID を `loadVideo` で読み込み、埋め込みプレーヤーとメタデータを表示します。|
-| `script.js` | Filma API へのリクエスト処理をまとめた JavaScript。動画一覧取得、動画読み込み、メタデータ表示、サムネイル用の画像表示などを行います。API 接続先 (`API_HOST`) と API キー (`API_KEY`) を冒頭で設定します。|
-| `style.css` | サンプルの最小限のスタイル定義。サムネイルの比率調整やモーダル表示のレイアウト調整を行います。|
+公開URLは従来どおり [https://docs.filma.biz/template-no-auth/](https://docs.filma.biz/template-no-auth/) です。`no-auth` は視聴者のログインが不要という意味で、プレイヤー内部では再生用JWTによる認証を行います。
 
-## 以下で実際に動作が確認できます
-https://docs.filma.biz/template-no-auth/index.html
+## ファイル構成
 
-## 使い方
+- `index.html`: プレイヤーのJS・CSS、動画の表示領域、初期化処理を含む埋め込みページです。
+- `README.md`: この説明書です。
 
-1. `script.js` の `API_HOST` と `API_KEY` をお手元の Filma 契約情報に合わせて変更します。
-2. 任意のウェブサーバーにこれらのファイルを配置し、`index.html` を開くと動画一覧が表示されます。
-3. 動画のサムネイルまたはファイル名をクリックすると `video.html` が表示され、埋め込みプレーヤーで再生できます。
+以前の動画一覧・カテゴリ検索・メタデータ取得を行う独自コードは廃止しました。`script.js`・`style.css`・個別再生ページの `video.html` は使用しません。一般APIの呼び出し例は [JWT認証付きサンプル](../template-jwt/README.md) を参照してください。
 
-## 主な処理の流れ
+## 自分の動画に差し替える
 
-### 動画一覧の取得
+1. Filma管理画面で公開する動画の「埋め込みHTML」を取得します。
+2. 埋め込み用の `embedded` キーを使い、「アクセス許可ドメイン」に設置先のドメインを登録します。
+3. `index.html` の「Filma管理画面で取得した埋め込みHTML」コメント以降のプレイヤーJS・CSS、表示領域、初期化スクリプトを、取得したHTMLへまとめて差し替えます。
+4. 静的ホスティングへ配置し、`index.html` を開きます。
 
-`loadFileListByFolder` 関数では Filma API の `/filmaapi/storage` エンドポイントからファイル情報を取得し、フォルダ名ごとにグループ化してサムネイル一覧を生成します。取得に失敗した場合はエラーを画面に表示します。
+現在のサンプルは `filma.biz` の動画 `57760943` を再生します。SafariではHLS、それ以外ではDASHを選択し、標準プレイヤーが埋め込みキーを動画限定JWTへ交換します。サンプル独自の一覧取得APIやJWT発行処理は不要です。
 
-### 動画再生ページ
+ローカルで確認する場合も、アクセス元が許可ドメインに含まれている必要があります。認証エラーになる場合は、設置先ドメインと埋め込み用キーの設定を確認してください。
 
-`video.html` では `loadVideo` 関数により、動画 ID を基にプレーヤー埋め込みコードとメタデータを取得します。プレーヤーは `xcream_player.min.js` を使用しており、ブラウザが Safari の場合は HLS、それ以外は DASH を利用してストリーミング再生を行います。
-
-`video.html` の `<head>` には Filma 標準のストリーミングプレーヤーを読み込むため、
-以下の 2 つのタグを必ず記述してください。
-
-```html
-<script src="https://filma.biz/dash_player/js/xcream_player.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://filma.biz/dash_player/css/style.css">
-```
-
-JavaScript ファイルは DASH/HLS 再生を行うプレーヤー本体を提供し、CSS はプレーヤー
-のレイアウトとボタン類のデザインを適用します。これらが無いと `loadVideo` 関数で
-取得した埋め込みコードが正しく動作しないため、動画を再生できません。
-
-## カスタマイズのヒント
-
-- `USE_SHOW_ALL` を `true` にすると、Full Access 権限の API キー使用時に非公開ファイルも取得できます（詳細は **[APIリファレンス](../api_specification.md)** を参照）。
-- サムネイル表示数やレイアウトは `style.css` と `script.js` の該当箇所を編集することで変更可能です。
-- モーダルでスクリーンショットを拡大表示する仕組みは `setupScreenshotViewer` 関数で実装されています。必要に応じて挙動を調整してください。
+詳細は [管理者マニュアルの埋め込みHTML](https://docs.filma.biz/admin-manual/embed_html/) を参照してください。

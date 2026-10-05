@@ -1510,10 +1510,12 @@
 <h2 id="filma-api">Filma APIの利用方法</h2>
 <p>Filma APIは <strong>JWT認証（推奨）</strong> と <strong>APIキー認証</strong> の両方に対応しています。
 以下では、わかりやすさのためAPIキーの例に加えて、JWTの例も併記します。</p>
+<p>この連携にはサーバー用の <code>readonly</code> / <code>fullaccess</code> キーを使用し、IPN受信サーバーで保管してください。新規キーの既定値である <code>embedded</code> と、その再生JWTでは会員・視聴権APIを利用できません。API種類は組織管理者が「API設定編集」で変更します。</p>
+<p>APIキーは <code>X-Api-Key</code> ヘッダーで送信します。アクセス許可IP／CIDRを設定している場合は、IPN受信サーバーからFilmaへ接続するときの送信元IPを許可してください。</p>
 <h3 id="jwt">JWT認証（推奨）の準備</h3>
-<p>まずAPIキーでJWTトークンを発行し、そのトークンを以後のAPI呼び出しで利用します。</p>
+<p>まずサーバー用APIキーでJWTトークンを取得し、そのトークンを以後のAPI呼び出しで利用します。<code>mediafile_id</code> は指定しません。</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"https://filma.biz/filmaapi/token"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-API-KEY: &lt;APIキー&gt;"</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-Api-Key: &lt;サーバー用APIキー&gt;"</span>
 </code></pre></div>
 <p>レスポンスの <code>token</code> を取り出し、以降のリクエストで以下のように渡します。</p>
 <div class="highlight"><pre><span></span><code>-H<span class="w"> </span><span class="s2">"Authorization: Bearer &lt;JWTトークン&gt;"</span>
@@ -1523,7 +1525,7 @@
 会員一覧APIはメールアドレスの部分一致検索に対応しているため、完全一致させたい場合は <code>query</code> にメール全体を渡します。</p>
 <p><strong>APIキー認証の例（簡易）</strong>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">"https://filma.biz/filmaapi/customers?status=enabled&amp;query=buyer%40example.com"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-API-KEY: &lt;APIキー&gt;"</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-Api-Key: &lt;サーバー用APIキー&gt;"</span>
 </code></pre></div></p>
 <p><strong>JWT認証の例（推奨）</strong>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">"https://filma.biz/filmaapi/customers?status=enabled&amp;query=buyer%40example.com"</span><span class="w"> </span><span class="se">\</span>
@@ -1540,7 +1542,7 @@
 <p>Filma会員作成APIを使います（現行仕様では <code>email</code> と <code>name</code> が必須です。氏名を運用しない場合はメールアドレスなどを代入してください）。</p>
 <p><strong>APIキー認証の例（簡易）</strong>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"https://filma.biz/filmaapi/customers"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-API-KEY: &lt;APIキー&gt;"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-Api-Key: &lt;サーバー用APIキー&gt;"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s2">"email=buyer@example.com"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s2">"name=buyer@example.com"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s2">"notes=PayPal購入で自動作成"</span>
@@ -1566,7 +1568,7 @@
 <p><strong>APIキー認証の例（簡易）</strong>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="s2">"https://filma.biz/filmaapi/customers/entitlements/1234?scope_type=item&amp;item_id=5678"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-API-KEY: &lt;APIキー&gt;"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-Api-Key: &lt;サーバー用APIキー&gt;"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s2">"starts_at="</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s2">"expires_at="</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s2">"status=active"</span><span class="w"> </span><span class="se">\</span>

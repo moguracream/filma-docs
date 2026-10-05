@@ -594,6 +594,14 @@
 <td>✅ 実装済み</td>
 </tr>
 <tr>
+<td>サーバー用APIキーのURL認証制限</td>
+<td>✅ 実装済み（例外組織の互換設定のみ許可）</td>
+</tr>
+<tr>
+<td>サーバー用APIキーのIP／CIDR制限</td>
+<td>✅ 実装済み（embedded・JWT認証は対象外）</td>
+</tr>
+<tr>
 <td>共通エラーハンドリング</td>
 <td>✅ 実装済み</td>
 </tr>
@@ -606,12 +614,16 @@
 <td>✅ 実装済み</td>
 </tr>
 <tr>
+<td>embeddedキーによる動画限定の再生JWT発行</td>
+<td>✅ 実装済み（新規キーの既定値）</td>
+</tr>
+<tr>
 <td>JWTトークンリフレッシュ</td>
-<td>✅ 実装済み</td>
+<td>✅ 実装済み（embeddedは対象外）</td>
 </tr>
 <tr>
 <td>JWT Cookie自動管理</td>
-<td>✅ 実装済み</td>
+<td>✅ 実装済み（embeddedのJWT発行はJSON応答のみ）</td>
 </tr>
 <tr>
 <td>ハイブリッド認証（APIキー+JWT）</td>

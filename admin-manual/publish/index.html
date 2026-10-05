@@ -1331,6 +1331,7 @@
 <li>ただし、<code>show_all=true</code> を付与し、かつAPIキーが<code>fullaccess</code>のときは「非公開や期限切れも含む全件」を取得できます。</li>
 <li>また、管理者（filmaadmin）ログイン状態でのAPIアクセスも同等に全件表示が有効になります。</li>
 <li>例: <code>/filmaapi/storage?show_all=true</code></li>
+<li>embeddedのキー・JWTでは一覧取得はできません。JWT取得時の <code>show_all</code> 指定も拒否され、再生は公開中の動画に限定されます。</li>
 </ul>
 </li>
 </ul>

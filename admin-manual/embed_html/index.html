@@ -1287,22 +1287,25 @@
 <h1 id="html">埋め込みHTMLを使ったサイト埋め込み</h1>
 <p><a href="../#_3">← クイックスタートへ戻る</a></p>
 <blockquote>
-<p>重要: 埋め込みHTMLでも「アクセス許可ドメイン」の設定が必要です。初期アカウント発行時に自動作成される「デフォルトのAPIユーザー（APIキー保有）」の API 設定で、自サイトのドメイン名を登録してください（サブドメイン可）。未設定のままでは自社サイトからの再生が拒否されます。</p>
+<p>埋め込みには「ページ埋め込み用 (embedded)」のAPIキーを使い、「アクセス許可ドメイン」に自サイトを登録してください。ドメイン照合は補助機能で、Referer / Originがない要求は許可されます。</p>
 </blockquote>
 <h2 id="_1">事前準備（初回のみ）</h2>
 <ol>
-<li>ユーザー一覧 <code>/filmaadmin/user</code> を開く
+<li>組織管理者でユーザー一覧 <code>/filmaadmin/user</code> を開く
    <img alt="ユーザー一覧 画面" src="../img/user_list_placeholder.svg" /></li>
-<li>初期アカウント発行時に自動作成された「デフォルトのAPIユーザー」(API_READ_ONLY)を開く</li>
+<li>埋め込み用のAPIユーザー（新しい組織では <code>API_EMBEDDED</code>）を開く。従来の <code>API_READ_ONLY</code> を使う場合は、名前ではなく現在のAPI種類を確認する</li>
 <li>「APIキー」をクリックして「API設定編集」(<code>/filmaadmin/apisettings/edit/:user_id</code>) を開く
    <img alt="API設定編集（アクセス許可ドメインの設定）" src="../img/apisettings_edit_placeholder.svg" /></li>
-<li>「アクセス許可ドメイン」に自サイトのドメイン名を1行につき1件で登録（例: <code>example.com</code>, <code>app.example.com</code>）→ 保存</li>
+<li>API種類が「ページ埋め込み用 (embedded)」であることを確認する。既存キーを変更する前に、<a href="../embed_api/#embedded">一般APIや古いプレイヤーで併用していないか確認する</a></li>
+<li>「アクセス許可ドメイン」に自サイトのドメイン名を1行につき1件で登録（例: <code>example.com</code>, <code>app.example.com</code>）</li>
 <li>URLで入力しても保存時にドメイン名（ホスト部）へ自動変換されます</li>
 <li><code>example.com</code> と入力すると、その配下のサブドメイン（www.example.com / app.example.com など）も許可されます</li>
 <li>特定のサブドメインのみ許可したい場合は <code>app.example.com</code> のようにサブドメインまで入力してください</li>
 <li>間違った形式はエラーになります</li>
-<li>（閲覧のみなら）API種類は <code>readonly</code> のままでOK</li>
+<li>「保存」を押す。embeddedでは「アクセス許可IP／CIDR」は適用されず、入力欄も操作不可になる</li>
 </ol>
+<p>管理画面の埋め込みHTMLには、有効なembeddedキーが優先して使われます。現行プレイヤーがキーを動画限定JWTへ交換し、そのJWTでDASH・HLS・DRMを利用します。一般APIやダウンロードには使えません。</p>
+<p>embeddedキーがない場合は既存のreadonlyキーを使用してHTMLが生成されますが、URL認証の制限により再生できない場合があります。埋め込み用APIユーザーを用意してからHTMLをコピーしてください。</p>
 <h2 id="html_1">埋め込みHTMLの取得と貼付け</h2>
 <ol>
 <li>ファイル詳細 <code>/filmaadmin/file/detail/:file_id</code> を開く
@@ -1311,6 +1314,7 @@
 <li>「派生メディア」表の 対象解像度行で「埋め込みHTMLをコピー」</li>
 <li>コピーしたHTMLを自サイトに貼り付け</li>
 </ol>
+<p>埋め込み用APIユーザーを新しく作成した場合やキーを変更した場合は、HTMLをコピーし直して貼り替えてください。複数のAPIユーザーがある場合、アクセス許可ドメインはHTML中のキーに対応するユーザーへ設定します。</p>
 <p>補足: 解像度を選ばずに簡易的に埋め込みたい場合は、
 「メディアファイル情報」の <strong>ストリーミング</strong> にある「埋め込みHTMLをコピー」でも取得できます。</p>
 <h2 id="_2">注意</h2>
@@ -1372,6 +1376,24 @@
 <p>原因5: キャッシュ/古いHTML</p>
 <ul>
 <li>対処: ブラウザのキャッシュクリア、ページのハードリロード、CDNがあればパージ。</li>
+</ul>
+</li>
+<li>
+<p>原因6: readonlyキーを使ったJWT取得が <code>api_key_query_auth_disabled</code> で拒否される</p>
+<ul>
+<li>対処: 埋め込みにはembeddedキーを使用する。同じキーを一般APIでも使っている場合は、別の埋め込み用APIユーザーを作成してHTMLを貼り替える。</li>
+</ul>
+</li>
+<li>
+<p>原因7: APIキーを直接再生URLへ渡し、<code>embedded_key_token_only</code> で拒否される</p>
+<ul>
+<li>対処: 管理画面から現行プレイヤーの埋め込みHTMLをコピーし直す。embeddedキーはJWT取得にのみ使い、再生にはJWTを渡す。</li>
+</ul>
+</li>
+<li>
+<p>原因8: 種類変更前のJWTや期限切れJWTが残っている</p>
+<ul>
+<li>対処: ページを再読み込みして再生JWTを取得し直す。embeddedのJWTはリフレッシュや期限延長ができない。</li>
 </ul>
 </li>
 </ul>

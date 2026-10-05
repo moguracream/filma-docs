@@ -1376,7 +1376,7 @@
   su_list --&gt;|詳細| su_detail --&gt;|メモを編集| su_edit
 
   %% 埋め込みHTML 初回準備
-  users --&gt;|デフォルトAPIユーザー| api_edit
+  users --&gt;|埋め込み用APIユーザー| api_edit
   file_detail -.-&gt;|埋め込みHTMLをコピー| file_detail</code></pre>
 <hr />
 <h2 id="_2">遷移図（テキスト）</h2>
@@ -1423,8 +1423,8 @@
 <h3 id="html">埋め込みHTML 初回準備:</h3>
 <ul>
 <li>ユーザー一覧（<code>/filmaadmin/user</code>） <br>
-→ デフォルトAPIユーザー <br>
-→ API設定編集（<code>/filmaadmin/apisettings/edit/:user_id</code>）でアクセス許可ドメイン設定</li>
+→ 埋め込み用APIユーザー（新しい組織では <code>API_EMBEDDED</code>） <br>
+→ API設定編集（<code>/filmaadmin/apisettings/edit/:user_id</code>）で <code>embedded</code> とアクセス許可ドメインを確認・保存</li>
 <li>ファイル詳細（<code>/filmaadmin/file/detail/:file_id</code>） <br>
 → 「埋め込みHTMLをコピー」<br>
 → 自サイトへ貼付け</li>

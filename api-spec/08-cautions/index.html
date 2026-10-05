@@ -513,12 +513,17 @@
 <h1 id="_1">注意事項</h1>
 <ul>
 <li>APIキー認証またはJWT認証が各リクエストに必要です</li>
-<li>JWT認証は2つの方法（Authorization header、Cookie）で利用可能です</li>
+<li>JWT認証は3つの方法（Authorization header、Cookie、<code>jwt</code> クエリパラメータ）で利用可能です</li>
+<li><code>readonly</code> / <code>fullaccess</code> のキーはサーバーに保管し、<code>X-Api-Key</code> ヘッダーで送信してください。URLの <code>api_key</code> は例外組織の互換設定が有効な場合に限られます</li>
+<li>ブラウザで一覧取得や再生を行う場合は、サーバーで取得したJWTを渡してください。会員認証や視聴権の確認はアプリケーション側の要件に合わせて行います</li>
+<li><code>embedded</code> は公開動画の再生JWT発行専用です。一般API・ダウンロード・JWTのリフレッシュには利用できません</li>
+<li>embeddedのJWT発行ではCookieを設定しません。返されたJWTを再生要求へ明示的に渡してください</li>
 <li>管理画面にログインすると、JWTトークンが自動でCookieに設定されます</li>
 <li>fullaccess権限が必要な操作は明記されています</li>
 <li>ページングは最大100件まで取得可能です</li>
 <li>エラーが発生した場合は適切なHTTPステータスコードが返されます</li>
 <li>ドメインアクセス制限はAPIキー認証のみに適用され、JWT認証では制限されません</li>
+<li>IP／CIDR制限は <code>readonly</code> / <code>fullaccess</code> のAPIキー認証（JWT発行を含む）に適用され、embeddedとJWT認証は対象外です</li>
 </ul>
 
 

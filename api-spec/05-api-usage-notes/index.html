@@ -689,6 +689,7 @@
 
 <h1 id="api">API利用時の重要事項</h1>
 <h3 id="_1">公開状態による制御</h3>
+<p><code>embedded</code> は公開中の動画の再生に限定されます。JWT発行時に <code>show_all</code> を指定することはできず、管理画面のログイン状態によってこの制限が解除されることもありません。以下の一般API向けの説明は <code>readonly</code> / <code>fullaccess</code> が対象です。</p>
 <p>APIでは以下の条件でファイルの表示・非表示が制御されます：</p>
 <ol>
 <li><strong>全ファイル表示</strong>の場合：</li>
@@ -731,6 +732,7 @@
 <ul>
 <li>すべてのAPIでCross-Origin Resource Sharing（CORS）に対応しています</li>
 <li>プリフライトリクエスト（OPTIONS）にも対応</li>
+<li><code>X-Api-Key</code> ヘッダーを使うクロスオリジンのfetchでは、ブラウザが先にOPTIONSを送信します。OPTIONSの成功だけではAPIキーのドメイン・IP制限を通過したことにはなりません</li>
 <li>エラー時はより柔軟なCORS設定が適用されます</li>
 </ul>
 

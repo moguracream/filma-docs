@@ -668,8 +668,11 @@
 <h3 id="_5">注意事項（要点）</h3>
 <ul>
 <li>すべてのリクエストで認証が必要です（APIキー認証またはJWT認証）</li>
+<li>新規APIキーの既定値は <code>embedded</code>（公開動画の再生JWT発行専用）です。ファイル一覧などの一般APIには <code>readonly</code> / <code>fullaccess</code> を使用します</li>
+<li><code>readonly</code> / <code>fullaccess</code> はサーバーに保管し、<code>X-Api-Key</code> ヘッダーで送信します。ブラウザにはサーバーで取得したJWTを渡します</li>
 <li><code>fullaccess</code> 権限が必要な操作はエンドポイントごとに明記されています</li>
 <li>ドメインアクセス制限は APIキー認証時のみ適用され、JWT認証には適用されません</li>
+<li>IP／CIDR制限はサーバー用APIキーの認証時に適用され、embeddedやJWT認証には適用されません</li>
 <li>ページングは1リクエストあたり最大100件です</li>
 <li>エラー時はHTTPステータスコードとJSONエラーレスポンスを返します</li>
 </ul>

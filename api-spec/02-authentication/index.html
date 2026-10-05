@@ -403,7 +403,7 @@
   <a href="#2-cookie" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Cookie（自動管理）
+        2. Cookie
       
     </span>
   </a>
@@ -461,11 +461,16 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+        
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#embeddedjwt" class="md-nav__link">
     <span class="md-ellipsis">
       
-        クエリパラメータを使用
+        embeddedキーで再生JWTを発行
       
     </span>
   </a>
@@ -476,14 +481,9 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         権限レベル
@@ -494,7 +494,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#ipcidr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IP／CIDR制限
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         公開状態による制限
@@ -506,7 +517,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         アクセス制御ルール
@@ -522,7 +533,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         ドメインアクセス制限
@@ -534,7 +545,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       
         認証方法別のドメインアクセス制限
@@ -882,7 +893,7 @@
   <a href="#2-cookie" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Cookie（自動管理）
+        2. Cookie
       
     </span>
   </a>
@@ -940,11 +951,16 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+        
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#embeddedjwt" class="md-nav__link">
     <span class="md-ellipsis">
       
-        クエリパラメータを使用
+        embeddedキーで再生JWTを発行
       
     </span>
   </a>
@@ -955,14 +971,9 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         権限レベル
@@ -973,7 +984,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#ipcidr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IP／CIDR制限
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         公開状態による制限
@@ -985,7 +1007,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         アクセス制御ルール
@@ -1001,7 +1023,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         ドメインアクセス制限
@@ -1013,7 +1035,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       
         認証方法別のドメインアクセス制限
@@ -1072,7 +1094,7 @@
 <h3 id="_2">ハイブリッド認証システム</h3>
 <p>Filma APIは2つの認証方法を併用できます：</p>
 <ol>
-<li><strong>APIキー認証</strong> - APIキーベース認証（クエリパラメータまたはX-Api-Keyヘッダー）</li>
+<li><strong>APIキー認証</strong> - <code>X-Api-Key</code>ヘッダー（クエリパラメータはキーの種類・互換設定による制限あり）</li>
 <li><strong>JWT認証</strong> - JWTトークンベース認証（Bearer Token、Cookie、クエリパラメータ）</li>
 </ol>
 <h3 id="_3">認証方法の優先順位</h3>
@@ -1080,32 +1102,33 @@
 <ol>
 <li><strong>APIキー認証（X-Api-Key header）</strong>: <code>X-Api-Key: &lt;api_key&gt;</code></li>
 <li><strong>APIキー認証（query parameter）</strong>: <code>?api_key=&lt;api_key&gt;</code></li>
-<li><strong>JWT認証（query parameter）</strong>: <code>?jwt=&lt;jwt_token&gt;</code> （APIキーがない場合のみ）</li>
-<li><strong>JWT認証（Authorization header）</strong>: <code>Authorization: Bearer &lt;jwt_token&gt;</code> （APIキーがない場合のみ）</li>
-<li><strong>JWT認証（Cookie）</strong>: <code>filmajwt</code> Cookie （APIキーがない場合のみ）</li>
+<li><strong>JWT認証（query parameter）</strong>: <code>?jwt=&lt;jwt_token&gt;</code> （APIキー認証が成立しない場合）</li>
+<li><strong>JWT認証（Authorization header）</strong>: <code>Authorization: Bearer &lt;jwt_token&gt;</code> （APIキー認証が成立しない場合）</li>
+<li><strong>JWT認証（Cookie）</strong>: <code>filmajwt</code> Cookie （APIキー認証が成立しない場合）</li>
 </ol>
-<p><strong>注意</strong>: ブラウザのCookieに古いJWTトークンが残っていても、APIキーがあれば無視されます。期限切れJWTトークンによる認証エラーを防止するための仕様です。</p>
+<p><strong>注意</strong>: 有効なAPIキーで認証できた場合は、ブラウザのCookieに古いJWTが残っていてもAPIキーを採用します。</p>
 <p><strong>認証フロー</strong>:</p>
 <ul>
-<li>APIキーが提供された場合：APIキー認証のみを試行（JWTトークンは無視）</li>
-<li>APIキーがない場合：JWT認証を試行（パラメータ → Authorization ヘッダー → Cookie の順）</li>
+<li>APIキー認証に成功した場合：そのキーにドメイン・URL認証・IP・用途の制限を適用。制限で拒否されてもJWT認証には切り替わりません</li>
+<li>APIキーがない、または無効な場合：JWT認証を試行（トークンの選択順はパラメータ → Authorization ヘッダー → Cookie）</li>
 </ul>
 <h3 id="api">APIキー認証</h3>
-<p>APIキー認証では、以下の2つの方法でAPIキーを送信できます：</p>
+<p><code>readonly</code> / <code>fullaccess</code> はサーバーに保管して利用するキーです。ブラウザで一覧取得や再生を行う場合は、サーバーでこのキーを使ってJWTを取得し、ブラウザへ渡します。ページ埋め込み用の <code>embedded</code> は、公開動画の再生JWT取得に用途を限定したキーです。</p>
 <h4 id="1-x-api-key">1. X-Api-Keyヘッダー（推奨）</h4>
-<pre><code class="language-bash">curl -H &quot;X-Api-Key: your_api_key_here&quot; \
+<p>以下は <code>readonly</code> / <code>fullaccess</code> による一覧取得の例です。<code>embedded</code> では一覧を取得できません。</p>
+<pre><code class="language-bash">curl -H &quot;X-Api-Key: YOUR_READONLY_KEY&quot; \
   &quot;https://filma.biz/filmaapi/storage&quot;
 </code></pre>
 <h4 id="2">2. クエリパラメータ</h4>
-<pre><code class="language-bash">curl &quot;https://filma.biz/filmaapi/storage?api_key=your_api_key_here&quot;
-</code></pre>
+<p><code>readonly</code> / <code>fullaccess</code> では、移行対象として指定された例外組織に限り、キーの互換設定 <code>legacy_query_auth_enabled=true</code> の場合だけ利用できます。それ以外の組織は常に禁止です。新規キーの既定値は <code>false</code> です。</p>
+<p><code>embedded</code> は <code>POST /filmaapi/token</code> に限り <code>?api_key=YOUR_EMBEDDED_KEY</code> を使用できます。APIキーを付けたプレイヤーURLへの直接アクセスはできません。</p>
 <h3 id="jwt">JWT認証</h3>
-<p>JWTトークンベースの認証システムです。以下の3つの方法でJWTトークンを送信できます：</p>
+<p>JWTは以下の3つの方法で送信できます。以下の一覧取得例は <code>readonly</code> / <code>fullaccess</code> のJWT向けです。<code>embedded</code> のJWTは再生・配信・DRMにのみ利用できます。</p>
 <h4 id="1-authorization">1. Authorization ヘッダー（推奨）</h4>
 <pre><code class="language-bash">curl -H &quot;Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...&quot; \
   &quot;https://filma.biz/filmaapi/storage&quot;
 </code></pre>
-<h4 id="2-cookie">2. Cookie（自動管理）</h4>
+<h4 id="2-cookie">2. Cookie</h4>
 <pre><code class="language-bash">curl -H &quot;Cookie: filmajwt=eyJhbGciOiJIUzI1NiJ9...&quot; \
   &quot;https://filma.biz/filmaapi/storage&quot;
 </code></pre>
@@ -1115,35 +1138,59 @@
 <p><strong>注意</strong>: パラメータでのJWT送信はURLに記録される可能性があるため、セキュリティの観点からAuthorizationヘッダーまたはCookieの使用を推奨します。</p>
 <h3 id="jwt_1">JWTトークンの発行方法</h3>
 <h4 id="apijwt">APIキー認証でJWTトークン発行</h4>
-<p>既存のAPIキーを使用してJWTトークンを発行できます：</p>
+<p><code>readonly</code> / <code>fullaccess</code> のキーで、一覧取得などに利用するJWTを発行します。<code>mediafile_id</code> を省略すると、特定の動画に限定しないJWTになります。</p>
 <h5 id="x-api-key">X-Api-Keyヘッダーを使用（推奨）</h5>
 <pre><code class="language-bash">curl -X POST &quot;https://filma.biz/filmaapi/token&quot; \
-  -H &quot;X-Api-Key: your_api_key&quot; \
-  -H &quot;Content-Type: application/json&quot;
-</code></pre>
-<h5 id="_4">クエリパラメータを使用</h5>
-<pre><code class="language-bash">curl -X POST &quot;https://filma.biz/filmaapi/token?api_key=your_api_key&quot; \
+  -H &quot;X-Api-Key: YOUR_READONLY_KEY&quot; \
   -H &quot;Content-Type: application/json&quot;
 </code></pre>
 <p><strong>レスポンス例:</strong></p>
 <pre><code class="language-json">{
-  &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJvcmdhbml6YXRpb25faWQiOjEsImV4cCI6MTcwNDAwNzIwMCwiaWF0IjoxNzAzOTIwODAwfQ.signature&quot;,
+  &quot;token&quot;: &quot;JWT_TOKEN&quot;,
   &quot;token_type&quot;: &quot;Bearer&quot;,
-  &quot;expires_in&quot;: 86400,
-  &quot;expires_at&quot;: 1704007200,
+  &quot;expires_in&quot;: 3600,
+  &quot;expires_at&quot;: 1790899200,
   &quot;user_id&quot;: 1,
   &quot;organization_id&quot;: 1,
-  &quot;api_type&quot;: &quot;readonly&quot;
+  &quot;api_type&quot;: &quot;readonly&quot;,
+  &quot;auth_method&quot;: &quot;api_key&quot;,
+  &quot;mediafile_id&quot;: null,
+  &quot;filma_signed_url_id&quot;: null
 }
 </code></pre>
-<h3 id="_5">権限レベル</h3>
+<h4 id="embeddedjwt">embeddedキーで再生JWTを発行</h4>
+<p>同じ組織の公開中の動画の <code>mediafile_id</code>（Mediafile ID）を指定します。Storage APIのファイルID（FilmaFile ID）とは異なります。</p>
+<pre><code class="language-bash">curl -X POST &quot;https://filma.biz/filmaapi/token?api_key=YOUR_EMBEDDED_KEY&quot; \
+  -d &quot;mediafile_id=12345&amp;playback_token=true&quot;
+</code></pre>
+<p>返された <code>token</code> を <code>Authorization: Bearer</code> ヘッダー、またはプレイヤーURLの <code>jwt</code> に渡します。Cookieは設定されません。<code>expires_in</code>、<code>jwt_expires_at</code>、<code>show_all</code> は値にかかわらず指定できません。有効期間などの詳細は <a href="../04-endpoints/">JWTトークン発行</a> を参照してください。</p>
+<h3 id="_4">権限レベル</h3>
 <ul>
+<li><strong>embedded</strong>: 新規キーのデフォルト。ページ埋め込み専用で、APIキーで許可するのは <code>POST /filmaapi/token</code> による公開動画の短期再生JWT発行だけです。<code>mediafile_id</code> が必須で、<code>expires_in</code>、<code>jwt_expires_at</code>、<code>show_all</code> は指定できません。</li>
 <li><strong>readonly</strong>: 読み取り専用権限</li>
 <li><strong>fullaccess</strong>: 読み取り・書き込み権限</li>
 </ul>
-<h3 id="_6">公開状態による制限</h3>
+<p><code>embedded</code> のJWTは <code>api_type: embedded</code>、<code>auth_method: embed_key</code>、<code>scope: playback</code>、<code>organization_id</code>、<code>mediafile_id</code>、<code>exp</code> を持ちます。プレイヤー表示・DASH・HLS・DRMにのみ使用でき、storage・会員・視聴権・ダウンロード・JWT発行／更新APIには使用できません。配信処理でも元のJWTと期限を維持します。</p>
+<p>既存キーを <code>embedded</code> に変更した場合、変更前のJWTも利用できなくなります。現在のプレイヤーは埋め込みHTML中の <code>api_key</code> をJWTに交換しますが、古いプレイヤーによるAPIキーの直接再生は拒否されます。変更前にFilma運営へ、APIキーの利用経路と変更による影響の確認を依頼してください。</p>
+<p><code>readonly</code>／<code>fullaccess</code> は秘密キーとしてサーバーに保管し、<code>X-Api-Key</code> ヘッダーを使用します。「API設定編集」の「URLパラメーター認証」選択欄は例外対象の組織にだけ表示され、移行中の既存連携について一時的に許可できます。</p>
+<ul>
+<li><code>legacy_query_auth_enabled=false</code>（新規キーの既定値）: URLの <code>api_key</code> での認証はHTTP 403・<code>api_key_query_auth_disabled</code> で拒否します。有効なJWTを同時に渡しても、この拒否は回避できません。</li>
+<li><code>true</code>: 例外対象の組織の既存連携だけ許可します。URLはWebサーバー等のログに残るため、<code>X-Api-Key</code> への移行後は必ず <code>false</code> にしてください。</li>
+<li>例外対象外の組織は、DB値や送信パラメーターが <code>true</code> でもURL認証を許可しません。選択欄を表示せず、API設定保存時も <code>false</code> にします。</li>
+<li>APIキーをヘッダーとURLの両方へ指定した場合は、従来どおりヘッダーを採用します。URLへの重複記載は避けてください。</li>
+<li><code>embedded</code> のJWT発行と、JWT自体のURLパラメーター送信はこの設定の対象外です。</li>
+</ul>
+<h3 id="ipcidr">IP／CIDR制限</h3>
+<p><code>readonly</code> / <code>fullaccess</code> では、管理画面の「アクセス許可IP／CIDR」にIPv4／IPv6のIPアドレスまたはCIDRを1行1件で指定できます。空欄は制限なしです。</p>
+<ul>
+<li>JWT発行を含むすべてのAPIキー認証で照合し、どの範囲にも一致しない要求はHTTP 403・<code>api_key_ip_access_denied</code> で拒否します。接続元を確定できない場合や、DB内の許可リストが不正な場合も拒否します。</li>
+<li>ヘッダー・URLパラメーターのどちらのAPIキーでも適用します。Referer / Origin の有無による例外はありません。有効なAPIキーが範囲外の場合、同時に有効なJWTを渡しても拒否します。</li>
+<li><code>embedded</code> とJWT認証（Bearer・Cookie・URL）は対象外です。許可されたサーバーが発行したJWTは、別IPのブラウザでも利用できます。</li>
+<li>接続元は直接接続の <code>REMOTE_ADDR</code> だけを採用します。<code>X-Forwarded-For</code> 等の転送ヘッダーは参照せず、追加の環境変数設定も不要です。API監査ログの送信元IP識別子も同じ判定を使用します。</li>
+</ul>
+<h3 id="_5">公開状態による制限</h3>
 <p>ファイルには公開状態（published）が設定されており、APIキーの権限に応じてアクセス制限が適用されます。</p>
-<h4 id="_7">アクセス制御ルール</h4>
+<h4 id="_6">アクセス制御ルール</h4>
 <table>
 <thead>
 <tr>
@@ -1163,6 +1210,11 @@
 <td>公開ファイルのみ</td>
 <td>全ファイル（公開・非公開問わず）</td>
 </tr>
+<tr>
+<td>embedded</td>
+<td>対象動画の再生のみ（一般APIは拒否）</td>
+<td>非公開動画は許可しない（JWT発行時はパラメーター指定を拒否）</td>
+</tr>
 </tbody>
 </table>
 <p><strong>show_allパラメータ:</strong></p>
@@ -1170,17 +1222,18 @@
 <li><code>show_all=true</code>: fullaccess権限の場合のみ、非公開ファイルも含めて全てのファイルにアクセス可能</li>
 <li>未指定またはfalse: 権限に関係なく公開ファイルのみアクセス可能</li>
 </ul>
-<h3 id="_8">ドメインアクセス制限</h3>
-<h4 id="_9">認証方法別のドメインアクセス制限</h4>
+<h3 id="_7">ドメインアクセス制限</h3>
+<h4 id="_8">認証方法別のドメインアクセス制限</h4>
 <ol>
 <li><strong>APIキー認証</strong></li>
 <li>ユーザーの<code>api_access_domains</code>に基づいてドメインチェック</li>
-<li>設定されていない場合はFilma APIホストのみ許可</li>
+<li>設定が空の場合でもFilma APIホストと固定許可ホストからのアクセスは許可</li>
+<li>RefererまたはOriginヘッダーで制御</li>
 <li>
-<p>RefererまたはOriginヘッダーで制御</p>
+<p>両ヘッダーがない要求は許可されるため、ドメイン制限は認証の代わりにはなりません</p>
 </li>
 <li>
-<p><strong>JWT認証（Cookie・Bearer共通）</strong></p>
+<p><strong>JWT認証（Cookie・Bearer・クエリ共通）</strong></p>
 </li>
 <li><strong>ドメインアクセス制限は適用されません</strong></li>
 <li>どのドメインからでもアクセス可能</li>
@@ -1190,25 +1243,27 @@
 <p>RefererまたはOriginヘッダーで制御されます：</p>
 <pre><code class="language-bash"># APIキー認証：許可されたドメインからのアクセス（成功）
 curl -H &quot;Referer: https://example.com/video.html&quot; \
-     &quot;https://filma.biz/filmaapi/player/12345?api_key=YOUR_API_KEY&quot;
+     -H &quot;X-Api-Key: YOUR_READONLY_KEY&quot; \
+     &quot;https://filma.biz/filmaapi/storage&quot;
 
 # APIキー認証：許可されていないドメインからのアクセス（403エラー）
 curl -H &quot;Referer: https://unauthorized.com/video.html&quot; \
-     &quot;https://filma.biz/filmaapi/player/12345?api_key=YOUR_API_KEY&quot;
+     -H &quot;X-Api-Key: YOUR_READONLY_KEY&quot; \
+     &quot;https://filma.biz/filmaapi/storage&quot;
 
 # JWT認証：どのドメインからでもアクセス可能
 curl -H &quot;Referer: https://any-domain.com/video.html&quot; \
      -H &quot;Authorization: Bearer YOUR_JWT_TOKEN&quot; \
      &quot;https://filma.biz/filmaapi/player/12345&quot;
 </code></pre>
+<p>ローカルHTTPサーバーからAPIキーで動作確認する場合も、この制限が適用されます。<code>localhost</code> や <code>127.0.0.1</code> など実際に使うホストをアクセス許可ドメインに登録してください。サーバー用キーにIP制限があれば、送信元IPも許可されている必要があります。</p>
 <h3 id="jwt_2">JWTセキュリティ特徴</h3>
 <ul>
 <li><strong>組織分離</strong>: 組織ごとに異なるシークレットキー</li>
-<li><strong>自動期限切れ</strong>: デフォルト1時間で無効化</li>
+<li><strong>自動期限切れ</strong>: 通常はデフォルト1時間。embeddedの再生JWTは動画の長さに応じてサーバーが決定</li>
 <li><strong>ドメイン制限なし</strong>: どのドメインからでもアクセス可能（セキュリティはトークン有効性で担保）</li>
-<li><strong>トークンリフレッシュ</strong>: 有効なトークンから新しいトークンを発行可能</li>
-<li><strong>Cookie自動設定</strong>: HTTPS環境でのJWTトークン発行時にCookieが自動設定される</li>
-<li><strong>CSRF保護</strong>: SameSite=Lax設定により、外部サイトからのPOSTリクエストを自動的に保護</li>
+<li><strong>トークンリフレッシュ</strong>: 有効なトークンから新しいトークンを発行可能（embeddedは対象外）</li>
+<li><strong>Cookie設定</strong>: 通常のJWT発行ではHTTPS応答に <code>HttpOnly; Secure; SameSite=Lax</code> のCookieを設定（embeddedはJSON応答のみ）。ブラウザからの保存・送信にはCookieポリシーやfetchの設定が適用されるため、外部サイトの埋め込みではJWTを明示的に渡してください</li>
 </ul>
 
 
