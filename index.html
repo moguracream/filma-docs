@@ -62,17 +62,28 @@
   <section class="section">
     <div class="container">
       <h2 class="section-title">埋め込みは、これだけ。</h2>
-      <p class="section-lead">エンコード形式もDRMライセンスも意識する必要はありません。プレイヤーURLをiframeでサイトに埋め込めば、すぐに再生できます。</p>
+      <p class="section-lead">エンコード形式もDRMライセンスも意識する必要はありません。管理画面でコピーした埋め込みHTMLをサイトへ貼り付ければ、すぐに再生できます。</p>
       <div class="code-panel">
-        <div class="code-panel-title">index.html — 動画プレイヤーの埋め込み例</div>
-        <pre><span class="tag">&lt;iframe</span>
-  <span class="attr">src</span>=<span class="str">"https://filma.biz/filmaapi/player/YOUR_MEDIAFILE_ID?api_key=YOUR_API_KEY"</span>
-  <span class="attr">title</span>=<span class="str">"Filma 動画プレイヤー"</span>
-  <span class="attr">style</span>=<span class="str">"width: 100%; aspect-ratio: 16 / 9; border: 0;"</span>
-  <span class="attr">allow</span>=<span class="str">"autoplay; fullscreen; encrypted-media; picture-in-picture"</span>
-  <span class="attr">allowfullscreen</span><span class="tag">&gt;&lt;/iframe&gt;</span></pre>
+        <div class="code-panel-title">index.html — 管理画面の埋め込みHTML例（DRM動画）</div>
+        <pre><span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://filma.biz/filma_player/js/filma_player.min.js?20260918-videojs-6.13.0"</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">type</span>=<span class="str">"text/css"</span> <span class="attr">href</span>=<span class="str">"https://filma.biz/filma_player/css/style.css?20260918-videojs-6.13.0"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="str">"video-YOUR_MEDIAFILE_ID"</span> <span class="attr">class</span>=<span class="str">"filma-video"</span> <span class="attr">data-drm</span>=<span class="str">"true"</span> <span class="attr">style</span>=<span class="str">"width: 100%;"</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  document.addEventListener('DOMContentLoaded', function() {
+    let elem = document.getElementById('video-YOUR_MEDIAFILE_ID');
+    if (elem == null) {
+      return;
+    }
+    if (isSafari()) {
+      elem.dataset.src = 'https://filma.biz/filmaapi/hls/YOUR_MEDIAFILE_ID.m3u8?api_key=YOUR_EMBEDDED_API_KEY';
+    } else {
+      elem.dataset.src = 'https://filma.biz/filmaapi/dash/YOUR_MEDIAFILE_ID.mpd?api_key=YOUR_EMBEDDED_API_KEY';
+    }
+    init_xcream_player('video-YOUR_MEDIAFILE_ID');
+  });
+<span class="tag">&lt;/script&gt;</span></pre>
       </div>
-      <p class="hero-note" style="text-align:center">※ <code>YOUR_MEDIAFILE_ID</code> と <code>YOUR_API_KEY</code> を実際の値に置き換え、APIキーのアクセス許可ドメインを設定してください。</p>
+      <p class="hero-note" style="text-align:center">※ 実際には管理画面から取得したHTML（JS・CSS・初期化処理を含む）をまとめて貼り付けてください。動画ID・キー・DRM設定は取得したHTMLに含まれます。埋め込みには <code>embedded</code> キーを使い、アクセス許可ドメインに設置先を登録してください。</p>
       <p class="hero-note" style="text-align:center">※ 実際のコードは<a href="https://docs.filma.biz/template-no-auth/">サンプル</a>と<a href="https://docs.filma.biz/api-spec/">APIリファレンス</a>をご確認ください。</p>
     </div>
   </section>

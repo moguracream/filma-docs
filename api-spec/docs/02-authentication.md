@@ -120,7 +120,7 @@ curl -X POST "https://filma.biz/filmaapi/token?api_key=YOUR_EMBEDDED_KEY" \
 
 `embedded` のJWTは `api_type: embedded`、`auth_method: embed_key`、`scope: playback`、`organization_id`、`mediafile_id`、`exp` を持ちます。プレイヤー表示・DASH・HLS・DRMにのみ使用でき、storage・会員・視聴権・ダウンロード・JWT発行／更新APIには使用できません。配信処理でも元のJWTと期限を維持します。
 
-既存キーを `embedded` に変更した場合、変更前のJWTも利用できなくなります。現在のプレイヤーは埋め込みHTML中の `api_key` をJWTに交換しますが、古いプレイヤーによるAPIキーの直接再生は拒否されます。変更前にAPIアクセス解析で利用経路を確認してください。
+既存キーを `embedded` に変更した場合、変更前のJWTも利用できなくなります。現在のプレイヤーは埋め込みHTML中の `api_key` をJWTに交換しますが、古いプレイヤーによるAPIキーの直接再生は拒否されます。変更前にFilma運営へ、APIキーの利用経路と変更による影響の確認を依頼してください。
 
 `readonly`／`fullaccess` は秘密キーとしてサーバーに保管し、`X-Api-Key` ヘッダーを使用します。「API設定編集」の「URLパラメーター認証」選択欄は例外対象の組織にだけ表示され、移行中の既存連携について一時的に許可できます。
 
