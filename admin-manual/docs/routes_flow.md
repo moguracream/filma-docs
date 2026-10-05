@@ -57,7 +57,7 @@ flowchart TB
   su_list -->|詳細| su_detail -->|メモを編集| su_edit
 
   %% 埋め込みHTML 初回準備
-  users -->|デフォルトAPIユーザー| api_edit
+  users -->|埋め込み用APIユーザー| api_edit
   file_detail -.->|埋め込みHTMLをコピー| file_detail
 ```
 
@@ -104,8 +104,8 @@ flowchart TB
 
 ### 埋め込みHTML 初回準備:
 - ユーザー一覧（`/filmaadmin/user`） <br>
-→ デフォルトAPIユーザー <br>
-→ API設定編集（`/filmaadmin/apisettings/edit/:user_id`）でアクセス許可ドメイン設定
+→ 埋め込み用APIユーザー（新しい組織では `API_EMBEDDED`） <br>
+→ API設定編集（`/filmaadmin/apisettings/edit/:user_id`）で `embedded` とアクセス許可ドメインを確認・保存
 - ファイル詳細（`/filmaadmin/file/detail/:file_id`） <br>
 → 「埋め込みHTMLをコピー」<br>
 → 自サイトへ貼付け

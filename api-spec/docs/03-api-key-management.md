@@ -40,14 +40,15 @@ FilmaのAPIを利用するには、管理画面でAPIユーザーを作成し、
    - このAPIキーをコピーして保存
 
 3. **API種類**を確認：
-   - **読取専用 (readonly)**: デフォルト設定
+   - **ページ埋め込み用 (embedded)**: デフォルト設定。公開動画の短期再生JWT発行専用
+   - **読取専用 (readonly)**: サーバーから参照系APIを利用する場合
    - **フルアクセス (fullaccess)**: 編集権限が必要な場合
 
 4. API種類を変更する場合は「**編集**」ボタンをクリック
 
 #### 4. ドメインアクセス制限の設定
 
-APIキーを特定のドメインからのみ利用可能にするため、アクセス許可ドメインを設定します。
+ブラウザからの意図しない利用を抑えるため、アクセス許可ドメインを設定します。Referer / Origin がない要求は許可され、これらのヘッダーはAPIクライアントで指定できるため、不正利用防止の認証機能にはなりません。
 
 1. ユーザー詳細画面で「**API設定編集**」ボタンをクリック
 
@@ -59,6 +60,7 @@ APIキーを特定のドメインからのみ利用可能にするため、ア�
    ```
 
 3. **API種類**を必要に応じて変更：
+   - **ページ埋め込み用 (embedded)**: 動画を指定した短期再生JWTの発行のみ可能（デフォルト）
    - **読み取り専用 (readonly)**: データの取得のみ可能
    - **読み書き可能 (fullaccess)**: データの取得・更新・削除が可能
 
@@ -66,26 +68,57 @@ APIキーを特定のドメインからのみ利用可能にするため、ア�
 
 #### 5. APIキーの利用
 
-発行されたAPIキーを使用してAPIにアクセスできます：
+新規キーは `embedded` です。ファイル一覧などの一般APIをサーバーから利用する場合は、API種類を `readonly` または必要に応じて `fullaccess` に変更します。既存キーの種類はアプリケーションからは自動変更されませんが、後述のリリース時の移行SQLで変更される場合があります。
 
 ```bash
 # 例: ファイル一覧の取得
-curl "https://filma.biz/filmaapi/storage?api_key=a1b2c3d4e5f6789a"
+curl -H "X-Api-Key: YOUR_SERVER_API_KEY" "https://filma.biz/filmaapi/storage"
 ```
+
+ページにキーを記載する場合は `embedded` を選びます。現行プレイヤーは `api_key` からJWTを取得するため、既存キーの値と埋め込みHTMLを維持できます。一般API、旧プレイヤーのAPIキーによる直接再生、変更前に発行したJWTは利用できなくなるため、Filma運営へ現在の利用状況と変更による影響の確認を依頼してから種類を変更してください。
+
+#### 6. URLパラメーター認証の互換設定
+
+「API設定編集」の「URLパラメーター認証」選択欄は、移行対象として指定された例外組織だけに表示します。それ以外の組織では選択欄を表示せず、サーバー用キーのURL認証は常に禁止です。
+
+例外対象の組織は、`readonly` / `fullaccess` のキーごとに許可・禁止を変更できます。新規キーは「禁止する（推奨）」です。既存キーの互換設定はヘッダー移行が完了するまで維持できます。
+
+許可は既存連携のための一時設定です。`X-Api-Key` ヘッダーでの動作確認後、Filma運営へURLパラメーター認証の利用が残っていないか確認を依頼してください。確認が完了したら、必ず禁止へ変更してください。`embedded` ではこの設定を操作できず、JWT発行時のURL認証は引き続き利用できます。`embedded` へ種類を変更した場合は互換設定を `false` に戻します。
+
+列追加には `filma_doc/membership/ddl/015_filma_users_legacy_query_auth.sql` を一度だけ適用します。リリース時の移行には `017_filma_users_limit_legacy_query_auth.sql` を使用します。このSQLは、サーバー利用を維持する指定組織を除く既存APIキーを `embedded` へ一括変更し、URL認証の互換設定も例外対象に限定します。対象キーの一般API利用がなく、プレイヤーがJWT交換に対応していることを確認してから、embedded対応コードの反映後に一度だけ適用してください。キーの値は維持されますが、種類変更前のJWTは利用できなくなります。移行後に追加・変更したサーバー用キーまで変更しないよう再実行しないでください。アプリケーションは017未適用でも対象外組織のURL認証を拒否します。
+
+#### 7. サーバー用キーのIP／CIDR制限
+
+「API設定編集」の「アクセス許可IP／CIDR」に、サーバーがFilmaへ接続する際の送信元IPを1行1件で登録します。IPv4／IPv6の単一IPとCIDRを指定でき、いずれかに一致すれば許可します。空欄は制限なしです。
+
+```text
+192.0.2.10
+198.51.100.0/24
+2001:db8::/32
+```
+
+保存時に単一IPを `/32` または `/128`、CIDRをネットワークアドレスへ正規化し、空白行・重複を除きます。不正な入力があれば保存しません。
+
+`readonly` / `fullaccess` のAPIキー認証（JWT発行を含む）に適用します。`embedded` とJWT認証は対象外です。`embedded` では入力欄が操作不可になり、保存済みの値は維持します。サーバー用へ戻すと設定が再び適用されます。
+
+この機能を含むコードの反映前に、`filma_doc/membership/ddl/016_filma_users_api_access_cidrs.sql` を適用してください。
 
 ### 重要な注意事項
 
 1. **APIキーの管理**
-   - APIキーは外部に漏らさないよう厳重に管理してください
+   - readonly / fullaccess のAPIキーはサーバーで保管し、ブラウザへ公開しないでください
+   - embedded のキーはページへの公開を前提としますが、組織内の公開動画の再生JWTを取得できるため、アクセス許可ドメインも設定してください
    - 特にfullaccess権限のAPIキーは細心の注意が必要です
 
 2. **ドメイン制限**
-   - アクセス許可ドメインが未設定の場合、他のドメインからのアクセスが拒否されます
+   - Referer / Origin が送られる場合、アクセス許可ドメインやFilmaの許可ホストに一致しなければ拒否されます
    - Filmaのドメインからのアクセスは常に許可されます
+   - Referer / Origin がない要求は許可されます
 
 3. **権限による機能制限**
    - readonly権限: 公開ファイルの参照のみ
    - fullaccess権限: 全ファイルの参照・編集（`show_all=true`パラメータ使用時）
+   - embedded権限: 公開動画の短期再生JWT発行のみ。発行したJWTも再生専用で、一般API・ダウンロード・JWT更新は利用不可
 
 4. **APIキーの削除・再発行**
    - 必要に応じてユーザー一覧からAPIユーザーを削除できます
@@ -111,6 +144,27 @@ curl "https://filma.biz/filmaapi/storage?api_key=a1b2c3d4e5f6789a"
 
 - fullaccess権限が必要な操作をreadonly権限で実行しようとしている
 
+**403 Forbidden (api_key_query_auth_disabled)**
+
+- `readonly` / `fullaccess` のAPIキーをURLの `api_key` で送信している
+- `X-Api-Key` ヘッダーへ変更してください。JWTを同時に渡しても、この拒否は回避できません
+
+**403 Forbidden (embedded_key_token_only / embedded_token_playback_only)**
+
+- embeddedキーでJWT発行以外のAPIを呼び出している、または再生JWTで一般APIを呼び出している
+- 一覧取得などにはサーバー用の `readonly` / `fullaccess` を使用してください
+
+**400 Bad Request (mediafile_id_required / embedded_token_parameter_not_allowed)**
+
+- embeddedのJWT発行には正の整数のMediafile IDが必要です
+- `expires_in`、`jwt_expires_at`、`show_all` は指定せず、リクエストから削除してください
+
+**403 Forbidden (api_key_ip_access_denied)**
+
+- サーバーの送信元IPが「アクセス許可IP／CIDR」の範囲外
+- IP制限が設定されているが、接続元を確定できない、またはDB内の許可リストが不正
+- 接続元は `REMOTE_ADDR` で判定します。`X-Forwarded-For` 等を指定しても許可IPは変更できません
+
 **404 Not Found**
 
 - 公開されていないファイルにアクセスしようとしている（readonly権限の場合）
@@ -121,4 +175,3 @@ curl "https://filma.biz/filmaapi/storage?api_key=a1b2c3d4e5f6789a"
 - トークンの形式が無効
 - トークンの有効期限が切れている
 - 組織のシークレットキーが一致しない
-

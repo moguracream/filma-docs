@@ -72,13 +72,17 @@ IPNを受け取るサーバー側処理は、最低限次を行います。
 Filma APIは **JWT認証（推奨）** と **APIキー認証** の両方に対応しています。
 以下では、わかりやすさのためAPIキーの例に加えて、JWTの例も併記します。
 
+この連携にはサーバー用の `readonly` / `fullaccess` キーを使用し、IPN受信サーバーで保管してください。新規キーの既定値である `embedded` と、その再生JWTでは会員・視聴権APIを利用できません。API種類は組織管理者が「API設定編集」で変更します。
+
+APIキーは `X-Api-Key` ヘッダーで送信します。アクセス許可IP／CIDRを設定している場合は、IPN受信サーバーからFilmaへ接続するときの送信元IPを許可してください。
+
 ### JWT認証（推奨）の準備
 
-まずAPIキーでJWTトークンを発行し、そのトークンを以後のAPI呼び出しで利用します。
+まずサーバー用APIキーでJWTトークンを取得し、そのトークンを以後のAPI呼び出しで利用します。`mediafile_id` は指定しません。
 
 ```bash
 curl -X POST "https://filma.biz/filmaapi/token" \
-  -H "X-API-KEY: <APIキー>"
+  -H "X-Api-Key: <サーバー用APIキー>"
 ```
 
 レスポンスの `token` を取り出し、以降のリクエストで以下のように渡します。
@@ -95,7 +99,7 @@ curl -X POST "https://filma.biz/filmaapi/token" \
 **APIキー認証の例（簡易）**
 ```bash
 curl -X GET "https://filma.biz/filmaapi/customers?status=enabled&query=buyer%40example.com" \
-  -H "X-API-KEY: <APIキー>"
+  -H "X-Api-Key: <サーバー用APIキー>"
 ```
 
 **JWT認証の例（推奨）**
@@ -118,7 +122,7 @@ Filma会員作成APIを使います（現行仕様では `email` と `name` が�
 **APIキー認証の例（簡易）**
 ```bash
 curl -X POST "https://filma.biz/filmaapi/customers" \
-  -H "X-API-KEY: <APIキー>" \
+  -H "X-Api-Key: <サーバー用APIキー>" \
   -d "email=buyer@example.com" \
   -d "name=buyer@example.com" \
   -d "notes=PayPal購入で自動作成"
@@ -150,7 +154,7 @@ curl -X POST "https://filma.biz/filmaapi/customers" \
 ```bash
 curl -X POST \
   "https://filma.biz/filmaapi/customers/entitlements/1234?scope_type=item&item_id=5678" \
-  -H "X-API-KEY: <APIキー>" \
+  -H "X-Api-Key: <サーバー用APIキー>" \
   -d "starts_at=" \
   -d "expires_at=" \
   -d "status=active" \

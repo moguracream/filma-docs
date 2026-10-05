@@ -11,12 +11,22 @@
 
 **認証パラメーターについて:**
 
-- `api_key`と`jwt`は両方とも「\*」（認証必須）ですが、**どちらか一方のみ**指定すれば認証されます
+- `api_key`と`jwt`の「\*」は認証情報が必要であることを示します。エンドポイントに対応する種類・権限のキーまたはJWTを1つ指定してください
+- `readonly` / `fullaccess` のAPIキーは `X-Api-Key` ヘッダーで送信します。URLの `api_key` は例外組織で互換設定が有効な場合に限り利用できます
 - 両方を同時に指定した場合は、[認証方法の優先順位](02-authentication.md)に従って処理されます
 - 認証ヘッダーまたはCookieを使用する場合は、対応するクエリパラメーターは不要です：
     - `Authorization: Bearer`ヘッダー使用時 → `jwt`パラメーター不要
     - `X-Api-Key`ヘッダー使用時 → `api_key`パラメーター不要
     - `filmajwt` Cookie使用時 → `jwt`パラメーター不要
+
+**embeddedの利用範囲:**
+
+| 認証情報 | 利用できるエンドポイント |
+|---|---|
+| embedded APIキー | `POST /filmaapi/token` のみ |
+| embeddedから発行したJWT | Player・DASH・HLSのGET/HEAD、HLSメディア配信、DRMライセンスのPOST |
+
+embeddedはStorage・Customers・Entitlements・ダウンロードAPIを利用できません。再生JWTはトークン情報取得・再発行・リフレッシュにも利用できません。以下の一般APIの認証欄は、この制限を前提に読んでください。
 
 ### JWT認証API
 
@@ -28,55 +38,71 @@ JWTトークンの発行・情報取得・更新を行います。
 POST /filmaapi/token
 ```
 
-APIキーを使用してJWTトークンを発行します。発行されたJWTトークンは、JSONレスポンスで返却されると同時に、HTTPS環境では自動的にCookieとしても設定されます。
+APIキーを使用してJWTトークンを発行します。発行されたJWTトークンは、JSONレスポンスで返却されると同時に、HTTPS環境では自動的にCookieとしても設定されます。ただし `embedded` のJWTはCookieへ設定せず、JSONレスポンスだけで返します。
 
 **パラメータ:**
 
 | パラメータ名 | 型 | 必須 | デフォルト | 説明 |
 |---|---|---|---|---|
-| api_key | string | * | - | APIキー（X-Api-Keyヘッダーまたはクエリパラメータで指定） |
-| expires_in | integer | - | 3600 | JWT有効期限（秒）。最大7日間（604800秒） |
-| jwt_expires_at | string | - | - | JWT有効期限をISO 8601形式で指定（expires_inより優先） |
-| mediafile_id | integer | - | - | 特定のメディアファイルに限定したJWT発行（セキュリティ強化） |
+| api_key | string | * | - | APIキー。サーバー用キーはX-Api-Keyヘッダーで指定。embeddedはクエリ指定も可能 |
+| expires_in | integer | - | 3600 | 通常のJWT有効期限（秒）。最大7日間（604800秒）。embeddedでは指定不可 |
+| jwt_expires_at | string | - | - | JWT有効期限をISO 8601形式で指定（expires_inより優先）。embeddedでは指定不可 |
+| mediafile_id | integer | 条件付き | - | Mediafile ID（Storage APIのFilmaFile IDとは別）。embeddedでは必須。サーバー用キーでは省略可能 |
+| playback_token | boolean | - | false | trueで再生時間に応じた有効期間の動画限定JWTを発行（mediafile_idが必要）。embeddedは省略しても再生専用 |
+
+**ページ埋め込み用キー（embedded）:**
+
+- `mediafile_id` は正の整数で必須です。同じ組織の有効・公開中の動画だけ指定できます。
+- `expires_in`、`jwt_expires_at`、`show_all` の指定は400で拒否します。
+- 有効期間は動画の長さ＋10%の余裕（余裕は10〜30分）、最低1時間、最大7日でサーバーが決定します。
+- 現行プレイヤーの `playback_token=true` に対応します。省略しても必ず再生専用JWTを発行します。
+- JWTには `api_type: embedded`、`auth_method: embed_key`、`scope: playback`、対象組織と動画を設定します。
+- APIキーによるJWT発行以外の操作は403になります。発行したJWTもplayer・DASH・HLS・DRMに限定され、一般API・ダウンロード・トークン情報取得・再発行・refreshは403になります。
+
+```bash
+curl -X POST 'https://filma.biz/filmaapi/token?api_key=YOUR_EMBEDDED_KEY' \
+  -d 'mediafile_id=12345&playback_token=true'
+```
 
 **認証:** APIキー認証（X-Api-Keyヘッダーまたは`api_key`クエリ）
 
+`readonly` / `fullaccess` のクエリ認証は、移行対象として指定された例外組織で `legacy_query_auth_enabled=true` の場合だけ許可します。それ以外はHTTP 403・`api_key_query_auth_disabled` を返すため、`X-Api-Key` ヘッダーを使用してください。`embedded` のクエリ認証はこの設定の対象外です。
+
 **リクエスト例:**
 
-**ヘッダー認証（推奨）**
+**サーバー用キーによるJWT発行（readonly / fullaccess）**
+
+一覧取得にも使うJWTを取得する場合、`mediafile_id` は指定しません。
+
 ```bash
 curl -X POST "https://filma.biz/filmaapi/token" \
-  -H "X-Api-Key: e47aad55d7fb4f152603b91b" \
+  -H "X-Api-Key: YOUR_READONLY_KEY" \
   -H "Content-Type: application/json"
 ```
 
-**クエリパラメータ認証**
-```bash
-curl -X POST "https://filma.biz/filmaapi/token?api_key=e47aad55d7fb4f152603b91b" \
-  -H "Content-Type: application/json"
-```
-
-**メディアファイル固有JWT発行**
+**サーバー用キーによるメディアファイル固有JWT発行**
 ```bash
 curl -X POST "https://filma.biz/filmaapi/token" \
-  -H "X-Api-Key: e47aad55d7fb4f152603b91b" \
+  -H "X-Api-Key: YOUR_READONLY_KEY" \
   -H "Content-Type: application/json" \
   -d '{"mediafile_id": 12345, "expires_in": 7200}'
 ```
 
 **レスポンス例:**
 
-**成功時（HTTP 200）**
+**成功時（HTTP 200、上記のメディアファイル固有JWTの例）**
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MDQwMDcyMDAsImlhdCI6MTcwMzkyMDgwMCwibWVkaWFmaWxlX2lkIjoxMjM0NX0.signature",
+  "token": "JWT_TOKEN",
   "token_type": "Bearer",
-  "expires_in": 86400,
-  "expires_at": 1704007200,
+  "expires_in": 7200,
+  "expires_at": 1790902800,
   "user_id": 1,
   "organization_id": 1,
   "api_type": "readonly",
-  "mediafile_id": 12345
+  "auth_method": "api_key",
+  "mediafile_id": 12345,
+  "filma_signed_url_id": null
 }
 ```
 
@@ -90,16 +116,18 @@ curl -X POST "https://filma.biz/filmaapi/token" \
   "api_type": "readonly",
   "auth_method": "api_key",
   "mediafile_id": 12345,
-  "iat": 1703920800,
-  "exp": 1704007200
+  "iat": 1790895600,
+  "exp": 1790902800
 }
 ```
 
 | フィールド名 | 型 | 説明 |
 |---|---|---|
 | user_id | integer | ユーザーID |
-| api_type | string | API権限レベル（readonly, fullaccess） |
-| auth_method | string | 認証方法（api_key, session_login, jwt_refresh等） |
+| api_type | string | API権限レベル（readonly, fullaccess, embedded） |
+| scope | string | embeddedの場合はplayback固定 |
+| organization_id | integer | embeddedの場合は対象組織ID |
+| auth_method | string | 認証方法（api_key, session_login, jwt_refresh等。embeddedはembed_key） |
 | mediafile_id | integer \| null | メディアファイル固有JWT時のファイルID。指定時はそのファイルのみアクセス可能 |
 | iat | integer | トークン発行時刻（UnixTimestamp） |
 | exp | integer | トークン有効期限（UnixTimestamp） |
@@ -111,25 +139,20 @@ curl -X POST "https://filma.biz/filmaapi/token" \
 - 例外として、DASHストリーミングでは「同一親メディア配下の音声」「同一解像度の動画」に限り別IDのアクセスを許可
 - セキュリティ強化により不正なアクセスを防止
 
-**JWTトークンCookie設定（HTTPS環境でのみ）:**
+**JWTトークンCookie設定（HTTPS環境、embedded以外）:**
 ```
 Set-Cookie: filmajwt=eyJhbGciOiJIUzI1NiJ9...; Expires=Mon, 01 Jan 2024 12:00:00 GMT; Path=/; Secure; HttpOnly; SameSite=Lax
 ```
 
 **Cookieの特徴:**
 
-- **自動設定**: JWTトークン発行時にHTTPS環境で自動的にCookieが設定される
+- **自動設定**: 通常のJWT発行時にHTTPS応答へCookieを設定。embeddedはJSON応答のみで、既存のCookieを上書きしない
 - **セキュリティ**: `HttpOnly`でJavaScriptからのアクセスを防止
-- **SameSite=Lax**: 外部サイトからのGETリクエストを許可、POSTリクエストを保護
+- **SameSite=Lax**: サイト間のCookie送信を制限
 - **期限**: JWTトークンと同じ有効期限
 - **利便性**: 次回以降のAPIアクセスでCookie認証が利用可能
 
-**SameSite=Laxの動作:**
-
-- **同一サイト**: 全てのリクエストでCookieが送信される
-- **外部サイト（GET）**: 動画プレイヤーや埋め込みコンテンツでCookieが送信される
-- **外部サイト（POST）**: CSRF攻撃を防止するため、Cookieは送信されない
-- **スクリプトからのアクセス**: curl、Python、Node.js等では制限なし
+ブラウザによるCookieの保存・送信は、サイトの関係やfetchの `credentials` 設定、ブラウザのCookieポリシーにも依存します。外部サイトのiframeやfetchでCookieが送信されるとは限らないため、JWTをヘッダーまたはURLへ明示的に渡してください。
 
 **エラー時（HTTP 401）:**
 ```json
@@ -145,15 +168,16 @@ Set-Cookie: filmajwt=eyJhbGciOiJIUzI1NiJ9...; Expires=Mon, 01 Jan 2024 12:00:00 
 GET /filmaapi/token
 ```
 
-現在のJWTトークンの情報を取得します。
+現在の認証情報を取得します。`readonly` / `fullaccess` のAPIキーまたはJWTを使用できます。embeddedのキー・JWTでは利用できません。
 
 **パラメータ:**
 
 | パラメータ名 | 型 | 必須 | デフォルト | 説明 |
 |---|---|---|---|---|
-| jwt | string | * | - | JWTトークン（Authorizationヘッダー、Cookie、またはクエリで指定） |
+| jwt | string | * | - | JWTトークン（Authorizationヘッダー、Cookie、またはクエリで指定）。APIキー認証時は不要 |
+| api_key | string | * | - | サーバー用APIキー（X-Api-Keyヘッダーで指定）。JWT認証時は不要 |
 
-**認証:** JWT認証、またはCookie認証
+**認証:** APIキー認証、JWT認証、またはCookie認証（embeddedは不可）
 
 **リクエスト例:**
 
@@ -170,10 +194,8 @@ curl -H "Authorization: Bearer <jwt_token>" \
   "user_id": 1,
   "organization_id": 1,
   "api_type": "readonly",
-  "expires_at": 1704007200,
-  "issued_at": 1703920800,
-  "is_valid": true,
-  "time_remaining": 86400
+  "auth_method": "jwt",
+  "authenticated": true
 }
 ```
 
@@ -183,7 +205,7 @@ curl -H "Authorization: Bearer <jwt_token>" \
 POST /filmaapi/token/refresh
 ```
 
-有効なJWTトークンを使用して新しいトークンを発行します。
+有効な `readonly` / `fullaccess` のJWTを使用して新しいトークンを発行します。embeddedの再生JWTは更新できません。期限切れのJWTはリフレッシュできないため、APIキーで再取得してください。
 
 **パラメータ:**
 
@@ -207,19 +229,23 @@ curl -X POST "https://filma.biz/filmaapi/token/refresh" \
 **成功時（HTTP 200）**
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJvcmdhbml6YXRpb25faWQiOjEsImV4cCI6MTcwNDAwNzIwMCwiaWF0IjoxNzAzOTIwODAwfQ.new_signature",
+  "token": "NEW_JWT_TOKEN",
   "token_type": "Bearer",
-  "expires_in": 86400,
-  "expires_at": 1704093600,
+  "expires_in": 3600,
+  "expires_at": 1790899200,
   "user_id": 1,
   "organization_id": 1,
-  "api_type": "readonly"
+  "api_type": "readonly",
+  "auth_method": "jwt_refresh",
+  "mediafile_id": null,
+  "filma_signed_url_id": null,
+  "refreshed_at": "2026-10-01T23:00:00Z"
 }
 ```
 
 ### Storage API
 
-ファイルの管理と配信を行います。
+ファイルの管理と配信を行います。embeddedのキー・JWTでは利用できません。
 
 #### 共通パラメータ
 
@@ -859,7 +885,7 @@ DELETE /filmaapi/encode/{id}
 
 ### Player API
 
-動画プレイヤーの表示を行います。
+動画プレイヤーの表示を行います。embeddedの場合は先に `POST /filmaapi/token` で再生JWTを取得し、そのJWTを渡してください。APIキーによる直接再生はできません。embeddedのJWTはプレイヤーや配信処理で期限を延長しません。
 
 #### プレイヤー表示
 
@@ -896,7 +922,7 @@ GET /filmaapi/player/{id}
 
 ### Download API
 
-ファイルのダウンロード先となる署名付きURLへリダイレクトします。
+ファイルのダウンロード先となる署名付きURLへリダイレクトします。embeddedのキー・JWTでは利用できません。
 
 ```
 GET /filmaapi/download/{id}

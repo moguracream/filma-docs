@@ -62,17 +62,28 @@
   <section class="section">
     <div class="container">
       <h2 class="section-title">埋め込みは、これだけ。</h2>
-      <p class="section-lead">エンコード形式もDRMライセンスも意識する必要はありません。プレイヤーURLをiframeでサイトに埋め込めば、すぐに再生できます。</p>
+      <p class="section-lead">エンコード形式もDRMライセンスも意識する必要はありません。管理画面でコピーした埋め込みHTMLをサイトへ貼り付ければ、すぐに再生できます。</p>
       <div class="code-panel">
-        <div class="code-panel-title">index.html — 動画プレイヤーの埋め込み例</div>
-        <pre><span class="tag">&lt;iframe</span>
-  <span class="attr">src</span>=<span class="str">"https://filma.biz/filmaapi/player/YOUR_MEDIAFILE_ID?api_key=YOUR_API_KEY"</span>
-  <span class="attr">title</span>=<span class="str">"Filma 動画プレイヤー"</span>
-  <span class="attr">style</span>=<span class="str">"width: 100%; aspect-ratio: 16 / 9; border: 0;"</span>
-  <span class="attr">allow</span>=<span class="str">"autoplay; fullscreen; encrypted-media; picture-in-picture"</span>
-  <span class="attr">allowfullscreen</span><span class="tag">&gt;&lt;/iframe&gt;</span></pre>
+        <div class="code-panel-title">index.html — 管理画面の埋め込みHTML例（DRM動画）</div>
+        <pre><span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://filma.biz/filma_player/js/filma_player.min.js?20260918-videojs-6.13.0"</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">type</span>=<span class="str">"text/css"</span> <span class="attr">href</span>=<span class="str">"https://filma.biz/filma_player/css/style.css?20260918-videojs-6.13.0"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="str">"video-YOUR_MEDIAFILE_ID"</span> <span class="attr">class</span>=<span class="str">"filma-video"</span> <span class="attr">data-drm</span>=<span class="str">"true"</span> <span class="attr">style</span>=<span class="str">"width: 100%;"</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  document.addEventListener('DOMContentLoaded', function() {
+    let elem = document.getElementById('video-YOUR_MEDIAFILE_ID');
+    if (elem == null) {
+      return;
+    }
+    if (isSafari()) {
+      elem.dataset.src = 'https://filma.biz/filmaapi/hls/YOUR_MEDIAFILE_ID.m3u8?api_key=YOUR_EMBEDDED_API_KEY';
+    } else {
+      elem.dataset.src = 'https://filma.biz/filmaapi/dash/YOUR_MEDIAFILE_ID.mpd?api_key=YOUR_EMBEDDED_API_KEY';
+    }
+    init_xcream_player('video-YOUR_MEDIAFILE_ID');
+  });
+<span class="tag">&lt;/script&gt;</span></pre>
       </div>
-      <p class="hero-note" style="text-align:center">※ <code>YOUR_MEDIAFILE_ID</code> と <code>YOUR_API_KEY</code> を実際の値に置き換え、APIキーのアクセス許可ドメインを設定してください。</p>
+      <p class="hero-note" style="text-align:center">※ 実際には管理画面から取得したHTML（JS・CSS・初期化処理を含む）をまとめて貼り付けてください。動画ID・キー・DRM設定は取得したHTMLに含まれます。埋め込みには <code>embedded</code> キーを使い、アクセス許可ドメインに設置先を登録してください。</p>
       <p class="hero-note" style="text-align:center">※ 実際のコードは<a href="https://docs.filma.biz/template-no-auth/">サンプル</a>と<a href="https://docs.filma.biz/api-spec/">APIリファレンス</a>をご確認ください。</p>
     </div>
   </section>
@@ -135,7 +146,7 @@
         <div class="card">
           <span class="card-icon">📝</span>
           <h3>コピペで始められる</h3>
-          <p>認証なし・JWT認証ありの2種類のサンプルコードを公開中。ウェブ制作ができれば、プログラマがいなくても構築できます。</p>
+          <p>管理画面の埋め込みHTMLをサイトへ貼り付ければ、動画を公開できます。APIの使い方はJWT認証付きサンプルで確認できます。</p>
         </div>
       </div>
     </div>
@@ -179,13 +190,13 @@
       <div class="card-grid">
         <a class="card" href="https://docs.filma.biz/template-no-auth/">
           <span class="card-icon">▶️</span>
-          <h3>認証無し動画サンプル</h3>
-          <p>誰でも見られる動画再生の最小構成サンプル。まずはここから。</p>
+          <h3>埋め込み動画サンプル</h3>
+          <p>管理画面で取得した埋め込みHTMLを使う、動画再生のサンプルです。</p>
         </a>
         <a class="card" href="https://docs.filma.biz/template-jwt/">
           <span class="card-icon">🎫</span>
           <h3>JWT認証付きサンプル</h3>
-          <p>会員制配信を想定した、JWTによる再生認可のサンプルです。</p>
+          <p>JWTを使った一覧・メタデータ取得と動画再生のサンプルです。JWTの取得処理をサーバー側に移すことで、実運用にも利用できます。</p>
         </a>
         <a class="card" href="https://docs.filma.biz/api-spec/">
           <span class="card-icon">📚</span>
@@ -300,7 +311,7 @@
       <div class="faq-list">
         <details>
           <summary>認証・認可はどのように実装しますか?</summary>
-          <p>APIキー認証とJWT認証の2方式に対応しています。会員だけに再生を許可する場合はJWTを利用します。<a href="https://docs.filma.biz/template-jwt/">JWT認証付きサンプル</a>と<a href="https://docs.filma.biz/api-spec/">APIリファレンスの認証の章</a>をご覧ください。</p>
+          <p>APIキー認証とJWT認証の2方式に対応しています。会員だけに再生を許可する場合は、サーバー側で利用者の認証・視聴権を確認してJWTを発行します。<a href="https://docs.filma.biz/template-jwt/">JWT認証付きサンプル</a>はAPIの動作確認用で、会員認証・視聴権確認は行いません。詳細は<a href="https://docs.filma.biz/api-spec/">APIリファレンスの認証の章</a>をご覧ください。</p>
         </details>
         <details>
           <summary>WordPressサイトに埋め込めますか?</summary>

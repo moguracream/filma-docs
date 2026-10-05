@@ -1,13 +1,12 @@
-// 注意: このコードはデモ用途でクライアント側のみで実行しています。
-// 実運用ではセキュリティを確保するため、可能な限りバックエンドで JWT を発行し、
-// API キーをフロントエンドの JavaScript には公開しないことをおすすめします。
+// デモでは readonly キーを使ってブラウザから JWT を取得しています。
+// 実運用では API キーをサーバーに保管し、JWT の取得処理をサーバー側へ移してください。
+// 取得した JWT をブラウザへ渡せば、一覧取得・動画再生のコードを活用できます。
+// 会員認証・視聴権確認は別途実装してください。
 
 const API_HOST = 'filma.biz';
-// この API キーは JWT 発行時のみ使用します
+// 公開デモ専用の readonly キーを JWT 発行時のみ使用します（fullaccess は使用しないでください）。
 const API_KEY = 'e47aad55d7fb4f152603b91b';
-// show_allパラメータを付与するかどうかを設定
-// trueにするとAPIリクエストに`show_all=true`が付き、fullaccess権限のAPIキー利用時は
-// 非公開ファイルも取得できます (詳細は api_specification.md 参照)
+// readonly キーで公開ファイルだけを扱うため、show_all は付与しません。
 const USE_SHOW_ALL = false;
 
 function createJwtTokenFetcher(apiHost, apiKey) {
@@ -19,8 +18,11 @@ function createJwtTokenFetcher(apiHost, apiKey) {
     if (jwtTokenPromise) return jwtTokenPromise;
 
     jwtTokenPromise = (async () => {
-      const url = `https://${apiHost}/filmaapi/token?api_key=${encodeURIComponent(apiKey)}`;
-      const res = await fetch(url, { method: 'POST' });
+      const url = `https://${apiHost}/filmaapi/token`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'X-Api-Key': apiKey }
+      });
 
       if (!res.ok) {
         jwtTokenPromise = null;

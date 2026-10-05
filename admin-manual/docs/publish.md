@@ -46,6 +46,7 @@ title: 動画の公開
     - ただし、`show_all=true` を付与し、かつAPIキーが`fullaccess`のときは「非公開や期限切れも含む全件」を取得できます。
     - また、管理者（filmaadmin）ログイン状態でのAPIアクセスも同等に全件表示が有効になります。
     - 例: `/filmaapi/storage?show_all=true`
+    - embeddedのキー・JWTでは一覧取得はできません。JWT取得時の `show_all` 指定も拒否され、再生は公開中の動画に限定されます。
 
 ---
 
