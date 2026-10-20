@@ -50,6 +50,10 @@
     <div class="container">
       <h1>コピペで動く、<br>DRM付き動画配信API。</h1>
       <p class="lead">DRMで守るべき動画コンテンツを配信する事業者へ。Filmaは、有料映像・IPコンテンツ・会員限定動画を自社サービスで配信するための動画配信PaaSです。アップロードするだけでエンコードとマルチDRM暗号化が自動で完了します。</p>
+      <div class="hero-content-policy">
+        <p><strong>日本法に準拠したコンテンツを、ジャンルを問わず配信できます。</strong></p>
+        <p>必要な権利処理が行われ、<a href="https://docs.filma.biz/terms_of_service_template">利用規約</a>に適合するコンテンツが対象です。ご利用開始にあたり、サービス内容・配信予定コンテンツを個別に確認します。</p>
+      </div>
       <div class="hero-cta">
         <a class="btn btn-primary" href="/contact/?contact_flow=developer_hero&amp;contact_market=general" data-contact-link target="_blank" rel="noopener noreferrer">導入のご相談(無料)</a>
         <a class="btn btn-ghost" href="https://docs.filma.biz/api-spec/">APIリファレンスを見る</a>
@@ -309,6 +313,10 @@
     <div class="container">
       <h2 class="section-title">よくあるご質問</h2>
       <div class="faq-list">
+        <details>
+          <summary>配信できるコンテンツにジャンルの制限はありますか?</summary>
+          <p>日本法に準拠し、必要な権利処理が行われたコンテンツであれば、ジャンルだけを理由に一律にお断りすることはありません。利用開始時に、コンテンツの内容や権利関係、必要な年齢確認・閲覧制限などを個別に確認します。違法コンテンツや権利侵害など、<a href="https://docs.filma.biz/terms_of_service_template">利用規約</a>の禁止事項に該当するものは対象外です。</p>
+        </details>
         <details>
           <summary>認証・認可はどのように実装しますか?</summary>
           <p>APIキー認証とJWT認証の2方式に対応しています。会員だけに再生を許可する場合は、サーバー側で利用者の認証・視聴権を確認してJWTを発行します。<a href="https://docs.filma.biz/template-jwt/">JWT認証付きサンプル</a>はAPIの動作確認用で、会員認証・視聴権確認は行いません。詳細は<a href="https://docs.filma.biz/api-spec/">APIリファレンスの認証の章</a>をご覧ください。</p>
