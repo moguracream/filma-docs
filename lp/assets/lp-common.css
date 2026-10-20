@@ -153,6 +153,22 @@ a { color: var(--color-accent); }
   margin: 0 auto 32px;
 }
 
+.hero-content-policy {
+  max-width: 640px;
+  margin: 0 auto 32px;
+}
+
+.hero-content-policy p {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.hero-content-policy strong {
+  font-size: 17px;
+  color: var(--color-text);
+}
+
 .hero-cta {
   display: flex;
   gap: 16px;
