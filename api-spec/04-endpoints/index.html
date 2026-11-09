@@ -3341,6 +3341,7 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 <li><code>show_all=true</code>かつfullaccess権限の場合、非公開ファイルもアクセス可能</li>
 <li>HTMLプレイヤー画面の返却成功はアクセスログへ記録されません。認証・公開状態・視聴権の確認で拒否された場合だけ、<code>player</code>種別の拒否ログとして記録されます</li>
 <li>期限付きURLから再生継続用JWTへ交換した場合は、元の期限付きURL IDを引き継ぎ、後続のルートMPD/HLSアクセスを期限付きURL経由として記録します</li>
+<li>DRMを利用できない組織（Standardプランなど）のDRM付き動画は、Player・DASH・HLSのいずれも403（理由コード<code>drm_not_allowed</code>）を返し、再生できません。DRMなしの動画は再生できます</li>
 </ul>
 <h3 id="download-api">Download API</h3>
 <p>ファイルのダウンロード先となる署名付きURLへリダイレクトします。embeddedのキー・JWTでは利用できません。</p>
@@ -3606,6 +3607,10 @@ curl -H &quot;X-Api-Key: your_api_key&quot; \
 <p>DRM（Widevine/FairPlay/PlayReady）ライセンスの取得を行います。
 Filma APIキー認証またはJWT認証が必要です。</p>
 <p>Widevine・FairPlayライセンス要求がFilmaサーバー内で失敗した場合は、<code>[Filma][DRM_LICENSE_FAILURE]</code>タグ、DRM方式、処理段階、固定理由コード、HTTP状態、認証済みのMediafile・組織・会員ID、アクセス先URL、送信元IPアドレスをEgalite技術ログへ記録します。JWT、APIキー、ライセンス要求・応答本文、URLのクエリ文字列は記録しません。DRM失敗はアクセス解析の成否には反映しません。現在のプレイヤーが外部ライセンスサーバーへ直接要求するPlayReadyと、Filmaサーバーへ到達しないクライアント側エラーは記録対象外です。</p>
+<p><strong>DRMを利用できない組織（DRMライセンス共通）:</strong></p>
+<ul>
+<li>動画が所属する組織でDRMが許可されていない場合（Standardプランなど）は、ライセンスを発行せず403（理由コード<code>drm_not_allowed</code>）を返します。PlayReadyは<code>authorization</code>が<code>false</code>のXMLを返します</li>
+</ul>
 <p><strong>JWTのmediafile_idについて（DRMライセンス共通）:</strong></p>
 <ul>
 <li>JWTに<code>mediafile_id</code>が含まれている場合は、原則として同一IDのメディアのみ許可されます</li>
