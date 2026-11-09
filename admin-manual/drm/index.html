@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
       
       
 
@@ -435,6 +435,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#drm_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRMを利用できる加盟店
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#url" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -446,7 +457,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#drm_4" class="md-nav__link">
+  <a href="#drm_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         アップロード時にDRM化する
@@ -457,7 +468,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#drm_5" class="md-nav__link">
+  <a href="#drm_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         既存ファイルをDRM化する
@@ -479,7 +490,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#drm_6" class="md-nav__link">
+  <a href="#drm_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         DRM化できないケース
@@ -1273,6 +1284,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#drm_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRMを利用できる加盟店
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#url" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1284,7 +1306,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#drm_4" class="md-nav__link">
+  <a href="#drm_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         アップロード時にDRM化する
@@ -1295,7 +1317,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#drm_5" class="md-nav__link">
+  <a href="#drm_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         既存ファイルをDRM化する
@@ -1317,7 +1339,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#drm_6" class="md-nav__link">
+  <a href="#drm_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         DRM化できないケース
@@ -1400,13 +1422,16 @@
 <blockquote>
 <p>重要: 一度DRM化したファイルは、同じファイルのままDRMなしへ戻せません。DRMなしで配信する必要がある場合は、元動画からDRMなしのファイルを改めて用意してください。</p>
 </blockquote>
+<h2 id="drm_4">DRMを利用できる加盟店</h2>
+<p>DRM化（アップロード時のDRM指定・既存ファイルのDRM化）は、Filma運営が許可した加盟店で利用できます。許可・禁止はFilma運営が加盟店ごとに設定し、加盟店の管理画面からは変更できません。</p>
+<p>許可されていない場合は、アップロード画面の「DRM化する」が選択できず、ファイル詳細には「DRM化不可（未許可）」と表示されます。利用を希望する場合はFilma運営へお問い合わせください。</p>
 <h2 id="url">画面URL</h2>
 <ul>
 <li>ファイル一覧: <code>/filmaadmin/file</code></li>
 <li>ファイル詳細: <code>/filmaadmin/file/detail/:file_id</code></li>
 <li>アップロード: <code>/filmaadmin/file/upload/:folder_id</code></li>
 </ul>
-<h2 id="drm_4">アップロード時にDRM化する</h2>
+<h2 id="drm_5">アップロード時にDRM化する</h2>
 <ol>
 <li>アップロード画面でファイルを選択</li>
 <li>「<strong>DRM化する</strong>」にチェック</li>
@@ -1414,7 +1439,7 @@
 </ol>
 <p>アップロード完了後、DRM付きのエンコードタスクが登録されます。</p>
 <p><img alt="アップロード画面（DRM化するチェック）" src="../img/upload_screen_placeholder.svg" /></p>
-<h2 id="drm_5">既存ファイルをDRM化する</h2>
+<h2 id="drm_6">既存ファイルをDRM化する</h2>
 <ol>
 <li>ファイル詳細 <code>/filmaadmin/file/detail/:file_id</code> を開く</li>
 <li>「操作」カードの <strong>DRM化する</strong> をクリック</li>
@@ -1432,15 +1457,22 @@
 <li>「ファイル処理状況」に <strong>DRM</strong> の進行状況が表示されます</li>
 </ul>
 <p><img alt="ファイル一覧（DRM列）" src="../img/file_list_bulk_publish_placeholder.svg" /></p>
-<h2 id="drm_6">DRM化できないケース</h2>
+<h2 id="drm_7">DRM化できないケース</h2>
 <p>以下の場合はボタンが表示されない、または実行できません:</p>
 <ul>
+<li>組織でDRM化が許可されていない（「DRM化不可（未許可）」と表示されます）</li>
 <li>すでにDRM化済み</li>
 <li>エンコード処理中</li>
 <li>ファイル処理が失敗している</li>
 </ul>
 <h2 id="_2">プラン変更時の注意</h2>
-<p>DRM付き動画はProプランを前提とします。ProからStandardへ変更するとDRM付き動画を再生できなくなるため、原則としてダウングレードできません。StandardからProへ変更し、既存動画へDRMを付ける場合は再エンコードが必要です。</p>
+<p>DRMはProプランの加盟店に許可します。</p>
+<ul>
+<li>ProからStandardへのダウングレードは原則不可です。</li>
+<li>DRMの許可が取り消された場合は、新たなDRM化（アップロード時のDRM指定・既存ファイルのDRM化）ができなくなります。DRM化済みの動画は、引き続きDRMで保護されたまま再生できます。</li>
+<li>DRM指定でアップロードした直後に許可が取り消された場合、そのファイルはDRMなしでエンコードされます。</li>
+<li>StandardからProへ変更し、既存動画へDRMを付ける場合は再エンコードが必要です。</li>
+</ul>
 <hr />
 <h3 id="_3">関連</h3>
 <ul>
@@ -1499,10 +1531,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="../javascripts/clarity.js"></script>
       
