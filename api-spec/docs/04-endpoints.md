@@ -919,6 +919,7 @@ GET /filmaapi/player/{id}
 - `show_all=true`かつfullaccess権限の場合、非公開ファイルもアクセス可能
 - HTMLプレイヤー画面の返却成功はアクセスログへ記録されません。認証・公開状態・視聴権の確認で拒否された場合だけ、`player`種別の拒否ログとして記録されます
 - 期限付きURLから再生継続用JWTへ交換した場合は、元の期限付きURL IDを引き継ぎ、後続のルートMPD/HLSアクセスを期限付きURL経由として記録します
+- DRMを利用できない組織（Standardプランなど）のDRM付き動画は、Player・DASH・HLSのいずれも403（理由コード`drm_not_allowed`）を返し、再生できません。DRMなしの動画は再生できます
 
 ### Download API
 
@@ -1054,6 +1055,10 @@ DRM（Widevine/FairPlay/PlayReady）ライセンスの取得を行います。
 Filma APIキー認証またはJWT認証が必要です。
 
 Widevine・FairPlayライセンス要求がFilmaサーバー内で失敗した場合は、`[Filma][DRM_LICENSE_FAILURE]`タグ、DRM方式、処理段階、固定理由コード、HTTP状態、認証済みのMediafile・組織・会員ID、アクセス先URL、送信元IPアドレスをEgalite技術ログへ記録します。JWT、APIキー、ライセンス要求・応答本文、URLのクエリ文字列は記録しません。DRM失敗はアクセス解析の成否には反映しません。現在のプレイヤーが外部ライセンスサーバーへ直接要求するPlayReadyと、Filmaサーバーへ到達しないクライアント側エラーは記録対象外です。
+
+**DRMを利用できない組織（DRMライセンス共通）:**
+
+- 動画が所属する組織でDRMが許可されていない場合（Standardプランなど）は、ライセンスを発行せず403（理由コード`drm_not_allowed`）を返します。PlayReadyは`authorization`が`false`のXMLを返します
 
 **JWTのmediafile_idについて（DRMライセンス共通）:**
 
